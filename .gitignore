@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+.env
+.env.*
+raw_data/
+**/raw_data/
+data/raw/
+private/
+**/private/
+*.pem
+*.key
+*.p12
+*.pfx

@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Anonymised Agent System Map</title>
+  <link rel="icon" href="data:,">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17202b;
+      --muted: #5c6775;
+      --line: #d7dee7;
+      --paper: #f6f7f4;
+      --panel: #ffffff;
+      --root: #1f2a38;
+      --blue: #245c9f;
+      --green: #2f7d61;
+      --gold: #98681f;
+      --red: #b04a3d;
+      --violet: #6f58a6;
+      --teal: #1f7a83;
+      --gray: #687482;
+      --shadow: 0 12px 30px rgba(23, 32, 43, 0.08);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+
+    .page {
+      min-height: 100vh;
+      padding: 28px;
+    }
+
+    .sheet {
+      max-width: 1680px;
+      margin: 0 auto;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .header {
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .header p {
+      max-width: 820px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .tree {
+      padding-top: 26px;
+    }
+
+    .node {
+      position: relative;
+      min-height: 86px;
+      padding: 14px 15px;
+      border: 1px solid var(--line);
+      border-top: 5px solid var(--blue);
+      border-radius: var(--radius);
+      background: #fff;
+      box-shadow: 0 8px 20px rgba(23, 32, 43, 0.06);
+    }
+
+    .node h2,
+    .node h3,
+    .node h4 {
+      margin: 0 0 6px;
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    .node h2 {
+      font-size: 24px;
+    }
+
+    .node h3 {
+      font-size: 17px;
+    }
+
+    .node h4 {
+      font-size: 14px;
+    }
+
+    .node p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .root-node {
+      width: min(520px, 100%);
+      margin: 0 auto;
+      min-height: 106px;
+      border-top-color: var(--root);
+      background: #202b38;
+      color: #f7fbff;
+      text-align: center;
+    }
+
+    .root-node p {
+      color: #d9e3ee;
+      font-size: 14px;
+    }
+
+    .trunk {
+      width: 2px;
+      height: 32px;
+      margin: 0 auto;
+      background: var(--line);
+    }
+
+    .agents {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      padding-top: 28px;
+    }
+
+    .agents::before {
+      content: "";
+      position: absolute;
+      left: calc(100% / 8);
+      right: calc(100% / 8);
+      top: 0;
+      height: 2px;
+      background: var(--line);
+    }
+
+    .agent {
+      min-width: 0;
+    }
+
+    .agent::before {
+      content: "";
+      position: absolute;
+      top: -28px;
+      left: 50%;
+      width: 2px;
+      height: 28px;
+      background: var(--line);
+    }
+
+    .agent[data-tone="green"] {
+      border-top-color: var(--green);
+    }
+
+    .agent[data-tone="gold"] {
+      border-top-color: var(--gold);
+    }
+
+    .agent[data-tone="red"] {
+      border-top-color: var(--red);
+    }
+
+    .agent[data-tone="violet"] {
+      border-top-color: var(--violet);
+    }
+
+    .agent[data-tone="teal"] {
+      border-top-color: var(--teal);
+    }
+
+    .agent[data-tone="gray"] {
+      border-top-color: var(--gray);
+      background: #fbfcfd;
+    }
+
+    .children {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+      padding-top: 14px;
+      border-top: 1px dashed #cfd8e2;
+    }
+
+    .child {
+      padding: 9px 10px;
+      border: 1px solid #dfe6ee;
+      border-left: 4px solid var(--blue);
+      border-radius: 7px;
+      background: #f8fafc;
+      color: #2b3847;
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .child.green {
+      border-left-color: var(--green);
+    }
+
+    .child.gold {
+      border-left-color: var(--gold);
+    }
+
+    .child.red {
+      border-left-color: var(--red);
+    }
+
+    .child.violet {
+      border-left-color: var(--violet);
+    }
+
+    .child.teal {
+      border-left-color: var(--teal);
+    }
+
+    .child.gray {
+      border-left-color: var(--gray);
+    }
+
+    .child.music {
+      border-left-color: #c05286;
+    }
+
+    .child small {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-weight: 560;
+      line-height: 1.35;
+    }
+
+    .legend-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(340px, 0.85fr);
+      gap: 18px;
+      margin-top: 26px;
+    }
+
+    .common-layer,
+    .notes {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fbfcfd;
+    }
+
+    .common-layer h3,
+    .notes h3 {
+      margin: 0 0 12px;
+      font-size: 18px;
+    }
+
+    .layer-pills {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .pill {
+      min-height: 82px;
+      padding: 12px;
+      border: 1px solid #dbe3eb;
+      border-radius: 7px;
+      background: #fff;
+    }
+
+    .pill b {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13px;
+    }
+
+    .pill span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .notes ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 8px;
+    }
+
+    .notes li {
+      position: relative;
+      padding-left: 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .notes li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #667789;
+    }
+
+    .systems-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .system-panel {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fbfcfd;
+    }
+
+    .system-panel h3 {
+      margin: 0 0 12px;
+      font-size: 18px;
+    }
+
+    .knowledge-flow {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .flow-item,
+    .call-item {
+      min-height: 86px;
+      padding: 12px;
+      border: 1px solid #dbe3eb;
+      border-left: 4px solid var(--blue);
+      border-radius: 7px;
+      background: #fff;
+    }
+
+    .flow-item:nth-child(2) {
+      border-left-color: var(--gold);
+    }
+
+    .flow-item:nth-child(3) {
+      border-left-color: var(--green);
+    }
+
+    .flow-item:nth-child(4) {
+      border-left-color: var(--violet);
+    }
+
+    .flow-item:nth-child(5) {
+      border-left-color: var(--teal);
+    }
+
+    .flow-item:nth-child(6) {
+      border-left-color: var(--red);
+    }
+
+    .flow-item b,
+    .call-item b {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13px;
+    }
+
+    .flow-item span,
+    .call-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .call-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .call-item.local {
+      border-left-color: var(--green);
+    }
+
+    .call-item.script {
+      border-left-color: var(--gold);
+    }
+
+    .call-item.cross {
+      border-left-color: var(--teal);
+    }
+
+    @media (max-width: 1180px) {
+      .agents::before,
+      .agent::before {
+        display: none;
+      }
+
+      .agents {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .legend-row,
+      .systems-row,
+      .layer-pills,
+      .knowledge-flow,
+      .call-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        padding: 14px;
+      }
+
+      .sheet {
+        padding: 18px;
+      }
+
+      .agents {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .page,
+      .sheet {
+        padding: 0;
+        box-shadow: none;
+        border: 0;
+      }
+
+      .node,
+      .common-layer,
+      .notes,
+      .system-panel,
+      .flow-item,
+      .call-item,
+      .pill {
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="sheet" aria-label="Anonymised agent system map">
+      <header class="header">
+        <div>
+          <h1>Anonymised Agent System Map</h1>
+          <p>Generic example only: personal names, private projects, interests, credentials, paths, and sensitive domains have been replaced with neutral placeholders.</p>
+        </div>
+      </header>
+
+      <div class="tree">
+        <article class="node root-node">
+          <h2>Control Center</h2>
+          <p>Registry, routing, shared rules, status snapshot, operation log, and cross-agent coordination.</p>
+        </article>
+
+        <div class="trunk" aria-hidden="true"></div>
+
+        <section class="agents" aria-label="Main agents">
+          <article class="node agent">
+            <h3>Research & Knowledge Agent</h3>
+            <p>Reading, notes, source review, methods, writing, and reusable research memory.</p>
+            <div class="children">
+              <div class="child">Literature Review<small>source triage, claims, methods, citations</small></div>
+              <div class="child">Source Cards<small>stable notes, provenance, reusable summaries</small></div>
+              <div class="child">Method Notes<small>analysis patterns, examples, caveats</small></div>
+              <div class="child">Writing Support<small>outline, revision, reviewer-style checks</small></div>
+            </div>
+          </article>
+
+          <article class="node agent" data-tone="green">
+            <h3>Work & Career Agent</h3>
+            <p>Public-facing documents, opportunities, trackers, fit checks, and follow-ups.</p>
+            <div class="children">
+              <div class="child green">Opportunity Intake<small>official sources, requirements, deadlines</small></div>
+              <div class="child green">Profile Fact Base<small>approved facts, versions, evidence links</small></div>
+              <div class="child green">Fit Analysis<small>match, gaps, risks, next questions</small></div>
+              <div class="child green">Application Tracker<small>status, due dates, review queue</small></div>
+              <div class="child green">Outreach Drafts<small>messages, handoffs, human approval</small></div>
+            </div>
+          </article>
+
+          <article class="node agent" data-tone="gold">
+            <h3>Life Admin Agent</h3>
+            <p>Forms, appointments, family logistics, checklists, and recurring follow-ups.</p>
+            <div class="children">
+              <div class="child gold">Document Checklist<small>forms, IDs, evidence, missing items</small></div>
+              <div class="child gold">Appointment Planner<small>dates, locations, preparation notes</small></div>
+              <div class="child gold">Household Notes<small>shared context without private sprawl</small></div>
+              <div class="child gold">Follow-up Queue<small>calls, email drafts, waiting states</small></div>
+              <div class="child gold">Private Case Subagent<small>isolated context for sensitive tasks</small></div>
+            </div>
+          </article>
+
+          <article class="node agent" data-tone="red">
+            <h3>Learning Agent</h3>
+            <p>Courses, practice logs, error reviews, study plans, and progress memory.</p>
+            <div class="children">
+              <div class="child red">Course Notes<small>concepts, examples, reading list</small></div>
+              <div class="child red">Practice Review<small>attempts, timing, trend checks</small></div>
+              <div class="child red">Error Log<small>mistakes, causes, revisit dates</small></div>
+              <div class="child red">Study Plan<small>sessions, priorities, review cadence</small></div>
+              <div class="child red">Tutor Mode<small>explain, quiz, adjust difficulty</small></div>
+            </div>
+          </article>
+
+          <article class="node agent" data-tone="violet">
+            <h3>Creative & Writing Agent</h3>
+            <p>Drafts, voice notes, editorial memory, publishing prep, and revision habits.</p>
+            <div class="children">
+              <div class="child violet">Draft Desk<small>ideas, outlines, versions, fragments</small></div>
+              <div class="child violet">Style Guide<small>tone, banned phrases, good examples</small></div>
+              <div class="child violet">Revision Queue<small>line edits, structure, fact checks</small></div>
+              <div class="child violet">Publishing Checklist<small>format, attribution, final review</small></div>
+            </div>
+          </article>
+
+          <article class="node agent" data-tone="teal">
+            <h3>Automation Lab</h3>
+            <p>Scripts, APIs, browser tasks, validators, dashboards, and upload hygiene.</p>
+            <div class="children">
+              <div class="child teal">Script Runner<small>dry-run first, reviewed execution</small></div>
+              <div class="child teal">API Connectors<small>keys in env, outputs in workspace</small></div>
+              <div class="child teal">Browser Workflow<small>collection, screenshots, source capture</small></div>
+              <div class="child teal">Health Check<small>broken links, stale tasks, tracked secrets</small></div>
+              <div class="child teal">Pre-upload Checker<small>licence, tests, private data scan</small></div>
+            </div>
+          </article>
+
+          <article class="node agent" data-tone="gray">
+            <h3>Knowledge Distiller</h3>
+            <p>Turns notes, prompts, templates, and external examples into reusable system parts.</p>
+            <div class="children">
+              <div class="child gray">Prompt Inbox<small>raw prompts stay untrusted at first</small></div>
+              <div class="child gray">Knowledge Cards<small>stable facts, rules, examples</small></div>
+              <div class="child gray">Skill Fusion<small>merge repeated workflows carefully</small></div>
+              <div class="child gray">Template Review<small>adopt only after scope and safety checks</small></div>
+            </div>
+          </article>
+
+          <article class="node agent" data-tone="gray">
+            <h3>Project Workspaces</h3>
+            <p>Temporary or high-context work that should not permanently crowd the main agents.</p>
+            <div class="children">
+              <div class="child gray">Project Alpha<small>time-boxed files, task.yaml, outputs</small></div>
+              <div class="child gray">Collaboration Sandbox<small>shared context with clean handoff notes</small></div>
+              <div class="child gray">Archive Lane<small>completed work, reusable lessons, old drafts</small></div>
+            </div>
+          </article>
+        </section>
+
+        <section class="legend-row" aria-label="Common agent layers">
+          <div class="common-layer">
+            <h3>Every Main Agent Usually Contains</h3>
+            <div class="layer-pills">
+              <div class="pill"><b>Entry</b><span>AGENTS.md / CLAUDE.md</span></div>
+              <div class="pill"><b>Control</b><span>IDENTITY.md + RULES.md</span></div>
+              <div class="pill"><b>State</b><span>STATUS.md + task.yaml + MEMORY.md</span></div>
+              <div class="pill"><b>Execution</b><span>skills/ + scripts/ + subagents/</span></div>
+              <div class="pill"><b>Persistence</b><span>knowledge/ + raw_data/ + outputs/</span></div>
+            </div>
+          </div>
+
+          <aside class="notes">
+            <h3>How To Read This</h3>
+            <ul>
+              <li>The root routes work and keeps the system map; it does not do every task itself.</li>
+              <li>Main agents keep recurring context separate, so memory does not become soup.</li>
+              <li>Subagents isolate long, sensitive, or high-context projects.</li>
+              <li>By default, only reviewed files from outputs/ are ready to share.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section class="systems-row" aria-label="Knowledge and skill invocation systems">
+          <div class="system-panel">
+            <h3>Knowledge Accumulation</h3>
+            <div class="knowledge-flow">
+              <div class="flow-item"><b>1. Inputs</b><span>raw_data / inbox / source links / chats / screenshots</span></div>
+              <div class="flow-item"><b>2. Current Work</b><span>workspace/, active drafts, trackers, intermediate notes</span></div>
+              <div class="flow-item"><b>3. Stable Knowledge</b><span>knowledge/ keeps facts, source rules, reusable context</span></div>
+              <div class="flow-item"><b>4. Long Notes</b><span>vault/ or archive/ for reviewed material worth keeping</span></div>
+              <div class="flow-item"><b>5. Review Loop</b><span>source cards, method notes, output checks, lessons learned</span></div>
+              <div class="flow-item"><b>6. Skills</b><span>repeated workflows graduate into skills/ after review</span></div>
+            </div>
+          </div>
+
+          <div class="system-panel">
+            <h3>Inter / Intra-Agent Skill Calls</h3>
+            <div class="call-grid">
+              <div class="call-item local"><b>Local Skills</b><span>Once routed to an agent, RULES and task.yaml choose the smallest reusable workflow.</span></div>
+              <div class="call-item script"><b>Script / API Skills</b><span>Automation runs through reviewed scripts, dry-runs, environment variables, and output checks.</span></div>
+              <div class="call-item cross"><b>Handoffs</b><span>Cross-domain work returns summaries, verified outputs, and paths instead of dumping raw context everywhere.</span></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,31 @@
+{
+  "name": "portable-agentic-system",
+  "display_name": "A Plug And Chug Guide How To Build Your Personalised Agentic Empire",
+  "version": "0.1.0",
+  "license": {
+    "spdx": "MIT",
+    "notice": "See repository LICENSE file."
+  },
+  "generated_for": ["codex", "claude-code", "cc-switch", "chatgpt-projects", "gemini-cli", "openclaw", "hermes-agent", "xiaomi-mimo-claw", "plain-markdown", "direct-api", "model-provider-apis", "tool-runtimes"],
+  "generated_date": "2026-06-29",
+  "source_basis": [
+    "a local multi-agent control-center workspace architecture",
+    "Imbad0202/academic-research-skills guide structure",
+    "Imbad0202/academic-research-skills-codex single-root-skill adapter pattern"
+  ],
+  "package_layout": {
+    "human_guide": ["README.md", "QUICKSTART.md", "docs/"],
+    "skill_entrypoint": "skills/portable-agentic-system/SKILL.md",
+    "workflow_root": "skills/portable-agentic-system/pas",
+    "scripts": "skills/portable-agentic-system/scripts",
+    "tests": "tests/"
+  },
+  "modes": ["pas-start", "pas-audit", "pas-add-agent", "pas-create-skill", "pas-distill", "pas-adapt", "pas-explain"],
+  "verification": [
+    "python3 -m unittest discover -s tests -v",
+    "python3 skills/portable-agentic-system/scripts/validate_agentic_system.py <generated-root>",
+    "python3 skills/portable-agentic-system/scripts/harness_health_check.py <generated-root>",
+    "python3 /path/to/skill-creator/scripts/quick_validate.py skills/portable-agentic-system"
+  ],
+  "privacy_note": "The public package contains generic templates and does not vendor private user data from the source workspace."
+}

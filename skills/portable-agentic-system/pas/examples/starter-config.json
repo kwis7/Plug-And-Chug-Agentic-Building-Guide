@@ -1,0 +1,21 @@
+{
+  "system_name": "My Agentic Control Center",
+  "owner_label": "a non-technical user",
+  "language": "English or Chinese, matching the user's preference",
+  "agents": [
+    {
+      "name": "Research Assistant",
+      "slug": "research-assistant",
+      "purpose": "Help with reading, note-taking, source tracking, and writing projects.",
+      "audience": "research and learning work",
+      "vault": true
+    },
+    {
+      "name": "Life Admin",
+      "slug": "life-admin",
+      "purpose": "Help with recurring personal administration, household planning, forms, and follow-ups.",
+      "audience": "daily life and family logistics",
+      "vault": true
+    }
+  ]
+}
