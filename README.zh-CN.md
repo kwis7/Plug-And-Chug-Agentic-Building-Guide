@@ -28,6 +28,26 @@
 
 这套本地 harness 做的事情，就是给这些工作一个落脚点：规则、记忆、知识、草稿、原始材料、已检查输出和任务状态，各有各的位置。模型可以换，聊天可以结束，但你的工作脉络还留在一个人能看懂的地方。
 
+## Why Not Just Chat With the Best Model?
+
+一个很自然的问题是：现在模型已经这么强了，为什么不直接找最强的模型聊天？为什么还需要这个 package？
+
+一开始，很多人只是想让 AI 帮自己省点时间：写一段文案，修一个 bug，整理几篇文章，准备一节课，或者总结一次会议。换一个更强的模型，当然有用。回答可能更快、更准，也更顺手。
+
+但用久以后，真正麻烦的地方往往不是模型不够强，而是工作没有地方沉淀。上次的背景在哪个聊天里？那个还不错的版本后来改到哪里了？资料放在哪个文件夹？当时为什么做了这个判断？如果每次开始都要重新交代一遍背景，AI 带来的效率就会被一部分重复劳动吃掉。
+
+这个 agentic 模板体系想补的，正是这块空缺。模型继续当帮手，但任务、资料、记忆和流程有一个稳定的本地工作台。模型可以换，API 可以换，工具可以换，但你的工作脉络不用每次从零开始。
+
+比如你是程序员，有时候只是想让模型帮你修一个小 bug。它看了报错，改了代码，也解释了原因，当下确实很顺。可两周后类似问题又出现了，你可能已经不记得上次改过哪些文件、跑过哪些测试、还有哪个边角问题当时先放下了。这个时候，你需要的不只是“再问一个更强的模型”，而是让项目规则、调试记录、常用命令、测试习惯和未完成问题都留在一个地方。下次无论用 Claude Code、Codex，还是别的模型，都可以接着同一个项目工作台继续。
+
+再比如你是文案写手，真正费时间的往往不是让 AI 写出第一版，而是后面的来回修改：客户反馈、品牌语气、平台格式、标题备选、历史版本、素材取舍。刚开始这些东西散在聊天里还勉强能找，过几轮以后，就像在一堆截图和对话记录里翻旧账。这个体系的意义，是让你的风格偏好、客户要求、常用素材和修改记录慢慢沉淀下来。AI 不只是临时替你写一句话，而是在一个更清楚的工作环境里接着帮你改。
+
+老师用 AI 备课时也很典型。第一次你让它列个大纲、找几个例子、设计一个课堂讨论，结果很快就出来了。但下一次备课时，你又要重新说明课程背景、学生水平、上节课讲到哪里、哪些概念学生没听懂。时间久了，累人的不是生成内容，而是不断重复交代背景。如果有一个 teaching agent，课程结构、课堂材料、学生常见问题、作业反馈和下一节课要补的内容就可以接续起来。模型可以换，但这门课自己的脉络不会断。
+
+研究人员更容易遇到另一种问题：丢的不是某一句回答，而是一整条线索。今天让 AI 帮你读几篇文献，明天整理几个概念，后天写一段 memo；每一步都有用，但如果没有地方保存和归类，过一阵子回头看，就很难判断哪些文献已经读过、哪些概念已经改过、哪个版本才是当前思路。有了本地结构，文献笔记、概念卡片、项目状态、方法规则和写作草稿可以各有位置。换模型只是换一个帮手，不是重开一个研究项目。
+
+一句话说：直接聊天适合临时问题；这个 package 更适合那些会反复出现、需要积累、需要回头继续做的工作。
+
 ## 常见困难
 
 一些常见的卡点，大概是这些：
@@ -106,6 +126,7 @@ AI 工具换得太快。今天大家都在一个聊天框里写东西，明天�
 - 从 2-3 个 agents 开始，别一上来造一座行政大楼。
 - 只有重复流程才值得做成 skill。
 - 先蒸馏知识，再自动化流程。乱七八糟的 prompt 堆，换个更强模型读，仍然是乱七八糟的 prompt 堆。
+- 用一段时间后记得系统复盘。`pas-review` 可以帮你把日志、陈旧任务、反复纠正和有用输出整理成一份小更新清单。
 - 输出前先验证：来源、事实、隐私、格式。
 
 ## 快速开始
@@ -157,6 +178,7 @@ python3 skills/portable-agentic-system/scripts/harness_health_check.py \
 - **Agent 制作器**：创建职责清楚的 domain agent，而不是过度建设。
 - **知识管理器**：把长期知识和临时聊天上下文分开。
 - **知识蒸馏器与 skill 融合指南**：把笔记、旧 prompt、外部模板和个人习惯转成干净的 knowledge 或 skill。见 [Knowledge Distillation And Skill Fusion](docs/knowledge-distillation-and-skill-fusion.md)。
+- **系统复盘与更新循环**：用 `pas-review` 定期回看日志、任务状态、memory、skills 和系统结构，判断哪些该归档、蒸馏或更新。见 [System Review And Renewal](docs/system-review-and-renewal.md)。
 - **网络知识和 skill 整流器**：下载来的 prompt、README、template 先当不可信数据处理。
 - **协作交接器**：让人、工具和 agent session 之间更容易交接上下文。
 - **信息分层器**：分清 identity、rules、memory、status、tasks、raw data、outputs、archive。
@@ -188,6 +210,7 @@ python3 skills/portable-agentic-system/scripts/harness_health_check.py \
 - [Adapters](docs/adapters.md)
 - [Privacy and boundaries](docs/privacy-and-boundaries.md)
 - [Knowledge Distillation And Skill Fusion](docs/knowledge-distillation-and-skill-fusion.md)
+- [System Review And Renewal](docs/system-review-and-renewal.md)
 - [GitHub publishing](docs/github-publishing.md)
 
 ## 反馈与贡献

@@ -11,6 +11,7 @@ Single source of truth for Plug And Chug Agentic Empire modes.
 | `pas-add-agent` | "add a job search agent", "make a subagent for this project" | Medium | Agent/subagent spec and files |
 | `pas-create-skill` | "turn this workflow into a skill", "make a skill matrix" | Medium | Skill placement and template |
 | `pas-distill` | "turn these notes into a skill", "merge these prompts", "add this knowledge to my agent" | Medium | Knowledge routing, skill draft, or fusion plan |
+| `pas-review` | "review my logs", "update my system after using it", "what should I archive or turn into skills?" | Medium | System review report and renewal queue |
 | `pas-adapt` | "use this in Claude/Codex/ChatGPT/Gemini/API/CC Switch" | Low | Runtime adapter instructions |
 | `pas-explain` | "explain agents to my colleague/parents" | Low | Plain-language explanation |
 
@@ -23,6 +24,7 @@ The skill accepts both slash and plain aliases:
 - `/pas-add-agent` or `pas-add-agent`
 - `/pas-create-skill` or `pas-create-skill`
 - `/pas-distill` or `pas-distill`
+- `/pas-review` or `pas-review`
 - `/pas-adapt` or `pas-adapt`
 - `/pas-explain` or `pas-explain`
 

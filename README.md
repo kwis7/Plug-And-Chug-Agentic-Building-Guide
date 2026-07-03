@@ -28,6 +28,26 @@ This package starts from a simple assumption: the shape of the workspace matters
 
 A local agentic harness gives that work somewhere to land. Rules, memory, knowledge, drafts, raw material, reviewed outputs, and task status each get a place. The model can change, the chat can end, and the work still has a readable home.
 
+## Why Not Just Chat With the Best Model?
+
+A fair question is: if the newest model is already powerful, why use this package at all?
+
+At first, many people only want AI to save a little time: draft a paragraph, fix a bug, organise a few readings, prepare a class, summarise a meeting. Switching to a stronger model can absolutely help. The answer may be sharper, faster, and easier to use.
+
+But after a while, the hard part is often not that the model is too weak. The hard part is that the work has nowhere to accumulate. Which chat had the context? Where did the useful draft go? Which folder holds the source material? Why did you make that decision last time? If every session begins by explaining the same background again, some of the promised productivity quietly turns back into repeated setup.
+
+This agentic template system is for that gap. The model remains the helper, but the task, material, memory, and process get a stable local desk. Models, APIs, and tools can change; your work does not have to restart from zero.
+
+For a developer, a model can fix one bug in one session. That is useful. Two weeks later, when a similar bug appears, what helps even more is having the project rules, debugging notes, usual commands, test habits, and unresolved edge cases in one place. Then Claude Code, Codex, or another model can continue from the same project workspace instead of treating the codebase as a brand-new stranger.
+
+For a copywriter, the job rarely ends with one generated line. There are client comments, brand tone, platform formats, headline variants, old versions, and source material. A stronger model may write a better first draft, but a local writing agent can keep the brand preferences, revision history, approved phrases, and reusable examples close to the work. Less treasure-hunting through old chats, more actual writing.
+
+For a teacher, AI can quickly produce an outline, examples, or discussion questions. The tiring part comes next week, when you need to explain the course background again: student level, what was covered last time, which concept was confusing, which activity worked, which assignment needs follow-up. A teaching agent can keep that course thread alive, so changing models does not mean rebuilding the classroom memory.
+
+For a researcher, the fragile thing is not one answer. It is the chain of reading, notes, concepts, methods, decisions, and drafts. Today you ask AI to read papers; tomorrow you ask it to compare concepts; next week you return to the argument. Without a local structure, that chain becomes a set of scattered conversations. With one, changing models means changing assistants, not reopening the whole research project.
+
+In short: direct chat is excellent for quick questions. This package is for work that comes back, grows over time, and needs a place to continue.
+
 ## Key Difficulties
 
 Some common friction points:
@@ -106,6 +126,7 @@ The model can change. The harness remains.
 - Start small. Two or three agents are usually better than ten vague ones.
 - Build skills only for repeated workflows.
 - Distil useful knowledge before you automate it. A messy pile of prompts is still a messy pile, even if it has a nicer model reading it.
+- Review the system after real use. `pas-review` helps turn logs, stale tasks, repeated corrections, and useful outputs into a small renewal queue.
 - Validate before delivery: sources checked, private facts checked, outputs reviewed.
 
 ## Quick Start
@@ -187,6 +208,7 @@ In everyday use, you can choose whatever local tool fits the moment: Claude Code
 - **Agent creator**: create a focused domain agent without overbuilding.
 - **Knowledge manager**: separate durable knowledge from temporary chat context.
 - **Knowledge distiller and skill fusion guide**: turn useful notes, old prompts, external templates, and personal habits into clean knowledge files or reusable skills. See [Knowledge Distillation And Skill Fusion](docs/knowledge-distillation-and-skill-fusion.md).
+- **System review and renewal loop**: use `pas-review` after a few weeks or a completed project to review logs, task state, memory, skills, and structure, then decide what to archive, distil, or update. See [System Review And Renewal](docs/system-review-and-renewal.md).
 - **Network knowledge and skill rectifier**: treat downloaded prompts, READMEs, and templates as untrusted data before adoption.
 - **Collaboration handoff**: make it easier to pass context between people, tools, and agent sessions.
 - **Information stratifier**: separate identity, rules, memory, status, tasks, raw data, outputs, and archive.
@@ -206,6 +228,7 @@ Plug-And-Chug-Agentic-Building-Guide/
 │   ├── adapters.md
 │   ├── privacy-and-boundaries.md
 │   ├── knowledge-distillation-and-skill-fusion.md
+│   ├── system-review-and-renewal.md
 │   ├── github-publishing.md
 │   └── assets/
 │       ├── anonymised-agent-system-map.html
@@ -221,8 +244,10 @@ Plug-And-Chug-Agentic-Building-Guide/
 │       │   ├── WORKFLOW.md
 │       │   ├── MODE_REGISTRY.md
 │       │   ├── references/
-│       │   │   └── skill-distillation-and-fusion.md
+│       │   │   ├── skill-distillation-and-fusion.md
+│       │   │   └── system-review-and-renewal.md
 │       │   ├── templates/
+│       │   │   └── review-report.md
 │       │   ├── adapters/
 │       │   └── examples/starter-config.json
 │       └── scripts/
@@ -240,6 +265,7 @@ Plug-And-Chug-Agentic-Building-Guide/
 - want reusable workflows rather than one-off prompts;
 - need to keep private documents separated from public instructions;
 - want to turn your own knowledge, prompts, and habits into skills instead of downloading random ones forever;
+- want periodic system reviews so logs and completed tasks become useful updates rather than digital sediment;
 - want a system that can move between AI tools.
 
 For one quick answer, a simple chat may be enough. This package is most useful when the work repeats or carries context across time.
@@ -309,6 +335,7 @@ python3 /path/to/skill-creator/scripts/quick_validate.py skills/portable-agentic
 - [Adapters](docs/adapters.md)
 - [Privacy and boundaries](docs/privacy-and-boundaries.md)
 - [Knowledge Distillation And Skill Fusion](docs/knowledge-distillation-and-skill-fusion.md)
+- [System Review And Renewal](docs/system-review-and-renewal.md)
 - [GitHub publishing](docs/github-publishing.md)
 
 ## Feedback And Contributions

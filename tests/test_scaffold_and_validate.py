@@ -180,6 +180,24 @@ class ScaffoldAndValidateTests(unittest.TestCase):
         self.assertTrue((PACKAGE_ROOT / "docs" / "knowledge-distillation-and-skill-fusion.md").exists())
         self.assertTrue((SKILL_ROOT / "pas" / "references" / "skill-distillation-and-fusion.md").exists())
 
+    def test_system_review_loop_is_discoverable(self):
+        readme = (PACKAGE_ROOT / "README.md").read_text(encoding="utf-8")
+        zh_readme = (PACKAGE_ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
+        skill = (SKILL_ROOT / "SKILL.md").read_text(encoding="utf-8")
+        workflow = (SKILL_ROOT / "pas" / "WORKFLOW.md").read_text(encoding="utf-8")
+        mode_registry = (SKILL_ROOT / "pas" / "MODE_REGISTRY.md").read_text(encoding="utf-8")
+
+        self.assertIn("pas-review", readme)
+        self.assertIn("pas-review", zh_readme)
+        self.assertIn("System review and renewal", readme)
+        self.assertIn("系统复盘", zh_readme)
+        self.assertIn("system-review-and-renewal.md", skill)
+        self.assertIn("pas-review", workflow)
+        self.assertIn("pas-review", mode_registry)
+        self.assertTrue((PACKAGE_ROOT / "docs" / "system-review-and-renewal.md").exists())
+        self.assertTrue((SKILL_ROOT / "pas" / "references" / "system-review-and-renewal.md").exists())
+        self.assertTrue((SKILL_ROOT / "pas" / "templates" / "review-report.md").exists())
+
     def test_provider_adapters_use_official_names_and_sources(self):
         readme = (PACKAGE_ROOT / "README.md").read_text(encoding="utf-8")
         adapters = SKILL_ROOT / "pas" / "adapters"

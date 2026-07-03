@@ -19,6 +19,7 @@ Then ask for the next needed decision. Do not ask for every detail at once.
 | `pas-add-agent` | User wants one more domain or project agent | Agent spec and files |
 | `pas-create-skill` | User repeats a workflow | Skill placement and template |
 | `pas-distill` | User wants to turn notes, prompts, templates, or habits into reusable knowledge or skills | Distilled knowledge, skill draft, or fusion plan |
+| `pas-review` | User has used the system for a while and wants to review logs, task state, memory, skills, and structure | System review report and renewal queue |
 | `pas-adapt` | User wants to use another AI tool | Adapter instructions |
 | `pas-explain` | User wants to teach or explain the system | Plain-language explanation |
 
@@ -136,6 +137,39 @@ Then ask for the next needed decision. Do not ask for every detail at once.
 7. Keep source material in `raw_data/` or outside Git unless it is public and safe.
 8. End with a short report: what became knowledge, what became a skill, what stayed raw, what was rejected, and the first harmless test task.
 
+## `pas-review`: Review And Renew The System
+
+1. Ask for the review window:
+   - since the last review;
+   - the last one to four weeks;
+   - one completed project;
+   - all current active tasks.
+2. Read `pas/references/system-review-and-renewal.md`.
+3. If the system exists on disk, run `scripts/harness_health_check.py` and include the score.
+4. Inspect only the relevant state files:
+   - `SYSTEM_MAP.md`;
+   - `STATUS.md`;
+   - `tasks/**/task.yaml`;
+   - root and relevant agent `MEMORY.md`;
+   - relevant `knowledge/README.md`, `skills/README.md`, `workspace/current.md`, and reviewed `outputs/`.
+5. Classify findings:
+   - stale active tasks;
+   - blocked tasks needing human review;
+   - completed tasks that should be archived;
+   - memory entries that belong in task manifests;
+   - repeated prompts or corrections that should become skills;
+   - stable facts or preferences that should become knowledge;
+   - rule or safety updates;
+   - adapter/model usage patterns worth recording.
+6. Use `pas/templates/review-report.md` to produce a review report.
+7. Do not edit files by default. Mark proposed changes as `safe_to_apply`, `needs_human_review`, or `do_not_apply_yet`.
+8. If the user asks to apply changes, do a small batch:
+   - update `task.yaml` and `STATUS.md`;
+   - archive completed tasks;
+   - create or update one or two `knowledge/` or `skills/` files;
+   - add only a compact review note to `MEMORY.md`;
+   - rerun validation and health check.
+
 ## `pas-adapt`: Use Another AI Tool
 
 1. Ask which tool the user wants: Codex, Claude Code, CC Switch, ChatGPT Project, Gemini CLI, direct API, OpenClaw, Hermes Agent, Xiaomi MiMo Claw / MiMo Code, DeepSeek, Qwen, MiniMax, Z.AI GLM, Xiaomi MiMo, Tencent Hunyuan, or another runtime.
@@ -159,4 +193,5 @@ A setup pass is done only when one of these is true:
 - a concrete scaffold plan is ready and the user chose not to execute yet;
 - an audit produced a prioritized cleanup plan;
 - a distillation pass produced routed knowledge, a skill draft, or a clear rejection/fusion plan;
+- a review pass produced a system review report, renewal queue, or applied and verified small-batch updates;
 - an adapter path was given with a first invocation prompt.
