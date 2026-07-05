@@ -68,6 +68,7 @@ def score_report(
     sensitive_files: list[str],
     tasks_without_verification: int,
     tasks_without_next_action: int,
+    has_cross_agent_map: bool,
 ) -> int:
     score = 100
     score -= int(validation.get("error_count", 0)) * 12
@@ -75,6 +76,8 @@ def score_report(
     score -= len(sensitive_files) * 20
     score -= tasks_without_verification * 10
     score -= tasks_without_next_action * 8
+    if not has_cross_agent_map:
+        score -= 6
     return max(0, min(100, score))
 
 
@@ -83,16 +86,24 @@ def health_check(root: Path) -> dict[str, object]:
     validation = validator.validate(root)
     sensitive_files = sensitive_tracked_files(root)
     active_tasks, tasks_without_verification, tasks_without_next_action = task_status_counts(root)
+    has_cross_agent_map = (root / "knowledge" / "cross-agent-skill-map.md").exists()
     errors = list(validation.get("errors", []))
     broken_references = len([error for error in errors if "missing" in error.lower() or "imports" in error.lower()])
 
     report = {
         "root": str(root),
-        "score": score_report(validation, sensitive_files, tasks_without_verification, tasks_without_next_action),
+        "score": score_report(
+            validation,
+            sensitive_files,
+            tasks_without_verification,
+            tasks_without_next_action,
+            has_cross_agent_map,
+        ),
         "valid": validation.get("valid", False) and not sensitive_files,
         "agent_count": validation.get("agent_count", 0),
         "task_count": validation.get("task_count", 0),
         "active_tasks": active_tasks,
+        "has_cross_agent_map": has_cross_agent_map,
         "broken_references": broken_references,
         "tasks_without_verification": tasks_without_verification,
         "tasks_without_next_action": tasks_without_next_action,
@@ -108,6 +119,7 @@ def print_text(report: dict[str, object]) -> None:
     print(f"Harness health: {report['score']}/100")
     print(f"{report['broken_references']} broken references")
     print(f"{report['active_tasks']} active tasks")
+    print(f"cross-agent map: {'present' if report['has_cross_agent_map'] else 'missing'}")
     print(f"{report['tasks_without_verification']} tasks without verification")
     print(f"{report['sensitive_files_tracked']} sensitive files tracked by Git")
     if report["errors"]:

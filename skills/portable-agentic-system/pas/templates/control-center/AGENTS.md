@@ -7,3 +7,4 @@ This folder is the root control center for a personal agentic harness.
 @import SYSTEM_MAP.md
 @import STATUS.md
 @import MEMORY.md
+@import knowledge/README.md

@@ -94,3 +94,23 @@ Use $portable-agentic-system with pas-distill to turn this material into reusabl
 ```
 
 This is how the system becomes personal without turning into a drawer full of mystery prompts.
+
+## Step 10: Borrow Methods Carefully
+
+When one agent has a useful method that another agent needs, ask:
+
+```text
+Use $portable-agentic-system with pas-borrow.
+```
+
+The skill should help you borrow the checklist or workflow while keeping private data inside its original agent.
+
+## Step 11: Review After Real Use
+
+After a few weeks or one completed project, ask:
+
+```text
+Use $portable-agentic-system with pas-review.
+```
+
+This turns logs, stale tasks, repeated borrowing, and useful corrections into a small update queue.

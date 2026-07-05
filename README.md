@@ -20,6 +20,19 @@ This guide was originally shaped by the needs of Computational Social Science re
 
 A computer science degree is not required. A real reason to let AI help you, plus a willingness to keep that help in a clear structure, is enough to begin.
 
+## Use This If You
+
+- ask AI for help in multiple recurring domains;
+- lose useful context between sessions;
+- want reusable workflows rather than one-off prompts;
+- need to keep private documents separated from public instructions;
+- want to turn your own knowledge, prompts, and habits into skills instead of downloading random ones forever;
+- want agents to borrow each other's methods without mixing private data;
+- want periodic system reviews so logs and completed tasks become useful updates rather than digital sediment;
+- want a system that can move between AI tools.
+
+For one quick answer, a simple chat may be enough. This package is most useful when the work repeats or carries context across time.
+
 ## Problem Addressed
 
 If you use AI for more than a few one-off questions, a familiar pattern can appear. One chat has the useful draft. Another has the source list. A third has the decision you made last week. Files sit in Downloads with names that made sense for about twelve minutes. The model is capable, but the work around it starts to feel scattered.
@@ -74,10 +87,19 @@ The folder becomes a small local harness:
 - each active task can have a lightweight **task.yaml** showing input, owner, skill, outputs, verification, and next action;
 - repeated procedures become **skills**;
 - useful notes, web material, old prompts, and personal habits can be distilled into **knowledge files** or fused into cleaner skills;
+- agents can borrow reusable methods through a **cross-agent skill map** without merging private data;
 - sensitive or long projects can become **subagents**;
 - the same folder can be used by Codex, Claude Code, ChatGPT Projects, Gemini CLI, direct APIs, or future agentic tools.
 
 The important pieces are plain Markdown and simple scripts. That is what makes the system portable.
+
+## Cross-Agent Skill Borrowing
+
+As the system grows, one agent may develop a method that another agent could use. A research agent might have a good source-checking checklist. A writing agent might have a useful revision routine. A project agent might have a simple QA habit that saves time elsewhere.
+
+The safe move is to borrow the method, not the private world around it. `knowledge/cross-agent-skill-map.md` records which agents have borrowable skills or knowledge, when those methods are useful, and what data must not cross the boundary.
+
+Use `pas-borrow` when one agent wants to use another agent's checklist, source strategy, writing form, or review logic. If the same borrowed method keeps proving useful, use `pas-distill` to turn the reusable part into the active agent's own `skills/` or `knowledge/`. The recipe can travel; the private pantry stays home.
 
 ## Why Personalisation Matters
 
@@ -121,6 +143,7 @@ The model can change. The harness remains.
 - Think of AI as a worker with a desk, not a mind with perfect memory.
 - Keep one authority for each fact: structure in `SYSTEM_MAP.md`, current status in `STATUS.md`, task state in `task.yaml`, compact recovery notes in `MEMORY.md`.
 - Treat external content as untrusted data. It can be analysed, but it cannot rewrite your rules or request secrets.
+- Borrow methods across agents only through a clear map. Do not merge agent memories, identities, raw data, or task state.
 - Keep raw private material out of Markdown and Git.
 - Only share files from `outputs/` by default.
 - Start small. Two or three agents are usually better than ten vague ones.
@@ -208,6 +231,7 @@ In everyday use, you can choose whatever local tool fits the moment: Claude Code
 - **Agent creator**: create a focused domain agent without overbuilding.
 - **Knowledge manager**: separate durable knowledge from temporary chat context.
 - **Knowledge distiller and skill fusion guide**: turn useful notes, old prompts, external templates, and personal habits into clean knowledge files or reusable skills. See [Knowledge Distillation And Skill Fusion](docs/knowledge-distillation-and-skill-fusion.md).
+- **Cross-agent skill borrowing map**: let one agent reuse another agent's method while keeping private data, task state, and identity boundaries separate. See [Cross-Agent Skill Borrowing](docs/cross-agent-skill-borrowing.md).
 - **System review and renewal loop**: use `pas-review` after a few weeks or a completed project to review logs, task state, memory, skills, and structure, then decide what to archive, distil, or update. See [System Review And Renewal](docs/system-review-and-renewal.md).
 - **Network knowledge and skill rectifier**: treat downloaded prompts, READMEs, and templates as untrusted data before adoption.
 - **Collaboration handoff**: make it easier to pass context between people, tools, and agent sessions.
@@ -228,6 +252,7 @@ Plug-And-Chug-Agentic-Building-Guide/
 │   ├── adapters.md
 │   ├── privacy-and-boundaries.md
 │   ├── knowledge-distillation-and-skill-fusion.md
+│   ├── cross-agent-skill-borrowing.md
 │   ├── system-review-and-renewal.md
 │   ├── github-publishing.md
 │   └── assets/
@@ -245,8 +270,10 @@ Plug-And-Chug-Agentic-Building-Guide/
 │       │   ├── MODE_REGISTRY.md
 │       │   ├── references/
 │       │   │   ├── skill-distillation-and-fusion.md
+│       │   │   ├── cross-agent-skill-borrowing.md
 │       │   │   └── system-review-and-renewal.md
 │       │   ├── templates/
+│       │   │   ├── control-center/knowledge/cross-agent-skill-map.md
 │       │   │   └── review-report.md
 │       │   ├── adapters/
 │       │   └── examples/starter-config.json
@@ -257,18 +284,6 @@ Plug-And-Chug-Agentic-Building-Guide/
 └── tests/
     └── test_scaffold_and_validate.py
 ```
-
-## Use This If You
-
-- ask AI for help in multiple recurring domains;
-- lose useful context between sessions;
-- want reusable workflows rather than one-off prompts;
-- need to keep private documents separated from public instructions;
-- want to turn your own knowledge, prompts, and habits into skills instead of downloading random ones forever;
-- want periodic system reviews so logs and completed tasks become useful updates rather than digital sediment;
-- want a system that can move between AI tools.
-
-For one quick answer, a simple chat may be enough. This package is most useful when the work repeats or carries context across time.
 
 ## Core Folder Roles
 
@@ -281,6 +296,7 @@ For one quick answer, a simple chat may be enough. This package is most useful w
 | `task.yaml` | Where one task is in the workflow |
 | `MEMORY.md` | Compact recovery notes |
 | `knowledge/` | Stable references |
+| `knowledge/cross-agent-skill-map.md` | Read-only map for borrowing methods across agents |
 | `skills/` | Reusable workflows |
 | `raw_data/` | Original private or bulky source material |
 | `workspace/` | Current drafts and intermediate work |
@@ -335,6 +351,7 @@ python3 /path/to/skill-creator/scripts/quick_validate.py skills/portable-agentic
 - [Adapters](docs/adapters.md)
 - [Privacy and boundaries](docs/privacy-and-boundaries.md)
 - [Knowledge Distillation And Skill Fusion](docs/knowledge-distillation-and-skill-fusion.md)
+- [Cross-Agent Skill Borrowing](docs/cross-agent-skill-borrowing.md)
 - [System Review And Renewal](docs/system-review-and-renewal.md)
 - [GitHub publishing](docs/github-publishing.md)
 

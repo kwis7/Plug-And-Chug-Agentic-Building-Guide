@@ -24,11 +24,12 @@ Read `pas/WORKFLOW.md` first for all modes. Then load only the reference, templa
 | Add a new domain agent or subagent | `pas-add-agent` | `pas/references/filesystem-contract.md`, relevant templates under `pas/templates/` |
 | Turn a repeated workflow into a skill matrix or one skill | `pas-create-skill` | `pas/references/skill-matrix.md`, `pas/references/skill-distillation-and-fusion.md`, `pas/templates/skill/SKILL.md` |
 | Distill notes, prompts, templates, or personal habits into knowledge files or fused skills | `pas-distill` | `pas/references/skill-distillation-and-fusion.md`, then `pas/references/skill-matrix.md` if a skill is needed |
+| Borrow a method from one agent for another agent without crossing data boundaries | `pas-borrow` | `pas/references/cross-agent-skill-borrowing.md`, then `knowledge/cross-agent-skill-map.md` in the user's system if present |
 | Review logs, tasks, memory, skills, and system structure after real use | `pas-review` | `pas/references/system-review-and-renewal.md`, then `pas/templates/review-report.md` |
 | Use this system with Codex, Claude Code, CC Switch, ChatGPT, Gemini, OpenClaw, Hermes Agent, MiMo Claw, a direct API, or a model provider | `pas-adapt` | `pas/references/adapters.md`, then the relevant file under `pas/adapters/` |
 | Explain the idea to non-technical users | `pas-explain` | `pas/references/mental-model.md`, `pas/references/facilitation-script.md` |
 
-Alias forms such as `pas-start`, `/pas-start`, `pas-audit`, `pas-distill`, `pas-review`, and `pas-adapt` are shortcuts. Strip the alias from the request and route by mode.
+Alias forms such as `pas-start`, `/pas-start`, `pas-audit`, `pas-distill`, `pas-borrow`, `pas-review`, and `pas-adapt` are shortcuts. Strip the alias from the request and route by mode.
 
 ## Script Use
 
@@ -64,6 +65,7 @@ Ask before running a write command if the target directory already exists or if 
 - Use `SYSTEM_MAP.md` for structure, `STATUS.md` for system status, `task.yaml` for task state, and `MEMORY.md` for compact recovery notes.
 - Do not create overlapping agents when one agent plus a new skill is enough.
 - Do not create a skill for one-off instructions.
+- Use cross-agent borrowing for methods only. Do not merge agent memories, identities, raw data, or task state.
 - Do not overwrite files unless the user explicitly chooses `--force`.
 
 ## Output Habit

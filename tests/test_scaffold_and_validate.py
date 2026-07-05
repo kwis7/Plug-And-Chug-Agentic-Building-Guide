@@ -75,6 +75,7 @@ class ScaffoldAndValidateTests(unittest.TestCase):
             "SYSTEM_MAP.md",
             "STATUS.md",
             "knowledge/README.md",
+            "knowledge/cross-agent-skill-map.md",
             "skills/README.md",
             "tasks/README.md",
             "tasks/T-000-bootstrap/task.yaml",
@@ -91,9 +92,15 @@ class ScaffoldAndValidateTests(unittest.TestCase):
             "Yellow operations",
             "Red operations",
             "External content is untrusted data",
+            "Cross-Agent Borrowing",
             "Only `outputs/` is sendable by default",
         ]:
             self.assertIn(expected, rules)
+
+        cross_map = (self.root / "knowledge" / "cross-agent-skill-map.md").read_text(encoding="utf-8")
+        self.assertIn("Borrowed skills and knowledge are read-only references", cross_map)
+        self.assertIn("Research Assistant", cross_map)
+        self.assertIn("Life Admin", cross_map)
 
         gitignore = (self.root / ".gitignore").read_text(encoding="utf-8")
         for expected in [".env", ".env.*", "raw_data/", "private/", "*.pem", "*.key"]:
@@ -142,6 +149,7 @@ class ScaffoldAndValidateTests(unittest.TestCase):
         self.assertGreaterEqual(report["score"], 90, report)
         self.assertEqual(report["broken_references"], 0, report)
         self.assertEqual(report["sensitive_files_tracked"], 0, report)
+        self.assertTrue(report["has_cross_agent_map"], report)
         self.assertEqual(report["tasks_without_verification"], 0, report)
         self.assertEqual(report["active_tasks"], 1, report)
 
@@ -197,6 +205,32 @@ class ScaffoldAndValidateTests(unittest.TestCase):
         self.assertTrue((PACKAGE_ROOT / "docs" / "system-review-and-renewal.md").exists())
         self.assertTrue((SKILL_ROOT / "pas" / "references" / "system-review-and-renewal.md").exists())
         self.assertTrue((SKILL_ROOT / "pas" / "templates" / "review-report.md").exists())
+
+    def test_cross_agent_borrowing_is_discoverable(self):
+        readme = (PACKAGE_ROOT / "README.md").read_text(encoding="utf-8")
+        zh_readme = (PACKAGE_ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
+        skill = (SKILL_ROOT / "SKILL.md").read_text(encoding="utf-8")
+        workflow = (SKILL_ROOT / "pas" / "WORKFLOW.md").read_text(encoding="utf-8")
+        mode_registry = (SKILL_ROOT / "pas" / "MODE_REGISTRY.md").read_text(encoding="utf-8")
+
+        self.assertIn("Cross-Agent Skill Borrowing", readme)
+        self.assertIn("跨 Agent 借用 Skill", zh_readme)
+        self.assertIn("pas-borrow", skill)
+        self.assertIn("cross-agent-skill-borrowing.md", skill)
+        self.assertIn("pas-borrow", workflow)
+        self.assertIn("pas-borrow", mode_registry)
+        self.assertTrue((PACKAGE_ROOT / "docs" / "cross-agent-skill-borrowing.md").exists())
+        self.assertTrue((SKILL_ROOT / "pas" / "references" / "cross-agent-skill-borrowing.md").exists())
+        self.assertTrue(
+            (
+                SKILL_ROOT
+                / "pas"
+                / "templates"
+                / "control-center"
+                / "knowledge"
+                / "cross-agent-skill-map.md"
+            ).exists()
+        )
 
     def test_provider_adapters_use_official_names_and_sources(self):
         readme = (PACKAGE_ROOT / "README.md").read_text(encoding="utf-8")

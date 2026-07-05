@@ -19,6 +19,7 @@ Then ask for the next needed decision. Do not ask for every detail at once.
 | `pas-add-agent` | User wants one more domain or project agent | Agent spec and files |
 | `pas-create-skill` | User repeats a workflow | Skill placement and template |
 | `pas-distill` | User wants to turn notes, prompts, templates, or habits into reusable knowledge or skills | Distilled knowledge, skill draft, or fusion plan |
+| `pas-borrow` | User wants one agent to use another agent's method without mixing data | Borrowing plan, source note, boundary check |
 | `pas-review` | User has used the system for a while and wants to review logs, task state, memory, skills, and structure | System review report and renewal queue |
 | `pas-adapt` | User wants to use another AI tool | Adapter instructions |
 | `pas-explain` | User wants to teach or explain the system | Plain-language explanation |
@@ -137,6 +138,25 @@ Then ask for the next needed decision. Do not ask for every detail at once.
 7. Keep source material in `raw_data/` or outside Git unless it is public and safe.
 8. End with a short report: what became knowledge, what became a skill, what stayed raw, what was rejected, and the first harmless test task.
 
+## `pas-borrow`: Borrow Methods Across Agents
+
+1. Ask which agent is active and what task it is doing.
+2. Read `pas/references/cross-agent-skill-borrowing.md`.
+3. In the user's system, read root `knowledge/cross-agent-skill-map.md` if it exists. If it does not exist, propose creating it from `pas/templates/control-center/knowledge/cross-agent-skill-map.md`.
+4. Decide whether the requested borrowing is:
+   - safe method borrowing;
+   - better handled by `pas-distill`;
+   - blocked because it would cross private data boundaries;
+   - a sign that the agent responsibilities need review.
+5. Read only the borrowed skill, knowledge note, checklist, or adapter file needed for the method.
+6. Keep all private/raw data inside its owning agent. Do not copy another agent's `MEMORY.md`, private `workspace/`, raw data, or task state into the active agent.
+7. Write a small source note under the active agent's task folder or `workspace/source-map.md`.
+8. End with:
+   - borrowed method;
+   - data boundary respected;
+   - files written;
+   - whether to distill a local skill later.
+
 ## `pas-review`: Review And Renew The System
 
 1. Ask for the review window:
@@ -160,6 +180,8 @@ Then ask for the next needed decision. Do not ask for every detail at once.
    - repeated prompts or corrections that should become skills;
    - stable facts or preferences that should become knowledge;
    - rule or safety updates;
+   - repeated cross-agent borrowing that should become a local skill;
+   - missing or outdated entries in `knowledge/cross-agent-skill-map.md`;
    - adapter/model usage patterns worth recording.
 6. Use `pas/templates/review-report.md` to produce a review report.
 7. Do not edit files by default. Mark proposed changes as `safe_to_apply`, `needs_human_review`, or `do_not_apply_yet`.

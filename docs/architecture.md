@@ -12,7 +12,7 @@ The harness has two jobs:
 | 0 | Control center | Routing, system map, status snapshot, operation log |
 | 1 | Domain agent | One recurring life or work domain |
 | 2 | Task manifests | One YAML file per active task |
-| 3 | Knowledge and skills | Durable references and reusable workflows |
+| 3 | Knowledge, skills, and borrowing map | Durable references, reusable workflows, and safe cross-agent method borrowing |
 | 4 | Data and outputs | Raw inputs, workspace drafts, reviewed deliverables, archive |
 | 5 | Adapters and automation | Runtime-specific entrypoints, scripts, health checks |
 
@@ -45,6 +45,7 @@ Useful state should not remain trapped in chat. It should be written back to the
 | `task.yaml` | Single task state |
 | `MEMORY.md` | Compact recovery notes |
 | `knowledge/README.md` | Stable references index |
+| `knowledge/cross-agent-skill-map.md` | Read-only map for borrowing methods across agents without crossing private data boundaries |
 | `skills/README.md` | Reusable workflows index |
 
 ## Skill Levels
@@ -66,6 +67,12 @@ Raw material should not move straight into memory or skills. First decide what i
 - sensitive or bulky source material stays in `raw_data/` or outside Git.
 
 Use [Knowledge Distillation And Skill Fusion](knowledge-distillation-and-skill-fusion.md) when turning old prompts, notes, templates, or personal habits into reusable system pieces.
+
+## Cross-Agent Borrowing
+
+Agents can borrow methods from one another without merging their private worlds. Use `knowledge/cross-agent-skill-map.md` to record which skills or knowledge notes may be borrowed, when they are useful, and what data must not cross agent boundaries.
+
+Use [Cross-Agent Skill Borrowing](cross-agent-skill-borrowing.md) when one agent needs another agent's checklist, source strategy, review routine, writing form, or QA logic.
 
 ## Health Check
 

@@ -34,6 +34,7 @@ Start from the smallest useful set:
 | `MEMORY.md` | Recovery notes, operation log, and repeated lessons |
 | `knowledge/` | Stable notes that may need updates or links |
 | `skills/` | Repeated workflows that may need creation, fusion, or retirement |
+| `knowledge/cross-agent-skill-map.md` | Whether method borrowing is clear, safe, and still up to date |
 | `outputs/` | Reviewed deliverables that may point to reusable patterns |
 | `archive/` | Finished work that should not remain active |
 
@@ -52,8 +53,9 @@ The health check catches mechanical issues. The review catches meaning.
 3. **Check task manifests.** Look for stale active tasks, missing verification, missing outputs, and unclear next actions.
 4. **Find repeated friction.** Repeated corrections, repeated prompts, repeated file moves, and repeated confusion are skill candidates.
 5. **Distil durable learning.** Stable facts, preferences, and concepts go to `knowledge/`; repeated procedures go to `skills/`.
-6. **Update structure only when needed.** New agents are a last resort. A clearer skill or knowledge note is often enough.
-7. **Write proposed updates.** Treat the review report as a queue for human approval, not as permission to rewrite the system silently.
+6. **Check cross-agent borrowing.** If one agent keeps borrowing the same method, either document it clearly in `cross-agent-skill-map.md` or distil a local version.
+7. **Update structure only when needed.** New agents are a last resort. A clearer skill or knowledge note is often enough.
+8. **Write proposed updates.** Treat the review report as a queue for human approval, not as permission to rewrite the system silently.
 
 ## Decision Rules
 
@@ -66,6 +68,7 @@ The health check catches mechanical issues. The review catches meaning.
 | Long one-off project | Archive or make a subagent only if it will continue |
 | Messy memory entry | Move task facts to `task.yaml`; keep only compact recovery notes in `MEMORY.md` |
 | Reviewed output with reusable pattern | Distil into `knowledge/` or a skill |
+| Repeated cross-agent borrowing | Add/update `cross-agent-skill-map.md`, or distil a local skill |
 | Sensitive raw material near public docs | Move back to `raw_data/`, `private/`, or outside Git |
 
 ## What The Report Should Produce
@@ -76,6 +79,7 @@ A good review report is short enough to act on:
 - active, blocked, stale, and recently completed tasks;
 - knowledge candidates;
 - skill candidates;
+- cross-agent borrowing updates;
 - rule or safety updates;
 - archive candidates;
 - suggested next actions in priority order.
@@ -94,4 +98,3 @@ Apply changes in small batches:
 6. rerun the health check.
 
 End by asking: "Will this make the next session easier to resume?" If yes, keep it. If not, the system may be trying to look organised instead of being useful.
-

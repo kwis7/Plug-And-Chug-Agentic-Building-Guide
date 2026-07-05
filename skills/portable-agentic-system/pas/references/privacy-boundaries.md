@@ -81,3 +81,5 @@ Before running generated or external scripts, check:
 ## Cross-Agent Rule
 
 Do not copy sensitive source material from one agent into another. Share a short summary, a path, and the user's explicit permission.
+
+For cross-agent skill borrowing, use `knowledge/cross-agent-skill-map.md` to borrow methods only: checklist shape, source strategy, QA logic, writing form, or review questions. Private data, raw files, credentials, and live task state stay with their owning agent.

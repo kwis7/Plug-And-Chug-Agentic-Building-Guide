@@ -14,6 +14,7 @@ The short answer: do not paste everything into memory. Distill first, then decid
 | Knowledge | Stable facts, preferences, references, concepts | `knowledge/` or reviewed vault notes |
 | Rule | Always-on boundary or behaviour | `RULES.md` |
 | Skill | Repeated procedure with inputs, steps, outputs, and verification | `skills/` |
+| Borrowed method | Another agent's checklist, source strategy, writing form, or QA logic | Use through `knowledge/cross-agent-skill-map.md`; distil locally if it repeats |
 | Task state | What is happening right now | `tasks/**/task.yaml` |
 | Subagent | Large, sensitive, or long-running project context | A dedicated agent folder |
 
@@ -27,6 +28,7 @@ Distill when:
 - you keep correcting the AI in the same way;
 - a webpage, book, article, or PDF gives you a method worth keeping;
 - you download a skill or template and want to adapt it safely;
+- one agent keeps borrowing another agent's checklist or review method;
 - you finish a project and notice a workflow you will need again;
 - a colleague explains a process that should not live only in your inbox;
 - an agent keeps asking for the same background knowledge.
@@ -57,6 +59,7 @@ Then sort the result:
 - stable background -> `knowledge/`;
 - always-on behaviour -> `RULES.md`;
 - repeated procedure -> `skills/`;
+- borrowed method used repeatedly -> local `skills/` or `knowledge/`, with a short source note;
 - current task state -> `task.yaml`;
 - one-time scratch work -> `workspace/`;
 - large or sensitive project -> subagent.
@@ -133,6 +136,19 @@ After creating or updating a skill:
 3. create a tiny test task in `workspace/` or `tasks/`;
 4. run the skill once on harmless sample material;
 5. check that the output goes to `outputs/` only after review.
+
+## Cross-Agent Borrowing And Distillation
+
+Borrow first when you are only testing whether another agent's method helps. Distil later when the method becomes part of the active agent's normal work.
+
+Example:
+
+- a teaching agent borrows a research agent's source-checking checklist once;
+- after three lesson-planning tasks, that checklist is clearly useful;
+- `pas-distill` turns the reusable parts into `Teaching-Agent/skills/source-checking-for-lessons.md`;
+- private research notes stay in the research agent.
+
+That is the whole trick: the method travels, the private material stays home.
 
 ## Prompt To Use
 

@@ -21,7 +21,8 @@ Read only what is needed for the review window:
 3. `tasks/**/task.yaml`
 4. `MEMORY.md`
 5. relevant agent `MEMORY.md`, `workspace/current.md`, `knowledge/README.md`, and `skills/README.md`
-6. recent reviewed outputs, if they explain reusable patterns
+6. root `knowledge/cross-agent-skill-map.md`, if cross-agent borrowing has happened
+7. recent reviewed outputs, if they explain reusable patterns
 
 If the system exists on disk, run `harness_health_check.py` first and include the score.
 
@@ -38,7 +39,8 @@ Ask:
 7. Does `SYSTEM_MAP.md` still describe the actual agents and outputs?
 8. Are raw data, secrets, or drafts too close to sendable outputs?
 9. Which adapter or model choices worked well for which task type?
-10. What is the smallest update that makes the next session easier?
+10. Has one agent repeatedly borrowed another agent's method?
+11. What is the smallest update that makes the next session easier?
 
 ## Classification
 
@@ -47,6 +49,7 @@ Ask:
 | Active task with unclear next step | `task.yaml.next_action` |
 | Current-state mismatch | `STATUS.md` |
 | Reusable method | `skills/` |
+| Repeated borrowed method | Local `skills/`/`knowledge/`, or root `cross-agent-skill-map.md` update |
 | Stable background, style preference, or concept | `knowledge/` |
 | Always-on safety or behaviour | `RULES.md` |
 | Resume note for future sessions | `MEMORY.md` |
@@ -62,4 +65,3 @@ Ask:
 - Keep `MEMORY.md` compact. It should say what future sessions need, not retell every chat.
 
 Use `pas/templates/review-report.md` for the report shape.
-

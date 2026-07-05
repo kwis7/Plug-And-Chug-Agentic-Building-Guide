@@ -20,7 +20,7 @@
     "scripts": "skills/portable-agentic-system/scripts",
     "tests": "tests/"
   },
-  "modes": ["pas-start", "pas-audit", "pas-add-agent", "pas-create-skill", "pas-distill", "pas-adapt", "pas-explain"],
+  "modes": ["pas-start", "pas-audit", "pas-add-agent", "pas-create-skill", "pas-distill", "pas-borrow", "pas-review", "pas-adapt", "pas-explain"],
   "verification": [
     "python3 -m unittest discover -s tests -v",
     "python3 skills/portable-agentic-system/scripts/validate_agentic_system.py <generated-root>",

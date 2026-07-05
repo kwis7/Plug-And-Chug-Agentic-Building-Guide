@@ -15,6 +15,7 @@ Use this contract when building, auditing, or explaining a local-first agentic h
 | `tasks/**/task.yaml` | One task's owner, status, inputs, skill, outputs, verification, and next action |
 | `MEMORY.md` | Compact recovery notes and operation log, not registry or full task state |
 | `knowledge/` | Stable control-center references |
+| `knowledge/cross-agent-skill-map.md` | Read-only map for borrowing methods across agents without merging data |
 | `skills/` | Reusable control-center workflows |
 | `workspace/` | Current plans, dashboards, and active notes |
 | `inbox/` | Temporary intake area |
@@ -47,6 +48,7 @@ Use this contract when building, auditing, or explaining a local-first agentic h
 | Single task state | `tasks/**/task.yaml` |
 | Recovery summary | `MEMORY.md` |
 | Long-term knowledge | `knowledge/` or reviewed `vault/` notes |
+| Cross-agent method borrowing | `knowledge/cross-agent-skill-map.md` |
 | Sendable deliverables | `outputs/` |
 
 ## Placement Decision
@@ -60,6 +62,7 @@ Use this contract when building, auditing, or explaining a local-first agentic h
 | One task's chain | `task.yaml` |
 | Resume notes for next session | `MEMORY.md` |
 | Stable reference | `knowledge/` |
+| Reusable method from another agent | `knowledge/cross-agent-skill-map.md` first; local `skills/` or `knowledge/` after distillation |
 | Repeatable task steps | `skills/` |
 | Original private source files | `raw_data/` |
 | Current scratch work | `workspace/` |
@@ -75,4 +78,5 @@ Use this contract when building, auditing, or explaining a local-first agentic h
 5. Can it answer "why did this task flow this way?" from `task.yaml`?
 6. Are raw private materials outside Markdown and Git?
 7. Are repeated workflows in `skills/` instead of buried in chat?
-8. Are reviewed deliverables separated into `outputs/`?
+8. If agents borrow methods from each other, does `cross-agent-skill-map.md` say what can be borrowed and what must not cross?
+9. Are reviewed deliverables separated into `outputs/`?

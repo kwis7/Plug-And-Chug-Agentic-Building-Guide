@@ -17,3 +17,4 @@ Persistent recovery notes for `[SYSTEM_NAME]`.
 ## Cross-Agent Notes
 
 - Keep sensitive raw materials inside their owning agent.
+- Use `knowledge/cross-agent-skill-map.md` to borrow methods without merging agent memories or raw data.

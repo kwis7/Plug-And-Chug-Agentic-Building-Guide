@@ -16,6 +16,7 @@ Use this when the user wants to turn notes, old prompts, external templates, dow
 | Stable concept, fact, preference, citation pattern, glossary | `knowledge/` |
 | Always-on behaviour or safety boundary | `RULES.md` |
 | Repeated procedure with inputs, steps, outputs, verification | `skills/` |
+| Another agent's useful checklist, source strategy, writing form, or QA habit | Borrow through `knowledge/cross-agent-skill-map.md`; distill locally if it repeats |
 | Current task progress | `tasks/**/task.yaml` |
 | One-time draft or scratch work | `workspace/` |
 | Large, sensitive, or long-running context | subagent |
@@ -41,6 +42,15 @@ Use this when the user wants to turn notes, old prompts, external templates, dow
    - do-not boundaries.
 6. Update the agent's `skills/README.md` or `knowledge/README.md`.
 7. Run a harmless sample task or dry run before using the skill on sensitive material.
+
+## Borrowing To Distillation
+
+If a method starts in another agent, use `pas-borrow` first. If the active agent uses it repeatedly, create a local version:
+
+- keep the reusable method;
+- remove private details from the source agent;
+- cite the source agent or source note;
+- add the new local file to the active agent's `skills/README.md` or `knowledge/README.md`.
 
 ## Fusion Rules
 

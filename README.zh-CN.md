@@ -20,6 +20,19 @@
 
 你不需要计算机科学学位。只要你确实想让 AI 帮上忙，也愿意给这份帮助一个清楚的落脚点，就可以开始。
 
+## 适合你，如果
+
+- 你会在几个固定领域反复找 AI 帮忙；
+- 你经常想不起有用的上下文藏在哪个聊天里；
+- 你希望把常用流程变成可复用的 skill，而不是每次重新 prompt；
+- 你想把私密材料、公开说明、草稿和可交付成品分开放；
+- 你想把自己的笔记、旧 prompt 和使用习惯慢慢蒸馏成真正顺手的系统；
+- 你希望不同 agent 可以互相借方法，但不要互相乱翻私密资料；
+- 你希望用一段时间后能复盘系统，把日志和旧任务变成有用更新，而不是变成电子沉积层；
+- 你想在不同 AI 工具之间切换，但不想每次从头整理工作流。
+
+如果只是问一个临时问题，普通聊天就够了。这个 package 更适合会反复出现、需要积累、以后还要接着做的工作。
+
 ## 它解决的问题
 
 如果你已经用 AI 做过一阵子事，大概会见过这种场面：一个聊天窗口里有不错的草稿，另一个窗口里有资料链接，第三个窗口里藏着上周刚定下来的判断。文件下载下来，改了几个名字，过两天再看就像第一次见面。模型本身很强，但模型旁边的工作现场，慢慢变得有点散。
@@ -74,10 +87,19 @@ portable agentic system 的想法并不玄学：别指望每个聊天窗口都�
 - 每个活跃任务可以有一个轻量 **task.yaml**，说明输入、负责人、调用的 skill、输出、验证和下一步；
 - 重复流程变成 **skills**；
 - 有用笔记、网页材料、旧 prompt、个人习惯可以蒸馏成 **knowledge files**，或融合成更干净的 skills；
+- 不同 agents 之间可以通过 **cross-agent skill map** 借用方法，但不混用私密数据；
 - 敏感或长期项目可以变成 **subagents**；
 - 同一套文件夹可以被 Codex、Claude Code、ChatGPT Projects、Gemini CLI、直接 API、OpenClaw、Hermes Agent、MiMo Claw，或者未来新的 agentic tools 使用。
 
 关键部分都是 Markdown 和简单脚本，所以它可以搬家，可以检查，也可以被人类看懂。人类可读，这事很重要。毕竟最后被 AI 辅助的是人，不是文件夹。
+
+## 跨 Agent 借用 Skill
+
+系统用久了以后，经常会出现一种很自然的情况：某个 agent 里已经有一套好用的方法，另一个 agent 也想借来用一下。比如研究 agent 有一套查来源和验引用的办法，写作 agent 有一套改稿 checklist，项目 agent 有一套交付前 QA 习惯。
+
+这里要小心的是，借方法不等于搬家，更不等于把私密资料到处复制。`knowledge/cross-agent-skill-map.md` 做的就是一张中控借用地图：哪些 agent 的哪些 skill 或 knowledge 可以借，适合什么场景，哪些数据边界不能越过。
+
+需要借用时，可以用 `pas-borrow`：让当前 agent 借另一个 agent 的 checklist、来源策略、写作结构或检查逻辑。如果同一个方法反复有用，再用 `pas-distill` 把可复用的部分蒸馏成本 agent 自己的 `skills/` 或 `knowledge/`。菜谱可以借，冰箱不要乱翻。
 
 ## 为什么要个性化
 
@@ -121,6 +143,7 @@ AI 工具换得太快。今天大家都在一个聊天框里写东西，明天�
 - 可以把 AI 想成有桌子的工作人员，而不是完美记忆体。
 - 一个事实只放一个权威来源：结构在 `SYSTEM_MAP.md`，状态在 `STATUS.md`，任务在 `task.yaml`，恢复摘要在 `MEMORY.md`。
 - 外部内容建议先当成不可信数据：可以分析，但不宜让它改规则、索要 secrets 或乱读目录。
+- 跨 agent 只借方法，不合并记忆、身份、原始数据和任务状态。
 - 为了隐私和后续维护，原始私密材料更适合留在 `raw_data/`、本地私密目录或其他安全位置，而不是直接放进 Markdown 和 Git。
 - 默认只有 `outputs/` 里的东西可以对外发送。
 - 从 2-3 个 agents 开始，别一上来造一座行政大楼。
@@ -178,6 +201,7 @@ python3 skills/portable-agentic-system/scripts/harness_health_check.py \
 - **Agent 制作器**：创建职责清楚的 domain agent，而不是过度建设。
 - **知识管理器**：把长期知识和临时聊天上下文分开。
 - **知识蒸馏器与 skill 融合指南**：把笔记、旧 prompt、外部模板和个人习惯转成干净的 knowledge 或 skill。见 [Knowledge Distillation And Skill Fusion](docs/knowledge-distillation-and-skill-fusion.md)。
+- **跨 agent skill 借用地图**：让一个 agent 借用另一个 agent 的方法，同时把私密数据、任务状态和身份边界分清楚。见 [Cross-Agent Skill Borrowing](docs/cross-agent-skill-borrowing.md)。
 - **系统复盘与更新循环**：用 `pas-review` 定期回看日志、任务状态、memory、skills 和系统结构，判断哪些该归档、蒸馏或更新。见 [System Review And Renewal](docs/system-review-and-renewal.md)。
 - **网络知识和 skill 整流器**：下载来的 prompt、README、template 先当不可信数据处理。
 - **协作交接器**：让人、工具和 agent session 之间更容易交接上下文。
@@ -196,6 +220,7 @@ python3 skills/portable-agentic-system/scripts/harness_health_check.py \
 | `task.yaml` | 这项任务进行到哪里？ |
 | `MEMORY.md` | 下次恢复需要知道什么？ |
 | `knowledge/` | 哪些结论可以长期复用？ |
+| `knowledge/cross-agent-skill-map.md` | 哪些方法可以跨 agent 借用，哪些边界不能越过？ |
 | `skills/` | 重复流程怎么执行？ |
 | `raw_data/` | 原始私密材料在哪里？ |
 | `workspace/` | 当前草稿和中间产物在哪里？ |
@@ -210,6 +235,7 @@ python3 skills/portable-agentic-system/scripts/harness_health_check.py \
 - [Adapters](docs/adapters.md)
 - [Privacy and boundaries](docs/privacy-and-boundaries.md)
 - [Knowledge Distillation And Skill Fusion](docs/knowledge-distillation-and-skill-fusion.md)
+- [Cross-Agent Skill Borrowing](docs/cross-agent-skill-borrowing.md)
 - [System Review And Renewal](docs/system-review-and-renewal.md)
 - [GitHub publishing](docs/github-publishing.md)
 

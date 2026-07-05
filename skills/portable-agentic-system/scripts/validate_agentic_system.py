@@ -19,6 +19,7 @@ ROOT_FILES = [
     "SYSTEM_MAP.md",
     "STATUS.md",
     "knowledge/README.md",
+    "knowledge/cross-agent-skill-map.md",
     "skills/README.md",
     "tasks/README.md",
     "workspace/current.md",
