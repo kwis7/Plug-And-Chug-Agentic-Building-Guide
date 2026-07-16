@@ -8,6 +8,7 @@ The same folder can work across AI tools because the core files are plain Markdo
 |---|---|
 | Codex | `pas/adapters/codex.md` |
 | Claude Code | `pas/adapters/claude-code.md` |
+| Claude Cowork, Tencent WorkBuddy, or a similar workspace agent | `pas/adapters/workspace-agent.md` |
 | CC Switch | `pas/adapters/cc-switch.md` |
 | ChatGPT Projects or Custom GPT | `pas/adapters/chatgpt-projects.md` |
 | Gemini CLI | `pas/adapters/gemini-cli.md` |

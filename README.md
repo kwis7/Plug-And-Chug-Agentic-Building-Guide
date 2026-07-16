@@ -1,180 +1,67 @@
-# A Plug And Chug Guide How To Build Your Personalised Agentic Empire
+# Plug And Chug: A Local-First Agentic System Guide
+
+**By [@kwis7](https://github.com/kwis7)**
 
 **Language:** [English](README.md) | [中文](README.zh-CN.md)
 
-## Vision
+Build an AI workspace that can survive changing models, chats, and tools. This repository helps researchers, writers, teachers, analysts, and other non-specialist knowledge workers organise recurring AI work into focused local agents, durable knowledge, reusable skills, and reviewable task records.
 
-This skill package helps people build a personal AI agent system that lives in ordinary local folders, fits the way they actually think and work, and can travel across local tools, cloud workspaces, APIs, and future agentic platforms.
-
-The point is not to make AI feel more complicated. It is to make it more intimate, organised, and humane: a system that becomes easier to use over time because it remembers its own structure, keeps sensitive material in the right place, and turns repeated work into reusable skills.
-
-## Who This Is For
-
-This guide was originally shaped by the needs of Computational Social Science researchers, but it is written for a much wider audience:
-
-- researchers, students, writers, analysts, and knowledge workers with little or no training in computer science;
-- people who use AI across several recurring areas of life or work;
-- non-technical users who would rather get organised before learning software engineering;
-- families, elders, and everyday users who want AI assistance without losing track of files, context, and decisions;
-- anyone who wants AI to assist their life instead of quietly reorganising their life around AI.
-
-A computer science degree is not required. A real reason to let AI help you, plus a willingness to keep that help in a clear structure, is enough to begin.
-
-## Use This If You
-
-- ask AI for help in multiple recurring domains;
-- lose useful context between sessions;
-- want reusable workflows rather than one-off prompts;
-- need to keep private documents separated from public instructions;
-- want to turn your own knowledge, prompts, and habits into skills instead of downloading random ones forever;
-- want agents to borrow each other's methods without mixing private data;
-- want periodic system reviews so logs and completed tasks become useful updates rather than digital sediment;
-- want a system that can move between AI tools.
-
-For one quick answer, a simple chat may be enough. This package is most useful when the work repeats or carries context across time.
-
-## Problem Addressed
-
-If you use AI for more than a few one-off questions, a familiar pattern can appear. One chat has the useful draft. Another has the source list. A third has the decision you made last week. Files sit in Downloads with names that made sense for about twelve minutes. The model is capable, but the work around it starts to feel scattered.
-
-This package starts from a simple assumption: the shape of the workspace matters. Chat boxes are good for conversation, but they are not always the best place to hold recurring work, private material, reusable procedures, and long-running context all at once.
-
-A local agentic harness gives that work somewhere to land. Rules, memory, knowledge, drafts, raw material, reviewed outputs, and task status each get a place. The model can change, the chat can end, and the work still has a readable home.
-
-## Why Not Just Chat With the Best Model?
-
-A fair question is: if the newest model is already powerful, why use this package at all?
-
-At first, many people only want AI to save a little time: draft a paragraph, fix a bug, organise a few readings, prepare a class, summarise a meeting. Switching to a stronger model can absolutely help. The answer may be sharper, faster, and easier to use.
-
-But after a while, the hard part is often not that the model is too weak. The hard part is that the work has nowhere to accumulate. Which chat had the context? Where did the useful draft go? Which folder holds the source material? Why did you make that decision last time? If every session begins by explaining the same background again, some of the promised productivity quietly turns back into repeated setup.
-
-This agentic template system is for that gap. The model remains the helper, but the task, material, memory, and process get a stable local desk. Models, APIs, and tools can change; your work does not have to restart from zero.
-
-For a developer, a model can fix one bug in one session. That is useful. Two weeks later, when a similar bug appears, what helps even more is having the project rules, debugging notes, usual commands, test habits, and unresolved edge cases in one place. Then Claude Code, Codex, or another model can continue from the same project workspace instead of treating the codebase as a brand-new stranger.
-
-For a copywriter, the job rarely ends with one generated line. There are client comments, brand tone, platform formats, headline variants, old versions, and source material. A stronger model may write a better first draft, but a local writing agent can keep the brand preferences, revision history, approved phrases, and reusable examples close to the work. Less treasure-hunting through old chats, more actual writing.
-
-For a teacher, AI can quickly produce an outline, examples, or discussion questions. The tiring part comes next week, when you need to explain the course background again: student level, what was covered last time, which concept was confusing, which activity worked, which assignment needs follow-up. A teaching agent can keep that course thread alive, so changing models does not mean rebuilding the classroom memory.
-
-For a researcher, the fragile thing is not one answer. It is the chain of reading, notes, concepts, methods, decisions, and drafts. Today you ask AI to read papers; tomorrow you ask it to compare concepts; next week you return to the argument. Without a local structure, that chain becomes a set of scattered conversations. With one, changing models means changing assistants, not reopening the whole research project.
-
-In short: direct chat is excellent for quick questions. This package is for work that comes back, grows over time, and needs a place to continue.
-
-## Key Difficulties
-
-Some common friction points:
-
-- context windows are invisible, so it is easy to lose track of what the model can actually see;
-- local files and model memory feel connected, but they are not the same thing;
-- tools, models, skills, and templates pile up faster than their locations and relationships get documented;
-- private source material, public instructions, drafts, and deliverables can drift into the same folder;
-- repeated work turns into repeated prompting when there is no reusable skill yet;
-- agents multiply before their responsibilities are clear;
-- useful webpages, PDFs, READMEs, prompts, and scripts need a quick trust check before adoption;
-- good notes are easier to reuse after they become stable knowledge files or skills;
-- task state is calmer when there is one place to see what is active, blocked, reviewed, or ready to send.
-
-## The Idea
-
-A portable agentic system makes a modest shift: instead of asking each chat to remember everything, you keep the durable parts in a local folder.
-
-The folder becomes a small local harness:
-
-- one **control centre** knows which agents exist and where they live;
-- each **agent** owns one recurring area of life or work;
-- each agent has an **identity**, **rules**, **memory**, **knowledge**, **workspace**, **raw data**, **outputs**, and optional **vault**;
-- each active task can have a lightweight **task.yaml** showing input, owner, skill, outputs, verification, and next action;
-- repeated procedures become **skills**;
-- useful notes, web material, old prompts, and personal habits can be distilled into **knowledge files** or fused into cleaner skills;
-- agents can borrow reusable methods through a **cross-agent skill map** without merging private data;
-- sensitive or long projects can become **subagents**;
-- the same folder can be used by Codex, Claude Code, ChatGPT Projects, Gemini CLI, direct APIs, or future agentic tools.
-
-The important pieces are plain Markdown and simple scripts. That is what makes the system portable.
-
-## Cross-Agent Skill Borrowing
-
-As the system grows, one agent may develop a method that another agent could use. A research agent might have a good source-checking checklist. A writing agent might have a useful revision routine. A project agent might have a simple QA habit that saves time elsewhere.
-
-The safe move is to borrow the method, not the private world around it. `knowledge/cross-agent-skill-map.md` records which agents have borrowable skills or knowledge, when those methods are useful, and what data must not cross the boundary.
-
-Use `pas-borrow` when one agent wants to use another agent's checklist, source strategy, writing form, or review logic. If the same borrowed method keeps proving useful, use `pas-distill` to turn the reusable part into the active agent's own `skills/` or `knowledge/`. The recipe can travel; the private pantry stays home.
-
-## Why Personalisation Matters
-
-Personalisation is not decoration. It is what makes an agentic system usable in real life.
-
-- Your agent matrix can reflect your recurring work, not someone else's template.
-- Your rules can reflect your risk tolerance, language, privacy needs, and habits.
-- Your workflows can reduce repeated prompting instead of creating more ritual.
-- Your knowledge files can preserve what you actually reuse.
-- Your outputs can match the formats you actually send, publish, study from, or archive.
-- Your system can make AI feel lighter, not heavier.
-- Your agents can support your existing life and work rhythms instead of forcing you into a tool's default workflow.
-- Your memory files work best as durable recovery notes, not messy transcripts.
-- Your skills can capture repeated procedures once, so they can work across models and sessions.
-- Your system can make switching tools easier, instead of asking you to stay loyal to one interface forever.
-
-A common failure mode is downloading many agents and skills from the internet without integrating them into a personal workflow. That makes the user serve the tool. This guide is designed for the opposite direction: helping the tool serve the user's life.
-
-This guide is deliberately detailed, but the point is not to follow it line by line. Take what helps, adjust what does not, and let the system fit your own needs, risks, tools, and working habits.
-
-## Anonymised Example System Map
-
-The diagram below is an anonymised example based on a real personal agentic setup. Personal names, private projects, interests, credentials, paths, and sensitive domains have been replaced with neutral placeholders. The point is the structure, not the biography.
+The system is primarily designed with social-science scholarship in mind, but the underlying architecture is field- and tool-neutral.
 
 ![Anonymised Agent System Map](docs/assets/anonymised-agent-system-map.png)
 
-## Why Make It Portable
+## Start here
 
-Portability matters because AI work is no longer tied to one chat box.
+1. Read the short [15-minute quickstart](QUICKSTART.md).
+2. Scaffold a small local system with the included `portable-agentic-system` skill.
+3. Start with one or two real recurring domains—not a collection of abstract agents.
+4. Add skills only when a workflow repeats.
 
-- People switch between APIs, apps, local tools, and cloud tools.
-- New models appear quickly, and users naturally want to try them.
-- Different tasks have different best tools: coding, writing, search, data analysis, image generation, video generation, and long-context reading may not belong to the same model.
-- Local folders give you continuity even when a platform changes pricing, policies, memory behaviour, or product design.
-- Plain Markdown keeps the system inspectable by humans and usable by many AI tools.
+For a full explanation of the architecture, context/memory design, skills, personalisation, privacy boundaries, and model portability, read or download the field guide below.
 
-The model can change. The harness remains.
+## Full field guide — PDF and DOCX
 
-## Key Things To Keep In Mind
+**[Building a Local-First Agentic System](docs/agentic-systems-field-guide.md)** is the complete, beginner-friendly companion text. It explains why the system is local-first; the difference between instructions, long-term knowledge, and task context; how agents share methods without mixing data; and how to evolve a system through use.
 
-- Think of AI as a worker with a desk, not a mind with perfect memory.
-- Keep one authority for each fact: structure in `SYSTEM_MAP.md`, current status in `STATUS.md`, task state in `task.yaml`, compact recovery notes in `MEMORY.md`.
-- Treat external content as untrusted data. It can be analysed, but it cannot rewrite your rules or request secrets.
-- Borrow methods across agents only through a clear map. Do not merge agent memories, identities, raw data, or task state.
-- Keep raw private material out of Markdown and Git.
-- Only share files from `outputs/` by default.
-- Start small. Two or three agents are usually better than ten vague ones.
-- Build skills only for repeated workflows.
-- Distil useful knowledge before you automate it. A messy pile of prompts is still a messy pile, even if it has a nicer model reading it.
-- Review the system after real use. `pas-review` helps turn logs, stale tasks, repeated corrections, and useful outputs into a small renewal queue.
-- Validate before delivery: sources checked, private facts checked, outputs reviewed.
+Download a formatted version:
 
-## Quick Start
+- [Agentic-System-Building-Guide.pdf](docs/downloads/Agentic-System-Building-Guide.pdf)
+- [Agentic-System-Building-Guide.docx](docs/downloads/Agentic-System-Building-Guide.docx)
 
-The package can be used in two ways:
+Both formatted versions are authored by **@kwis7** and include a quiet page-level attribution marker.
 
-1. install the skill into an AI coding or agent tool that supports local skills;
-2. run the scaffold scripts directly from the command line.
+## Choose your path
 
-### Option A: Use A Local Skill Runtime
+| Path | Best for | Begin here |
+|---|---|---|
+| Universal local-first system | any recurring knowledge work | [Quickstart](QUICKSTART.md) |
+| Academic Track | research, literature work, scholarly writing, and durable knowledge | [Academic Track](docs/academic-track.md) |
+| Teaching / Lecturer Track | course preparation and safeguarded AI-assisted feedback | [Teaching Track](docs/lecturer-track.md) |
+| Claude Cowork setup | users who want a practical workspace entrypoint | [Claude Cowork setup](docs/claude-cowork-setup.md) |
+| Other runtimes | Codex, Claude Code, WorkBuddy-style tools, APIs, and more | [Runtime adapters](docs/adapters.md) |
 
-If your tool supports local skills, install or link this folder as a skill and ask it to run `pas-start`. In Codex, for example:
+Claude Cowork is an example adapter, not a requirement. The portable system of record is the folder: `AGENTS.md`, `RULES.md`, `SYSTEM_MAP.md`, `STATUS.md`, `knowledge/`, `skills/`, and task files. Codex, Claude Cowork/Code, Tencent WorkBuddy, or another workspace agent can use the same folder through a thin startup adapter.
+
+## Quick install
+
+### Use a local skill runtime
+
+For Codex:
 
 ```bash
 mkdir -p ~/.codex/skills
 ln -s /path/to/Plug-And-Chug-Agentic-Building-Guide/skills/portable-agentic-system ~/.codex/skills/portable-agentic-system
 ```
 
-Restart Codex, then ask:
+Restart the runtime and ask:
 
 ```text
 Use $portable-agentic-system with pas-start to help me build my personal local-first agentic system.
 ```
 
-### Option B: Use The Scaffold Script Directly
+The optional [academic-agentic-onboarding](skills/academic-agentic-onboarding/SKILL.md) skill provides a structured intake for scholars, writing workflows, and course workspaces.
+
+### Or scaffold directly
 
 ```bash
 python3 skills/portable-agentic-system/scripts/create_agentic_system.py \
@@ -183,184 +70,43 @@ python3 skills/portable-agentic-system/scripts/create_agentic_system.py \
 
 python3 skills/portable-agentic-system/scripts/validate_agentic_system.py \
   "$HOME/Desktop/My Agentic Control Center"
-
-python3 skills/portable-agentic-system/scripts/harness_health_check.py \
-  "$HOME/Desktop/My Agentic Control Center"
 ```
 
-See [QUICKSTART.md](QUICKSTART.md) for a quick five-minute version.
+## The core idea
 
-## Adapters
+Keep three layers distinct:
 
-Use the same folder system with different AI tools. Model providers answer prompts; tool runtimes can also click, write, browse, or call other tools, so their adapters include stricter workspace and confirmation rules.
+1. **Instructions and skills** tell the agent how to behave and execute repeated workflows.
+2. **Long-term knowledge and memory** preserve small, verified, reusable context.
+3. **Task-specific prompts and files** contain only what is needed now.
 
-### Local Tool Adapters
+Agents may borrow a method (for example, a source-checking checklist) through a documented map; they should not merge private data, raw material, identities, or task context. See [Cross-Agent Skill Borrowing](docs/cross-agent-skill-borrowing.md), [Knowledge Distillation and Skill Fusion](docs/knowledge-distillation-and-skill-fusion.md), and the `pas-borrow`, `pas-distill`, and `pas-review` modes.
 
-| Tool or runtime | Adapter path |
-|---|---|
-| Codex | [pas/adapters/codex.md](skills/portable-agentic-system/pas/adapters/codex.md) |
-| Claude Code | [pas/adapters/claude-code.md](skills/portable-agentic-system/pas/adapters/claude-code.md) |
-| CC Switch | [pas/adapters/cc-switch.md](skills/portable-agentic-system/pas/adapters/cc-switch.md) |
-| ChatGPT Projects | [pas/adapters/chatgpt-projects.md](skills/portable-agentic-system/pas/adapters/chatgpt-projects.md) |
-| Gemini CLI | [pas/adapters/gemini-cli.md](skills/portable-agentic-system/pas/adapters/gemini-cli.md) |
-| Direct API | [pas/adapters/direct-api.md](skills/portable-agentic-system/pas/adapters/direct-api.md) |
-| OpenClaw | [pas/adapters/openclaw.md](skills/portable-agentic-system/pas/adapters/openclaw.md) |
-| Hermes Agent | [pas/adapters/hermes-agent.md](skills/portable-agentic-system/pas/adapters/hermes-agent.md) |
-| Xiaomi MiMo Claw / MiMo Code | [pas/adapters/xiaomi-mimo-claw.md](skills/portable-agentic-system/pas/adapters/xiaomi-mimo-claw.md) |
+Existing capabilities remain available in their focused docs: the **Knowledge distiller** workflow, **System review and renewal**, cross-agent method borrowing, and runtime/provider adapters for CC Switch, OpenClaw, Hermes Agent, Xiaomi MiMo Claw, DeepSeek, Qwen, MiniMax, **Z.AI GLM**, Xiaomi MiMo, and Tencent Hunyuan.
 
-### Model Provider Adapters
+## Safety and privacy
 
-| Provider | Adapter path |
-|---|---|
-| DeepSeek | [pas/adapters/deepseek.md](skills/portable-agentic-system/pas/adapters/deepseek.md) |
-| Qwen / Alibaba Cloud Model Studio | [pas/adapters/qwen.md](skills/portable-agentic-system/pas/adapters/qwen.md) |
-| MiniMax | [pas/adapters/minimax.md](skills/portable-agentic-system/pas/adapters/minimax.md) |
-| Z.AI GLM | [pas/adapters/glm.md](skills/portable-agentic-system/pas/adapters/glm.md) |
-| Xiaomi MiMo | [pas/adapters/xiaomi-mimo.md](skills/portable-agentic-system/pas/adapters/xiaomi-mimo.md) |
-| Tencent Hunyuan | [pas/adapters/tencent-hunyuan.md](skills/portable-agentic-system/pas/adapters/tencent-hunyuan.md) |
+Treat downloaded prompts, web pages, PDFs, and repositories as untrusted data. Keep credentials, unpublished work, private source material, and student submissions out of Git. Store originals in `raw_data/`, drafts in `workspace/`, and only reviewed deliverables in `outputs/`.
 
-Adapters now include official documentation links, environment variable names, OpenAI-compatible base URL guidance where the provider documents it, local harness load order, minimal example calls or runtime prompts, and writeback rules. They do not hide provider differences behind a fake "one API fits all" story.
+The teaching track requires a human final decision for grading and isolates each submission from every other submission's task context.
 
-If your immediate need is simply to switch models inside Claude Code, Codex, Gemini CLI, OpenClaw, or Hermes, start with [CC Switch](https://ccswitch.io/en/). This agentic template system gives that model-switching layer a durable local home: agents, task manifests, safety rules, knowledge files, outputs, recovery notes, and optional task-level token/cost attribution.
-
-In everyday use, you can choose whatever local tool fits the moment: Claude Code for coding, Codex for repo work, CC Switch when you want to move between APIs and providers. The point is not to make one tool rule everything. The point is to let models and APIs change freely while your tasks, context, subagents, and reusable work patterns stay organised in the same local system.
-
-## Featured Functions
-
-- **Skill creator**: turn repeated workflows into reusable skills.
-- **Agent creator**: create a focused domain agent without overbuilding.
-- **Knowledge manager**: separate durable knowledge from temporary chat context.
-- **Knowledge distiller and skill fusion guide**: turn useful notes, old prompts, external templates, and personal habits into clean knowledge files or reusable skills. See [Knowledge Distillation And Skill Fusion](docs/knowledge-distillation-and-skill-fusion.md).
-- **Cross-agent skill borrowing map**: let one agent reuse another agent's method while keeping private data, task state, and identity boundaries separate. See [Cross-Agent Skill Borrowing](docs/cross-agent-skill-borrowing.md).
-- **System review and renewal loop**: use `pas-review` after a few weeks or a completed project to review logs, task state, memory, skills, and structure, then decide what to archive, distil, or update. See [System Review And Renewal](docs/system-review-and-renewal.md).
-- **Network knowledge and skill rectifier**: treat downloaded prompts, READMEs, and templates as untrusted data before adoption.
-- **Collaboration handoff**: make it easier to pass context between people, tools, and agent sessions.
-- **Information stratifier**: separate identity, rules, memory, status, tasks, raw data, outputs, and archive.
-- **Local-cloud coordinator**: keep a local source of truth while using cloud APIs or hosted tools.
-- **Harness health check**: detect broken references, stale task state, missing verification, and sensitive tracked files.
-
-## Package Map
+## Repository map
 
 ```text
-Plug-And-Chug-Agentic-Building-Guide/
-├── README.md
-├── README.zh-CN.md
-├── QUICKSTART.md
-├── docs/
-│   ├── mental-model.md
-│   ├── architecture.md
-│   ├── adapters.md
-│   ├── privacy-and-boundaries.md
-│   ├── knowledge-distillation-and-skill-fusion.md
-│   ├── cross-agent-skill-borrowing.md
-│   ├── system-review-and-renewal.md
-│   ├── github-publishing.md
-│   └── assets/
-│       ├── anonymised-agent-system-map.html
-│       ├── anonymised-agent-system-map.png
-│       ├── anonymised-agent-system-map.zh-CN.html
-│       └── anonymised-agent-system-map.zh-CN.png
-├── skills/
-│   └── portable-agentic-system/
-│       ├── SKILL.md
-│       ├── agents/openai.yaml
-│       ├── manifest.json
-│       ├── pas/
-│       │   ├── WORKFLOW.md
-│       │   ├── MODE_REGISTRY.md
-│       │   ├── references/
-│       │   │   ├── skill-distillation-and-fusion.md
-│       │   │   ├── cross-agent-skill-borrowing.md
-│       │   │   └── system-review-and-renewal.md
-│       │   ├── templates/
-│       │   │   ├── control-center/knowledge/cross-agent-skill-map.md
-│       │   │   └── review-report.md
-│       │   ├── adapters/
-│       │   └── examples/starter-config.json
-│       └── scripts/
-│           ├── create_agentic_system.py
-│           ├── validate_agentic_system.py
-│           └── harness_health_check.py
-└── tests/
-    └── test_scaffold_and_validate.py
+docs/
+  agentic-systems-field-guide.md       # full long-form guide
+  downloads/                           # PDF and DOCX editions
+  academic-track.md                    # scholarly research and writing
+  lecturer-track.md                    # optional teaching workflow
+  claude-cowork-setup.md               # one runtime adapter
+skills/
+  portable-agentic-system/             # universal scaffold and system skill
+  academic-agentic-onboarding/         # structured academic intake
+templates/
+  academic-control-center/             # safe starting structure
+  course-agent/                        # reusable course layout
 ```
 
-## Core Folder Roles
+## Citation and licence
 
-| File or folder | Plain meaning |
-|---|---|
-| `IDENTITY.md` | Who this agent is |
-| `RULES.md` | House rules and safety boundaries |
-| `SYSTEM_MAP.md` | What the whole system contains |
-| `STATUS.md` | What is active, blocked, completed, or needs attention |
-| `task.yaml` | Where one task is in the workflow |
-| `MEMORY.md` | Compact recovery notes |
-| `knowledge/` | Stable references |
-| `knowledge/cross-agent-skill-map.md` | Read-only map for borrowing methods across agents |
-| `skills/` | Reusable workflows |
-| `raw_data/` | Original private or bulky source material |
-| `workspace/` | Current drafts and intermediate work |
-| `outputs/` | Reviewed deliverables |
-| `archive/` | Completed or inactive material |
-| `vault/` | Optional long-term library |
-| `adapters/` | Plugs for different AI tools |
-
-## Starter Agent Matrix
-
-Start small. Two or three agents are usually enough.
-
-| Example Agent | Good for | First likely skill |
-|---|---|---|
-| Research Assistant | Papers, notes, citations, writing | Literature review |
-| Job Search Agent | Resumes, postings, trackers | Posting intake |
-| Life Admin Agent | Forms, family tasks, follow-ups | Document checklist |
-| Learning Agent | Exams, courses, practice logs | Mock review |
-| Project Subagent | One long project with its own data | Project sprint |
-
-## When To Create A New Agent
-
-Create an agent when the work is recurring, has its own context, and benefits from separate memory.
-
-Create a skill instead when the work is a repeated procedure inside an existing agent.
-
-Create a knowledge note when the material is stable background you want to reuse.
-
-Create a workspace note when the work is one-time.
-
-## Verification
-
-Run:
-
-```bash
-python3 -m unittest discover -s tests -v
-python3 skills/portable-agentic-system/scripts/validate_agentic_system.py /path/to/generated/system
-python3 skills/portable-agentic-system/scripts/harness_health_check.py /path/to/generated/system
-```
-
-For Codex skill validation:
-
-```bash
-python3 /path/to/skill-creator/scripts/quick_validate.py skills/portable-agentic-system
-```
-
-## Documentation
-
-- [Quickstart](QUICKSTART.md)
-- [Mental model](docs/mental-model.md)
-- [Architecture](docs/architecture.md)
-- [Adapters](docs/adapters.md)
-- [Privacy and boundaries](docs/privacy-and-boundaries.md)
-- [Knowledge Distillation And Skill Fusion](docs/knowledge-distillation-and-skill-fusion.md)
-- [Cross-Agent Skill Borrowing](docs/cross-agent-skill-borrowing.md)
-- [System Review And Renewal](docs/system-review-and-renewal.md)
-- [GitHub publishing](docs/github-publishing.md)
-
-## Feedback And Contributions
-
-Feedback is very welcome. If you try this package, please open an issue or pull request to share what worked, what felt confusing, which adapter needs help, or what a non-technical user needed in practice.
-
-Contributions that improve the generic package are especially welcome: clearer docs, safer defaults, new adapters, tests, translations, or better examples. For your own privacy, please take a moment before submitting issues, pull requests, or examples to make sure they are free of private data, real resumes, account details, API keys, cookies, or anything else better kept private.
-
-## Licence
-
-This repository is licensed under the [MIT License](LICENSE). The licence applies to code, scripts, tests, documentation, templates, skill text, and examples.
+See [CITATION.cff](CITATION.cff) for citation metadata. The repository is released under the [MIT License](LICENSE). Preserve attribution to **@kwis7** when adapting the guide, and never publish private data as part of an adaptation.
