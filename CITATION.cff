@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this guide, please cite it as below."
+title: "Plug And Chug: Building a Local-First Agentic System"
+version: 0.2.0
+date-released: 2026-07-17
+url: "https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide"
+authors:
+  - name: "@kwis7"
+license: MIT

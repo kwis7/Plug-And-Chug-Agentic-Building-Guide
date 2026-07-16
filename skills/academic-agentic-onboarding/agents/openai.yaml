@@ -1,0 +1,4 @@
+interface:
+  display_name: "Academic Agentic Onboarding"
+  short_description: "Set up a portable scholar or teaching agent workspace."
+  default_prompt: "Use $academic-agentic-onboarding to help me establish the smallest useful local-first academic agentic system."

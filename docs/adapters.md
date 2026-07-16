@@ -10,6 +10,12 @@ Use `AGENTS.md` as the entrypoint. Install the skill under `~/.codex/skills/`. S
 
 Use `CLAUDE.md` as the entrypoint. Install the skill under the project or global Claude Code skill path. See [claude-code.md](../skills/portable-agentic-system/pas/adapters/claude-code.md).
 
+## Claude Cowork, WorkBuddy, and similar workspace agents
+
+Use the same root contract, even when a product does not have a dedicated PAS plugin. Keep `AGENTS.md` as the general instruction file; add `CLAUDE.md` for Claude-family tools where useful; then give the runtime a small startup prompt that tells it which local files it may read. See the [workspace-agent adapter](../skills/portable-agentic-system/pas/adapters/workspace-agent.md) and [Claude Cowork setup](claude-cowork-setup.md).
+
+Tencent WorkBuddy is treated here as a workspace-agent category rather than a claimed product integration: verify the product's current file-access, cloud-memory, and institutional data-policy settings before using private material.
+
 ## CC Switch
 
 Use CC Switch when the problem is model/provider switching for Claude Code, Codex, Gemini CLI, OpenCode, OpenClaw, or Hermes. Use PAS when the problem is durable local structure: agents, task manifests, safety rules, knowledge, outputs, and writeback. See [cc-switch.md](../skills/portable-agentic-system/pas/adapters/cc-switch.md).
