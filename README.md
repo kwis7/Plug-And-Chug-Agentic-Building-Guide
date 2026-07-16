@@ -2,17 +2,6 @@
 
 **Language:** [English](README.md) | [中文](README.zh-CN.md)
 
-## New: Full Guide and Academic Track
-
-Want a complete, beginner-friendly introduction before building? Read the full **[Building a Local-First Agentic System](docs/agentic-systems-field-guide.md)** guide, or download a formatted edition:
-
-- [Download the PDF guide](docs/downloads/Agentic-System-Building-Guide.pdf)
-- [Download the DOCX guide](docs/downloads/Agentic-System-Building-Guide.docx)
-
-The new **[Academic Track](docs/academic-track.md)** is designed primarily for social-science scholars, while remaining useful across fields. It covers research-and-writing agents, durable scholarly knowledge, personal writing revision, and optional course workspaces. For course preparation and protected AI-assisted feedback, see the optional **[Teaching / Lecturer Track](docs/lecturer-track.md)**. Claude Cowork is one example adapter; [Codex, Claude Code, WorkBuddy-style tools, APIs, and other runtimes](docs/claude-cowork-setup.md) can use the same local structure.
-
-Both formatted editions are attributed to **@kwis7** and include a quiet page-level marker.
-
 ## Vision
 
 This skill package helps people build a personal AI agent system that lives in ordinary local folders, fits the way they actually think and work, and can travel across local tools, cloud workspaces, APIs, and future agentic platforms.
@@ -200,6 +189,17 @@ python3 skills/portable-agentic-system/scripts/harness_health_check.py \
 ```
 
 See [QUICKSTART.md](QUICKSTART.md) for a quick five-minute version.
+
+## New: Full Guide and Academic Track
+
+Want a complete, beginner-friendly introduction before building? Read the full [**Building a Local-First Agentic System**](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/docs/agentic-systems-field-guide.md) guide, or download a formatted edition:
+
+- [Download the PDF guide](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/docs/downloads/Agentic-System-Building-Guide.pdf)
+- [Download the DOCX guide](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/docs/downloads/Agentic-System-Building-Guide.docx)
+
+The new [**Academic Track**](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/docs/academic-track.md) is designed primarily for social-science scholars, while remaining useful across fields. It covers research-and-writing agents, durable scholarly knowledge, personal writing revision, and optional course workspaces. For course preparation and protected AI-assisted feedback, see the optional [**Teaching / Lecturer Track**](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/docs/lecturer-track.md). Claude Cowork is one example adapter; [Codex, Claude Code, WorkBuddy-style tools, APIs, and other runtimes](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/docs/claude-cowork-setup.md) can use the same local structure.
+
+Both formatted editions are attributed to **@kwis7** and include a quiet page-level marker.
 
 ## Adapters
 
