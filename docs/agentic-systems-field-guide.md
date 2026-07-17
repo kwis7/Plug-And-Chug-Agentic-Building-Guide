@@ -16,10 +16,8 @@
 4. [A system that separates without isolating](#4-a-system-that-separates-without-isolating)
 5. [Build your first system](#5-build-your-first-system)
 6. [Skills, knowledge, and personalisation](#6-skills-knowledge-and-personalisation)
-7. [Academic Track](#7-academic-track)
-8. [Optional Teaching Track](#8-optional-teaching-track)
-9. [Using Claude Cowork and other runtimes](#9-using-claude-cowork-and-other-runtimes)
-10. [Operating and improving the system](#10-operating-and-improving-the-system)
+7. [Using Claude Cowork and other runtimes](#7-using-claude-cowork-and-other-runtimes)
+8. [Operating and improving the system](#8-operating-and-improving-the-system)
 
 ## 1. What an agentic system is
 
@@ -168,31 +166,13 @@ Your past writing is best treated as a reference guide, not a hidden training se
 
 Store the extracted guide in `knowledge/author-style-guide.md`. Keep original manuscripts private. Ask the agent to revise in stages: diagnose, propose a plan, revise, then compare the result with the guide. After several uses, update the guide only with patterns you have actually approved. This produces a writing assistant that grows closer to your practice without pretending the model has been permanently retrained.
 
-## 7. Academic Track
-
-The [Academic Track](academic-track.md) gives a concrete arrangement for literature work, research projects, academic writing, and durable scholarly knowledge. It is designed primarily for social science but can be adapted for humanities, natural sciences, professional schools, and interdisciplinary work.
-
-It includes:
-
-- a research-and-writing agent template;
-- a source hierarchy and evidence boundary;
-- a personal writing-reference workflow;
-- an intake sequence that prevents premature overbuilding;
-- instructions for using the system in Claude Cowork.
-
-## 8. Optional Teaching Track
-
-The [Teaching / Lecturer Track](lecturer-track.md) shows how to create a course agent with separated weekly materials, staff notes, assessments, rubrics, benchmark samples, and private submissions. It treats grading as a protected, one-submission-at-a-time assisted workflow with human accountability.
-
-Use this only when it fits your institution's policies, student-data rules, and assessment standards.
-
-## 9. Using Claude Cowork and other runtimes
+## 7. Using Claude Cowork and other runtimes
 
 The folder system is intentionally portable. Claude Cowork is one accessible way to work with it: choose the control-centre folder as the working folder, make `CLAUDE.md` visible, then ask the agent to read the small set of relevant files before doing work. The detailed walkthrough is in [Using Claude Cowork](claude-cowork-setup.md).
 
 The repository also provides adapters for Codex, Claude Code, Gemini CLI, direct APIs, OpenClaw, and other runtimes. The order is always the same: load the local rules and task context first, then let the runtime do the work it is good at. Do not confuse a model-provider switch with a change in your system of record.
 
-## 10. Operating and improving the system
+## 8. Operating and improving the system
 
 ### A small weekly review
 

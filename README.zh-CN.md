@@ -2,17 +2,6 @@
 
 **语言:** [English](README.md) | [中文](README.zh-CN.md)
 
-## 新增：完整入门读物、Guide 与 Academic Track
-
-如果你希望先系统理解再开始搭建，可以阅读完整的 [Building a Local-First Agentic System](docs/agentic-systems-field-guide.md)，或直接下载排版版：
-
-- [下载 PDF Guide](docs/downloads/Agentic-System-Building-Guide.pdf)
-- [下载 DOCX Guide](docs/downloads/Agentic-System-Building-Guide.docx)
-
-新增的 [Academic Track](docs/academic-track.md) 主要面向社会科学研究者，也适用于其他学科；内容包括研究和写作 agent、长期学术知识、个性化写作修改，以及可选的课程工作区。课程备课和受保护的 AI 辅助反馈可看 [Teaching / Lecturer Track](docs/lecturer-track.md)。Claude Cowork 只是其中一个示范适配器；[Codex、Claude Code、WorkBuddy 类工具、API 和其他运行时](docs/claude-cowork-setup.md) 都可以接入同一套本地结构。
-
-两份可下载版本均仅以 **@kwis7** 署名，并有低调的每页 attribution 标注。
-
 ## 愿景
 
 这个 skill package 帮你建立一套贴身、越用越顺手的个人 AI agent 系统。它住在普通本地文件夹里，尽量贴合你真实的思考和工作方式，也可以接到本地工具、云端工作区、API，或者以后冒出来的新 agentic 平台。
@@ -243,8 +232,6 @@ python3 skills/portable-agentic-system/scripts/harness_health_check.py \
 - [完整 Field Guide（Markdown）](docs/agentic-systems-field-guide.md)
 - [下载 Field Guide（PDF）](docs/downloads/Agentic-System-Building-Guide.pdf)
 - [下载 Field Guide（DOCX）](docs/downloads/Agentic-System-Building-Guide.docx)
-- [Academic Track](docs/academic-track.md)
-- [Teaching / Lecturer Track](docs/lecturer-track.md)
 - [Claude Cowork 与跨运行时设置](docs/claude-cowork-setup.md)
 - [Quickstart](QUICKSTART.md)
 - [Mental model](docs/mental-model.md)

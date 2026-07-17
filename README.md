@@ -190,17 +190,6 @@ python3 skills/portable-agentic-system/scripts/harness_health_check.py \
 
 See [QUICKSTART.md](QUICKSTART.md) for a quick five-minute version.
 
-## New: Full Guide and Academic Track
-
-Want a complete, beginner-friendly introduction before building? Read the full [**Building a Local-First Agentic System**](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/docs/agentic-systems-field-guide.md) guide, or download a formatted edition:
-
-- [Download the PDF guide](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/docs/downloads/Agentic-System-Building-Guide.pdf)
-- [Download the DOCX guide](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/docs/downloads/Agentic-System-Building-Guide.docx)
-
-The new [**Academic Track**](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/docs/academic-track.md) is designed primarily for social-science scholars, while remaining useful across fields. It covers research-and-writing agents, durable scholarly knowledge, personal writing revision, and optional course workspaces. For course preparation and protected AI-assisted feedback, see the optional [**Teaching / Lecturer Track**](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/docs/lecturer-track.md). Claude Cowork is one example adapter; [Codex, Claude Code, WorkBuddy-style tools, APIs, and other runtimes](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/docs/claude-cowork-setup.md) can use the same local structure.
-
-Both formatted editions are attributed to **@kwis7** and include a quiet page-level marker.
-
 ## Adapters
 
 Use the same folder system with different AI tools. Model providers answer prompts; tool runtimes can also click, write, browse, or call other tools, so their adapters include stricter workspace and confirmation rules.
@@ -268,8 +257,6 @@ Plug-And-Chug-Agentic-Building-Guide/
 │   ├── system-review-and-renewal.md
 │   ├── github-publishing.md
 │   ├── agentic-systems-field-guide.md
-│   ├── academic-track.md
-│   ├── lecturer-track.md
 │   ├── claude-cowork-setup.md
 │   ├── downloads/
 │   │   ├── Agentic-System-Building-Guide.pdf
@@ -300,10 +287,6 @@ Plug-And-Chug-Agentic-Building-Guide/
 │   │       ├── create_agentic_system.py
 │   │       ├── validate_agentic_system.py
 │   │       └── harness_health_check.py
-│   └── academic-agentic-onboarding/
-├── templates/
-│   ├── academic-control-center/
-│   └── course-agent/
 └── tests/
     └── test_scaffold_and_validate.py
 ```
@@ -371,8 +354,6 @@ python3 /path/to/skill-creator/scripts/quick_validate.py skills/portable-agentic
 - [Full Field Guide (Markdown)](docs/agentic-systems-field-guide.md)
 - [Download Field Guide (PDF)](docs/downloads/Agentic-System-Building-Guide.pdf)
 - [Download Field Guide (DOCX)](docs/downloads/Agentic-System-Building-Guide.docx)
-- [Academic Track](docs/academic-track.md)
-- [Teaching / Lecturer Track](docs/lecturer-track.md)
 - [Claude Cowork and runtime-neutral setup](docs/claude-cowork-setup.md)
 - [Quickstart](QUICKSTART.md)
 - [Mental model](docs/mental-model.md)

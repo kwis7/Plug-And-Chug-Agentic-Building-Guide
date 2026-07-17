@@ -301,40 +301,22 @@ class ScaffoldAndValidateTests(unittest.TestCase):
         ]:
             self.assertTrue((assets / filename).exists(), filename)
 
-    def test_field_guide_and_academic_track_are_discoverable(self):
-        readme = (PACKAGE_ROOT / "README.md").read_text(encoding="utf-8")
-        zh_readme = (PACKAGE_ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
+    def test_field_guide_and_runtime_setup_are_available(self):
         guide = PACKAGE_ROOT / "docs" / "agentic-systems-field-guide.md"
-        academic = PACKAGE_ROOT / "docs" / "academic-track.md"
-        lecturer = PACKAGE_ROOT / "docs" / "lecturer-track.md"
         cowork = PACKAGE_ROOT / "docs" / "claude-cowork-setup.md"
 
-        self.assertIn("Agentic-System-Building-Guide.pdf", readme)
-        self.assertIn("Agentic-System-Building-Guide.docx", readme)
-        self.assertIn("Academic Track", readme)
-        self.assertIn("@kwis7", readme)
-        self.assertIn("完整入门读物", zh_readme)
-        for path in [guide, academic, lecturer, cowork]:
+        for path in [guide, cowork]:
             self.assertTrue(path.exists(), path)
             self.assertIn("@kwis7", path.read_text(encoding="utf-8"), path)
         self.assertIn("three layers of working awareness", guide.read_text(encoding="utf-8"))
         self.assertIn("WorkBuddy", cowork.read_text(encoding="utf-8"))
 
-    def test_public_templates_and_downloadable_guide_respect_boundaries(self):
+    def test_downloadable_guide_respects_boundaries(self):
         for relative in [
-            "templates/academic-control-center/AGENTS.md",
-            "templates/course-agent/COURSE-CODE-course-title/secured_data/README.md",
-            "skills/academic-agentic-onboarding/SKILL.md",
             "skills/portable-agentic-system/pas/adapters/workspace-agent.md",
             "CITATION.cff",
         ]:
             self.assertTrue((PACKAGE_ROOT / relative).exists(), relative)
-
-        course_readme = (
-            PACKAGE_ROOT
-            / "templates/course-agent/COURSE-CODE-course-title/secured_data/README.md"
-        ).read_text(encoding="utf-8")
-        self.assertIn("do not commit", course_readme.lower())
 
         docx_path = PACKAGE_ROOT / "docs/downloads/Agentic-System-Building-Guide.docx"
         pdf_path = PACKAGE_ROOT / "docs/downloads/Agentic-System-Building-Guide.pdf"
