@@ -194,7 +194,7 @@ This repository therefore keeps the durable harness model common while documenti
 
 - [Quick start](QUICKSTART.md)
 - [Standalone master build playbook](skills/portable-agentic-system/pas/references/master-build-playbook.md)
-- [Simple prompt for a friend](skills/portable-agentic-system/pas/references/friend-starter-prompt.md)
+- [Simple starting prompt](skills/portable-agentic-system/pas/references/friend-starter-prompt.md) — give your agent the [main repository link](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide) together with this prompt, and ask it to guide you through the build gradually, one approved stage at a time.
 - [Staged questionnaire](skills/portable-agentic-system/pas/references/intake-questions.md)
 - [Filesystem contract](skills/portable-agentic-system/pas/references/filesystem-contract.md)
 - [Task, gate, budget, and lock governance](docs/governance.md)

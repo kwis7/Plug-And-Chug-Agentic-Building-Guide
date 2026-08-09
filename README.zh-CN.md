@@ -160,7 +160,7 @@ generator 默认拒绝覆盖已有文件。只有在检查精确目标后才应�
 
 - [Quick Start](QUICKSTART.md)
 - [可单独投喂的完整建设 Playbook](skills/portable-agentic-system/pas/references/master-build-playbook.md)
-- [给朋友的简单 Prompt](skills/portable-agentic-system/pas/references/friend-starter-prompt.md)
+- [Simple starting prompt](skills/portable-agentic-system/pas/references/friend-starter-prompt.md) — 把[仓库主页链接](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide)和这段 prompt 一起交给你的 Agent，让它按照分阶段确认的方式，慢慢协助你搭建自己的系统。
 - [分阶段问卷](skills/portable-agentic-system/pas/references/intake-questions.md)
 - [Filesystem Contract](skills/portable-agentic-system/pas/references/filesystem-contract.md)
 - [Task、Gate、Budget 和 Lock](docs/governance.md)

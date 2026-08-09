@@ -1,4 +1,11 @@
-# Simple Starter Prompt
+# Simple Starting Prompt
+
+Give your agent both of the following:
+
+1. the main repository link: <https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide>
+2. the prompt below
+
+Ask it to read the repository as a guide and help you build the system gradually. It should interview you, propose one stage at a time, wait for approval before material changes, and leave you with a system you understand rather than generating a large unexplained structure all at once.
 
 ```text
 Use the Agent Harness Builder skill and guide me one stage at a time.
