@@ -1,96 +1,49 @@
-# Adapters
+# Runtime, Workspace, Switchboard, and Provider Adapters
 
-The system is portable because the core contract is plain Markdown.
+The complete machine-readable source is [runtime-compatibility.json](../skills/portable-agentic-system/pas/compatibility/runtime-compatibility.json). Each product file lives under [pas/adapters](../skills/portable-agentic-system/pas/adapters/).
 
-## Codex
+## Native runtimes
 
-Use `AGENTS.md` as the entrypoint. Install the skill under `~/.codex/skills/`. See [codex.md](../skills/portable-agentic-system/pas/adapters/codex.md).
+| Runtime | Native entrypoint | Generated gate adapter | Repository status | Adapter |
+|---|---|---|---|---|
+| Codex | hierarchical `AGENTS.md` | `.codex/hooks.json` → `Stop` translator | verified static | [codex.md](../skills/portable-agentic-system/pas/adapters/codex.md) |
+| Claude Code | `CLAUDE.md`, valid `@AGENTS.md` bridge | `.claude/settings.json` → `Stop` translator | verified static | [claude-code.md](../skills/portable-agentic-system/pas/adapters/claude-code.md) |
+| Gemini CLI | hierarchical `GEMINI.md`, valid `@./AGENTS.md` bridge | `.gemini/settings.json` → `AfterAgent` translator | verified static | [gemini-cli.md](../skills/portable-agentic-system/pas/adapters/gemini-cli.md) |
+| OpenClaw | native workspace bootstrap files | not generated; typed plugin/wrapper required | documented only | [openclaw.md](../skills/portable-agentic-system/pas/adapters/openclaw.md) |
+| Hermes Agent | `AGENTS.md`, native skills and bounded memory | not generated; advisory until supported wrapper is proved | documented only | [hermes-agent.md](../skills/portable-agentic-system/pas/adapters/hermes-agent.md) |
+| MiMo Code | `/init` generates root `AGENTS.md` | not generated; advisory until supported mechanism is proved | documented only | [mimo-code.md](../skills/portable-agentic-system/pas/adapters/mimo-code.md) |
 
-## Claude Code
+For Codex, Claude Code, and Gemini CLI, static means official semantics and the generated files were checked. `documented only` means official behavior was reviewed but this repository generated no product integration. Neither label means the runtime was installed, the project hook was trusted, the entrypoint was loaded, or the gate blocked a real final response.
 
-Use `CLAUDE.md` as the entrypoint. Install the skill under the project or global Claude Code skill path. See [claude-code.md](../skills/portable-agentic-system/pas/adapters/claude-code.md).
+The common `closeout_gate.py` and each runtime hook speak different protocols. The generated `runtime_hook_gate.py` is the translation layer: Codex and Claude Code expect `decision: block`; Gemini CLI `AfterAgent` expects `decision: deny`. Without this translation, an adapter is only a shell around a validator.
 
-## Claude Cowork, WorkBuddy, and similar workspace agents
+## Workspace/manual projections
 
-Use the same root contract, even when a product does not have a dedicated PAS plugin. Keep `AGENTS.md` as the general instruction file; add `CLAUDE.md` for Claude-family tools where useful; then give the runtime a small startup prompt that tells it which local files it may read. See the [workspace-agent adapter](../skills/portable-agentic-system/pas/adapters/workspace-agent.md) and [Claude Cowork setup](claude-cowork-setup.md).
+| Product | Projection | Status |
+|---|---|---|
+| Claude Cowork | project/folder instructions, folders, skills/plugins, project memory | manual projection |
+| ChatGPT Projects | project instructions and reviewed uploads | manual projection |
+| Custom GPTs | instructions, knowledge, capabilities, apps/actions | manual projection |
+| Generic workspace agent | scoped folder plus startup contract | manual fallback |
+| Tencent WorkBuddy | generic workspace path pending native contract evidence | provisional |
+| Xiaomi MiMo Claw | product-specific evidence still incomplete | provisional |
 
-Tencent WorkBuddy is treated here as a workspace-agent category rather than a claimed product integration: verify the product's current file-access, cloud-memory, and institutional data-policy settings before using private material.
+## Switchboard and providers
 
-## CC Switch
+CC Switch manages provider/model/configuration/routing and usage. It does not own agent identity, tasks, memory, gates, or data boundaries.
 
-Use CC Switch when the problem is model/provider switching for Claude Code, Codex, Gemini CLI, OpenCode, OpenClaw, or Hermes. Use PAS when the problem is durable local structure: agents, task manifests, safety rules, knowledge, outputs, and writeback. See [cc-switch.md](../skills/portable-agentic-system/pas/adapters/cc-switch.md).
+DeepSeek, Qwen, MiniMax, GLM, Xiaomi MiMo API, and Tencent Hunyuan are provider profiles. A provider supplies inference; the selected runtime or custom application loads harness context and persists state.
 
-Recommended pairing:
+The direct API file is a `reference_pattern`, not a verified implementation. The application author must build and test the actual context, tool, permission, persistence, and closeout loop.
 
-1. Configure providers, local routing, failover, and usage logging in CC Switch.
-2. Install or expose the PAS skill to the target CLI.
-3. Open the generated PAS folder in the CLI tool.
-4. Let CC Switch decide the provider/model while PAS decides the agent/task/skill route.
+## Verification ladder
 
-For multi-agent systems, add a `model_policy` block to important `task.yaml` files. The block should name the CC Switch app panel, preferred provider/model, fallback provider, why the task needs that model class, and any token/cost review threshold. The CC Switch adapter explains this pattern in detail.
+1. Official documentation reviewed.
+2. Generated static syntax/schema/budget checks pass.
+3. Clean runtime loads the intended entrypoint.
+4. Invalid closeout is blocked and valid closeout passes.
+5. Concurrent resource/worktree contention behaves correctly.
 
-## ChatGPT Projects Or Custom GPTs
+When more than one task is active, bind the runtime `session_id` to one `task.yaml`; otherwise the gate deliberately refuses an ambiguous completion claim.
 
-Upload only the instruction and index files first:
-
-- `IDENTITY.md`
-- `RULES.md`
-- `SYSTEM_MAP.md`
-- `STATUS.md`
-- relevant `task.yaml`
-- `MEMORY.md`
-- `skills/README.md`
-- `knowledge/README.md`
-
-ChatGPT may not write files back automatically, so ask for updated Markdown and review it before saving.
-
-## Gemini CLI
-
-Use the same loading order. If automatic imports are unavailable, paste or load the core files in order.
-
-## Direct API
-
-Concatenate the core files into a system message, then load relevant knowledge or skill files based on the task.
-
-```python
-system_message = "\n\n".join(
-    Path(root, name).read_text(encoding="utf-8")
-    for name in ["IDENTITY.md", "RULES.md", "SYSTEM_MAP.md", "STATUS.md", "MEMORY.md"]
-)
-```
-
-Then add the relevant `tasks/**/task.yaml` and domain agent files for the current task.
-
-## Tool Runtimes
-
-Tool runtimes can browse, click, run commands, install integrations, or send messages. They should therefore mount PAS with clearer file boundaries than a simple model API call.
-
-| Runtime | Adapter |
-|---|---|
-| CC Switch | [cc-switch.md](../skills/portable-agentic-system/pas/adapters/cc-switch.md) |
-| OpenClaw | [openclaw.md](../skills/portable-agentic-system/pas/adapters/openclaw.md) |
-| Hermes Agent | [hermes-agent.md](../skills/portable-agentic-system/pas/adapters/hermes-agent.md) |
-| Xiaomi MiMo Claw / MiMo Code | [xiaomi-mimo-claw.md](../skills/portable-agentic-system/pas/adapters/xiaomi-mimo-claw.md) |
-
-For these tools, treat third-party tool instructions, marketplace skills, webpages, PDFs, READMEs, and generated scripts as untrusted data until reviewed. The safe default is read root PAS files, draft in `workspace/`, deliver only from `outputs/`, and ask before red operations.
-
-## Provider APIs
-
-Provider adapters are not just name badges. Each file links to official docs, names the current provider identity, gives environment variables, explains the OpenAI-compatible path when the provider documents one, and keeps durable state in local files.
-
-| Provider | Adapter |
-|---|---|
-| DeepSeek | [deepseek.md](../skills/portable-agentic-system/pas/adapters/deepseek.md) |
-| Qwen / Alibaba Cloud Model Studio | [qwen.md](../skills/portable-agentic-system/pas/adapters/qwen.md) |
-| MiniMax | [minimax.md](../skills/portable-agentic-system/pas/adapters/minimax.md) |
-| Z.AI GLM | [glm.md](../skills/portable-agentic-system/pas/adapters/glm.md) |
-| Xiaomi MiMo | [xiaomi-mimo.md](../skills/portable-agentic-system/pas/adapters/xiaomi-mimo.md) |
-| Tencent Hunyuan | [tencent-hunyuan.md](../skills/portable-agentic-system/pas/adapters/tencent-hunyuan.md) |
-
-The invariant stays the same: provider memory is optional convenience; `SYSTEM_MAP.md`, `STATUS.md`, `tasks/**/task.yaml`, and reviewed local outputs remain the durable source of truth.
-
-## Usage Tracking With CC Switch
-
-CC Switch usage statistics answer: which app, provider, model, request, token count, latency, and cost. A PAS dashboard can answer the next layer: which agent, task, skill, and deliverable caused that usage. If you connect the two, read CC Switch's `~/.cc-switch/cc-switch.db` only with user consent and preferably in read-only mode, then join usage rows to PAS `task.yaml` records by time window, app, provider, model, and session/task notes.
-
-The useful dashboard question is not only "How many tokens did I spend?" It is "Which agent/task/skill spent them, on which provider/model, and did that session produce a reviewed output?" That is where PAS adds value on top of CC Switch.
+Record runtime version, command, date, output receipt, and limitations. Never use the existence of an adapter Markdown file as evidence of native support.

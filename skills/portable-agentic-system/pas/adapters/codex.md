@@ -1,54 +1,52 @@
-# Codex Adapter
+# Codex Runtime Adapter
 
-Use this when the user wants PAS to run inside Codex while the durable agentic state remains in local Markdown files.
+Classification: native coding-agent runtime
+Repository verification: `verified_static`
+Fresh-session verification: required before upgrading to `verified_runtime`
 
-## Official docs checked
+## Native contract
 
-- Codex docs: https://developers.openai.com/codex/
-- Codex config basics: https://developers.openai.com/codex/config-basic
-- Codex configuration reference: https://developers.openai.com/codex/config-reference
-- AGENTS.md guidance: https://developers.openai.com/codex/guides/agents-md
-- Codex skills docs: https://developers.openai.com/codex/skills/
+Codex builds an instruction chain from `AGENTS.md` files. It checks the user-level file, then walks from the project root to the working directory and appends the applicable file at each directory. A nearer instruction file is therefore later and more specific. Codex does not treat arbitrary lines such as `@import RULES.md` as imports.
 
-## Install Skill
+Official evidence:
 
-Copy or symlink the skill folder to Codex's skills directory:
+- https://learn.chatgpt.com/docs/agent-configuration/agents-md
+- https://learn.chatgpt.com/docs/build-skills
+- https://learn.chatgpt.com/docs/hooks
+- https://learn.chatgpt.com/docs/environments/git-worktrees
+
+## Generated files
+
+- Put the compact always-on contract in root `AGENTS.md`.
+- Add a nearer domain `AGENTS.md` only for domain-specific deltas.
+- Keep the portable hard limit below 24 KiB so the whole hierarchy has room under Codex's default combined ceiling.
+- Put repository skills under `.agents/skills/<skill-name>/SKILL.md`; use `$HOME/.agents/skills/` for personal skills.
+- Do not copy `IDENTITY.md`, `RULES.md`, memory, knowledge, and current task state into the always-on entrypoint. Tell Codex when to load them.
+
+## Completion gate
+
+The generator creates `.codex/hooks.json`. Its `Stop` handler invokes `.pas/bin/runtime_hook_gate.py`, which reads Codex hook JSON from stdin, runs the common closeout gate, and translates failure into Codex's required top-level response:
+
+```json
+{"decision":"block","reason":"..."}
+```
+
+Returning the raw `closeout_gate.py` exit code is not the adapter: it must be translated into the runtime protocol. Codex project hooks also do not run merely because the JSON exists; review and trust the exact hook definition with `/hooks`. When more than one task is active, bind the runtime session explicitly:
 
 ```bash
-mkdir -p ~/.codex/skills
-ln -s /path/to/Plug-And-Chug-Agentic-Building-Guide/skills/portable-agentic-system ~/.codex/skills/portable-agentic-system
+python3 .pas/bin/bind_task.py . tasks/T-123/task.yaml --session <codex-session-id>
 ```
 
-Restart Codex if the skill list was already loaded.
+The hook's command resolves the generated absolute root because Codex hooks run from the session working directory, which may be a subdirectory. Regenerate the config after moving the harness. Treat the hook as `configured`, not runtime-verified, until a deliberately invalid closeout is continued and a valid one is accepted in a clean Codex session.
 
-## Project Entrypoint
+## Concurrency
 
-At the root of a generated system, `AGENTS.md` should import:
+Use separate Git worktrees for parallel write-heavy tasks. Record the worktree and resources in `task.yaml`; acquire scoped locks for non-Git resources or shared authority files. One branch cannot be checked out in two worktrees at once.
 
-```markdown
-@import IDENTITY.md
-@import RULES.md
-@import SYSTEM_MAP.md
-@import STATUS.md
-@import MEMORY.md
-```
-
-## Harness context
-
-Codex should read root files first, then the active task manifest, then only the relevant agent `knowledge/` or `skills/` files.
+## Static smoke
 
 ```bash
-export PAS_ROOT="$HOME/Desktop/My Agentic Control Center"
-export PAS_LOAD_ORDER="IDENTITY.md RULES.md SYSTEM_MAP.md STATUS.md MEMORY.md"
-export PAS_TASK_MANIFEST="$PAS_ROOT/tasks/T-000-bootstrap/task.yaml"
+python3 skills/portable-agentic-system/scripts/adapter_smoke.py /path/to/generated/system --runtime codex
 ```
 
-## First Prompt
-
-```text
-Use $portable-agentic-system with pas-start to help me set up my personal local-first agentic harness.
-```
-
-## Writeback
-
-Keep `SYSTEM_MAP.md` as the structural source of truth, `STATUS.md` as the current snapshot, `task.yaml` as the task state, and `MEMORY.md` as compact recovery notes. Use Codex approvals for yellow/red operations, especially file deletion, external network submission, or anything that could expose private material.
+This proves syntax and size checks only. For fresh-session smoke, start a clean Codex session in the generated fixture and ask it to report the first three operating-contract bullets and active task ID. Save the command, Codex version, date, and output as a receipt.

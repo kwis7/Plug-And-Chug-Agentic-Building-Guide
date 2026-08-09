@@ -31,7 +31,7 @@ Start from the smallest useful set:
 | `SYSTEM_MAP.md` | Whether the agent structure still matches real use |
 | `STATUS.md` | What the system currently believes is active, blocked, complete, or stale |
 | `tasks/**/task.yaml` | Which tasks moved, stalled, produced outputs, or skipped verification |
-| `MEMORY.md` | Recovery notes, operation log, and repeated lessons |
+| `MEMORY.md` | Compact recovery pointers and durable handoff lessons |
 | `knowledge/` | Stable notes that may need updates or links |
 | `skills/` | Repeated workflows that may need creation, fusion, or retirement |
 | `knowledge/cross-agent-skill-map.md` | Whether method borrowing is clear, safe, and still up to date |
@@ -61,7 +61,7 @@ The health check catches mechanical issues. The review catches meaning.
 
 | Finding | Better destination |
 |---|---|
-| Stale active task | Update `task.yaml`, then `STATUS.md`, or move to `archive/` |
+| Stale active task | Update `task.yaml`, regenerate `STATUS.md`, or move to `archive/` |
 | Repeated prompt | Draft a small skill |
 | Repeated factual correction | Add or update `knowledge/` |
 | Repeated safety concern | Propose a `RULES.md` update |
@@ -90,7 +90,7 @@ Keep the tone practical. A review that produces twelve new agents is usually not
 
 Apply changes in small batches:
 
-1. update task state and `STATUS.md`;
+1. update task state and regenerate `STATUS.md`;
 2. archive completed work;
 3. create or update one or two knowledge files;
 4. create only the skills that will be reused;

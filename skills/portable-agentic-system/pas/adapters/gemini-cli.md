@@ -1,47 +1,36 @@
-# Gemini CLI Adapter
+# Gemini CLI Runtime Adapter
 
-Use the same plain Markdown contract.
+Classification: native coding-agent runtime
+Repository verification: `verified_static`
+Fresh-session verification: not run in this repository audit
 
-## Official docs checked
+## Native contract
 
-- Gemini CLI GitHub repository: https://github.com/google-gemini/gemini-cli
-- Gemini API docs: https://ai.google.dev/gemini-api/docs
-
-## Entrypoint
-
-Create or use a root instruction file that tells Gemini to read:
-
-```markdown
-IDENTITY.md
-RULES.md
-SYSTEM_MAP.md
-STATUS.md
-MEMORY.md
-tasks/<active-task>/task.yaml
-workspace/current.md
-skills/README.md
-knowledge/README.md
-```
-
-## Harness context
-
-```bash
-export PAS_ROOT="$HOME/Desktop/My Agentic Control Center"
-export PAS_LOAD_ORDER="IDENTITY.md RULES.md SYSTEM_MAP.md STATUS.md MEMORY.md"
-export PAS_TASK_MANIFEST="$PAS_ROOT/tasks/T-000-bootstrap/task.yaml"
-```
-
-## First Prompt
+Gemini CLI uses hierarchical `GEMINI.md` context files. Its documented import form is:
 
 ```text
-Read this agentic control center and summarise the agent registry, current tasks, and next safest action.
+@./AGENTS.md
 ```
 
-## Notes
+An alternative is configuring `context.fileName` to discover `AGENTS.md`; do not use both if that would double-load the same contract. `/memory show` and `/memory reload` are useful loading checks.
 
-- Keep raw data in local folders and load it only when needed.
-- If Gemini cannot auto-import files, paste the entry files in order or use its file-loading mechanism.
+Official evidence:
 
-## Writeback
+- https://geminicli.com/docs/cli/gemini-md/
+- https://geminicli.com/docs/cli/skills/
+- https://geminicli.com/docs/hooks/reference/
+- https://geminicli.com/docs/reference/policy-engine/
+- https://geminicli.com/docs/cli/git-worktrees/
 
-Have Gemini return proposed edits rather than treating the chat as permanent state. Save reviewed task state to `task.yaml`, system state to `STATUS.md`, and only compact recovery notes to `MEMORY.md`.
+## Skills, hooks, and policies
+
+- Use `.gemini/skills/` or `.agents/skills/` at project scope.
+- The generator writes `.gemini/settings.json` with an `AfterAgent` hook. `.pas/bin/runtime_hook_gate.py` translates a gate failure into `{"decision":"deny","reason":"..."}`, which rejects the final response and asks Gemini CLI to retry.
+- A direct non-zero exit from the portable gate is not by itself a portable adapter; hook input and output protocols differ by runtime.
+- Bind the session to a task when multiple task manifests are active.
+- Use policies for tool allow/deny/ask decisions only where the installed version documents that tier as functional.
+- Do not present a project policy file as enforced if the current official docs explicitly mark that tier non-functional.
+
+## Verification
+
+Run the static smoke, then start a clean Gemini CLI session, inspect `/memory show`, and ask for the active task ID and prohibited actions. Record version, command, date, and output. Test one rejected invalid final response and one accepted valid closeout before setting `verified_runtime`. Regenerate the hook configuration after moving the harness because its generated command contains the original absolute root.

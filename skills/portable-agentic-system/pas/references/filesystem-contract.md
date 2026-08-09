@@ -1,82 +1,59 @@
 # Filesystem Contract
 
-Use this contract when building, auditing, or explaining a local-first agentic harness.
+## Root control center
 
-## Root Control Center
+| Path | Authority | Default loading |
+|---|---|---|
+| `AGENTS.md` | Compact common operating contract | Native where the runtime supports it |
+| `CLAUDE.md` | Claude Code bridge/delta | Claude Code only |
+| `GEMINI.md` | Gemini CLI bridge/delta | Gemini CLI only |
+| `IDENTITY.md` | Mission and organisational boundary | Non-trivial control-center work |
+| `RULES.md` | Stable behaviour and authority rules | Non-trivial control-center work |
+| `SYSTEM_MAP.md` | Stable agent ownership and paths | Routing/structure work |
+| `STATUS.md` | Generated snapshot | Read when current system state matters; never hand-edit |
+| `tasks/**/task.yaml` | One task's objective, authority, state, outputs, verification, resources, and handoff | Active task only |
+| `MEMORY.md` | Compact recovery index | Only when resuming history |
+| `knowledge/` | Long-term archive/library | Named files only, on demand |
+| `skills/` | Reusable playbooks | Metadata first; body when triggered |
+| `raw_data/` | Original inputs | Named files only; no recursive reading |
+| `workspace/` | Current desk and drafts | Active task only |
+| `artifacts/` | Generated intermediates | When a task references them |
+| `logs/` | Rotated traces | Tail/index/summarise before model loading |
+| `outputs/` | Reviewed deliverables | Delivery/review work only |
+| `archive/` | Closed and superseded material | Recovery/audit only |
+| `.pas/runtime/locks/` | Ephemeral resource locks | Scripts, not model context |
 
-| Path | Role |
+## Domain agent
+
+Give each durable domain its own entrypoint delta, identity, rules, compact memory, knowledge, skills, tasks, workspace, artifacts, logs, outputs, archive, and optionally a vault. Do not create an agent merely because a directory could exist. A new agent is justified by a persistent mission, privacy boundary, source base, authority, or recurring output lifecycle.
+
+## One fact, one authority
+
+| Fact | Authority |
 |---|---|
-| `AGENTS.md` | Codex entrypoint; imports root identity, rules, map, status, and memory |
-| `CLAUDE.md` | Claude Code entrypoint; imports root identity, rules, map, status, and memory |
-| `IDENTITY.md` | Who the control center is and what it manages |
-| `RULES.md` | Stable routing, safety, startup, closeout, and risk-level rules |
-| `SYSTEM_MAP.md` | Long-term structure: agents, responsibilities, state sources, skills, sensitive data, outputs |
-| `STATUS.md` | Current system snapshot: active, blocked, recently completed, needs attention |
-| `tasks/**/task.yaml` | One task's owner, status, inputs, skill, outputs, verification, and next action |
-| `MEMORY.md` | Compact recovery notes and operation log, not registry or full task state |
-| `knowledge/` | Stable control-center references |
-| `knowledge/cross-agent-skill-map.md` | Read-only map for borrowing methods across agents without merging data |
-| `skills/` | Reusable control-center workflows |
-| `workspace/` | Current plans, dashboards, and active notes |
-| `inbox/` | Temporary intake area |
-| `adapters/` | Platform-specific entrypoint files |
+| What agents exist | `SYSTEM_MAP.md` |
+| What tasks are active | Task manifests, projected into generated `STATUS.md` |
+| What one task may do | That task's `authority` block |
+| What proves completion | Verification receipts and closeout result |
+| What must survive as a small handover | `MEMORY.md` |
+| What is stable background | `knowledge/` |
+| What happened during execution | Rotated `logs/` and receipts |
+| What may be reviewed for delivery | `outputs/` |
+| What may be sent/published | Current user authority plus release check, not folder location alone |
 
-## Domain Agent
+## Default budgets
 
-| Path | Role |
-|---|---|
-| `AGENTS.md` / `CLAUDE.md` | Runtime entrypoint for that agent |
-| `IDENTITY.md` | Role, audience, voice, and scope |
-| `RULES.md` | Behaviour, evidence, data, and closeout rules |
-| `MEMORY.md` | Compact recovery state |
-| `knowledge/` | Stable facts, policies, methods, source rules |
-| `skills/` | Reusable workflows |
-| `raw_data/` | Original source material; read-only by default |
-| `workspace/` | Current drafts and intermediate work |
-| `outputs/` | Reviewed deliverables that may be shared |
-| `archive/` | Completed or inactive task material |
-| `vault/` | Optional long-term notes and reviewed knowledge |
-| `scripts/` | Deterministic automation for repeated work |
-| `tests/` | Tests for scripts or workflows |
+| Surface | Portable default |
+|---|---:|
+| Root `AGENTS.md` | target 16 KiB; hard repo limit 24 KiB |
+| Runtime bridge/delta | 4 KiB |
+| Root memory | 12 KiB or 120 lines |
+| Domain memory | 8 KiB or 100 lines |
+| Task manifest | 32 KiB |
+| Text log loaded directly | 64 KiB before tail/summarise/index |
 
-## One Fact, One Authority
+Use runtime-specific smaller projections when necessary. A budget failure should force consolidation, not silent truncation of authoritative state.
 
-| Fact type | Authority |
-|---|---|
-| System structure | `SYSTEM_MAP.md` |
-| System snapshot | `STATUS.md` |
-| Single task state | `tasks/**/task.yaml` |
-| Recovery summary | `MEMORY.md` |
-| Long-term knowledge | `knowledge/` or reviewed `vault/` notes |
-| Cross-agent method borrowing | `knowledge/cross-agent-skill-map.md` |
-| Sendable deliverables | `outputs/` |
+## Large-file manifest
 
-## Placement Decision
-
-| If it defines... | Put it in... |
-|---|---|
-| Who the agent is | `IDENTITY.md` |
-| Always-on behaviour | `RULES.md` |
-| The system's parts | `SYSTEM_MAP.md` |
-| What is active now | `STATUS.md` |
-| One task's chain | `task.yaml` |
-| Resume notes for next session | `MEMORY.md` |
-| Stable reference | `knowledge/` |
-| Reusable method from another agent | `knowledge/cross-agent-skill-map.md` first; local `skills/` or `knowledge/` after distillation |
-| Repeatable task steps | `skills/` |
-| Original private source files | `raw_data/` |
-| Current scratch work | `workspace/` |
-| Reviewed deliverables | `outputs/` |
-| Completed task material | `archive/` |
-
-## Audit Questions
-
-1. Can a new AI session tell who it is by reading `IDENTITY.md`?
-2. Can it tell what not to do by reading `RULES.md`?
-3. Can it answer "what exists?" from `SYSTEM_MAP.md`?
-4. Can it answer "what is happening now?" from `STATUS.md`?
-5. Can it answer "why did this task flow this way?" from `task.yaml`?
-6. Are raw private materials outside Markdown and Git?
-7. Are repeated workflows in `skills/` instead of buried in chat?
-8. If agents borrow methods from each other, does `cross-agent-skill-map.md` say what can be borrowed and what must not cross?
-9. Are reviewed deliverables separated into `outputs/`?
+For large, binary, or sensitive inputs, maintain an index containing path, media type, byte size, source/provenance, sensitivity, owner, retention, checksum when useful, and whether an agent may load the file. The manifest is readable context; the entire warehouse is not.

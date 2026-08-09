@@ -1,49 +1,28 @@
-# Direct API Adapter
+# Direct API Harness Pattern
 
-Use this when building a custom app or script around the same file contract.
+Classification: custom harness implementation
+Repository verification: `reference_pattern`
 
-## Official docs checked
+A model API does not read local harness files by itself. The application must implement context assembly, tool execution, permissions, persistence, budgets, verification, and writeback.
 
-This is the generic PAS adapter. Pair it with a provider adapter when using a specific model backend:
+## Required loop
 
-- DeepSeek: `pas/adapters/deepseek.md`
-- Qwen / Alibaba Cloud Model Studio: `pas/adapters/qwen.md`
-- MiniMax: `pas/adapters/minimax.md`
-- Z.AI GLM: `pas/adapters/glm.md`
-- Xiaomi MiMo: `pas/adapters/xiaomi-mimo.md`
-- Tencent Hunyuan: `pas/adapters/tencent-hunyuan.md`
-
-## System Message Assembly
+1. Resolve the active agent and task.
+2. Load the compact common contract plus the named task and relevant references.
+3. Enforce token/file budgets before sending context.
+4. Expose only task-authorised tools and resources.
+5. Validate tool arguments and preserve receipts.
+6. Write drafts and artifacts into scoped directories.
+7. Run verification and the closeout gate outside the model.
+8. Persist reviewed task, status, memory pointers, and outputs.
 
 ```python
 from pathlib import Path
 
-root = Path("/path/to/My Agentic Control Center")
-system_message = "\n\n".join(
-    (root / name).read_text(encoding="utf-8")
-    for name in ["IDENTITY.md", "RULES.md", "SYSTEM_MAP.md", "STATUS.md", "MEMORY.md"]
-)
+root = Path("/path/to/system")
+common = (root / "AGENTS.md").read_text(encoding="utf-8")
+task = (root / "tasks/T-001/task.yaml").read_text(encoding="utf-8")
+system_context = common + "\n\n# Active task\n" + task
 ```
 
-## Harness context
-
-```bash
-export PAS_ROOT="$HOME/Desktop/My Agentic Control Center"
-export PAS_LOAD_ORDER="IDENTITY.md RULES.md SYSTEM_MAP.md STATUS.md MEMORY.md"
-export PAS_TASK_MANIFEST="$PAS_ROOT/tasks/T-000-bootstrap/task.yaml"
-```
-
-## Runtime Selection
-
-For a task inside a domain agent, add the relevant `task.yaml` and domain agent files after the root files.
-
-## Writeback
-
-After a session, ask the model for:
-
-1. a `task.yaml` update;
-2. a `STATUS.md` update if system state changed;
-3. a compact `MEMORY.md` update only for durable recovery notes;
-4. any reviewed `outputs/`, skill, or knowledge file content.
-
-Review before writing to disk.
+That snippet only assembles text. A real harness still needs tool schemas, permission checks, injection boundaries, result validation, retry policy, context truncation, state transactions, and deterministic completion checks.

@@ -1,20 +1,15 @@
 # MEMORY
 
-Persistent recovery notes for `[SYSTEM_NAME]`.
+Compact recovery index for `[SYSTEM_NAME]`.
 
-## Recovery Summary
+Budget: maximum 12 KiB or 120 lines, whichever comes first.
 
-- Static structure lives in `SYSTEM_MAP.md`.
-- Current system state lives in `STATUS.md`.
-- Active task state lives in `tasks/**/task.yaml`.
+## Recovery
 
-## Operation Log
+- Scaffold created: `[DATE]`.
+- Structure: `SYSTEM_MAP.md`.
+- Current task state: `**/tasks/**/task.yaml`.
+- Generated snapshot: `STATUS.md`.
+- Long-term background: `knowledge/`.
 
-| Date | Operation | Scope | Notes |
-|---|---|---|---|
-| `[DATE]` | System scaffold created | Root | Created from Plug And Chug Agentic Empire template. |
-
-## Cross-Agent Notes
-
-- Keep sensitive raw materials inside their owning agent.
-- Use `knowledge/cross-agent-skill-map.md` to borrow methods without merging agent memories or raw data.
+Do not store transcripts, full source documents, bulk logs, or detailed task chronology here. Create a focused knowledge or archive file and keep only its pointer and durable significance.

@@ -1,6 +1,6 @@
 # Mode Registry
 
-Single source of truth for Plug And Chug Agentic Empire modes.
+Single source of truth for Portable Agentic System modes.
 
 ## Modes
 
@@ -8,7 +8,7 @@ Single source of truth for Plug And Chug Agentic Empire modes.
 |---|---|---:|---|
 | `pas-start` | "build my agentic system", "set up personal AI agents", "portable agent setup" | High | Agent matrix, config, scaffold, validation |
 | `pas-audit` | "my agents are messy", "review this folder", "clean up my AI agent system" | Medium | Risk map and cleanup plan |
-| `pas-add-agent` | "add a job search agent", "make a subagent for this project" | Medium | Agent/subagent spec and files |
+| `pas-add-agent` | "add a job search agent", "do I need a durable agent or temporary worker?" | Medium | Agent-vs-skill-vs-task decision, routing contract, and justified files |
 | `pas-create-skill` | "turn this workflow into a skill", "make a skill matrix" | Medium | Skill placement and template |
 | `pas-distill` | "turn these notes into a skill", "merge these prompts", "add this knowledge to my agent" | Medium | Knowledge routing, skill draft, or fusion plan |
 | `pas-borrow` | "borrow this skill from another agent", "can my research agent use my writing skill?", "share skills across agents safely" | Medium | Borrowing decision, boundary note, source map, optional distillation queue |

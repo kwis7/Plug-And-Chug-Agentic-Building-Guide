@@ -1,50 +1,49 @@
-# Claude Code Adapter
+# Claude Code Runtime Adapter
 
-Use this when the user wants PAS inside Claude Code while keeping durable state in ordinary project files.
+Classification: native coding-agent runtime
+Repository verification: `verified_static`
+Fresh-session verification: required before upgrading to `verified_runtime`
 
-## Official docs checked
+## Native contract
 
-- Claude Code overview: https://code.claude.com/docs/en/overview
-- Claude Code settings: https://code.claude.com/docs/en/settings
-- Claude Code memory: https://code.claude.com/docs/en/memory
-
-## Install Skill
-
-Claude Code can use local project skills or global skills. A common global path is:
-
-```bash
-mkdir -p ~/.claude/skills
-ln -s /path/to/Plug-And-Chug-Agentic-Building-Guide/skills/portable-agentic-system ~/.claude/skills/portable-agentic-system
-```
-
-## Project Entrypoint
-
-At the root of a generated system, `CLAUDE.md` should import:
-
-```markdown
-@import IDENTITY.md
-@import RULES.md
-@import SYSTEM_MAP.md
-@import STATUS.md
-@import MEMORY.md
-```
-
-## Harness context
-
-```bash
-export PAS_ROOT="$HOME/Desktop/My Agentic Control Center"
-export PAS_LOAD_ORDER="IDENTITY.md RULES.md SYSTEM_MAP.md STATUS.md MEMORY.md"
-export PAS_TASK_MANIFEST="$PAS_ROOT/tasks/T-000-bootstrap/task.yaml"
-```
-
-Load the project entrypoint first, then the active `task.yaml`, then only the needed `knowledge/` or `skills/` files.
-
-## First Prompt
+Claude Code loads `CLAUDE.md`. The portable bridge is:
 
 ```text
-Use the portable-agentic-system skill to audit this folder and tell me which agent should handle my task.
+@AGENTS.md
 ```
 
-## Writeback
+Claude imports use `@path`, not `@import path`. Keep the bridge and Claude-specific delta compact; imported text still consumes context. Claude Code instructions are context, not a security boundary.
 
-Ask Claude Code for explicit file updates, then keep durable state in PAS files rather than relying on chat memory alone. Confirm yellow/red operations before modifying existing files, deleting material, sending messages, or moving private data.
+Official evidence:
+
+- https://code.claude.com/docs/en/memory
+- https://code.claude.com/docs/en/hooks
+- https://code.claude.com/docs/en/skills
+- https://code.claude.com/docs/en/sub-agents
+
+## Skills and subagents
+
+- Project skills: `.claude/skills/<skill-name>/SKILL.md`.
+- Personal skills: `$HOME/.claude/skills/<skill-name>/SKILL.md`.
+- Put routing triggers, exclusions, and boundaries in each skill or subagent `description` because that field affects automatic selection.
+- Test positive, negative, and collision prompts instead of merely checking that the file exists.
+
+## Completion gate
+
+The generator writes a project `.claude/settings.json` `Stop` command hook. It resolves the project through `${CLAUDE_PROJECT_DIR}`, calls `.pas/bin/runtime_hook_gate.py`, and converts a failed common gate into:
+
+```json
+{"decision":"block","reason":"..."}
+```
+
+That response prevents Claude from stopping and feeds the reason back as the next instruction. A bare non-zero exit from `closeout_gate.py` is not a complete adapter. The generated baseline uses `Stop`; add `TaskCompleted` only if you have a separate mapping for Claude Code's native task registry rather than assuming it is the portable `task.yaml` lifecycle.
+
+If multiple portable tasks are active, bind the session ID to one task with `.pas/bin/bind_task.py`. Do not call the gate verified until a real Claude Code session is blocked on a missing receipt and succeeds after outputs, receipts, generated status, released locks, budgets, and handoff are valid.
+
+## Static and fresh-session smoke
+
+```bash
+python3 skills/portable-agentic-system/scripts/adapter_smoke.py /path/to/generated/system --runtime claude-code
+```
+
+Then start a clean Claude Code session in the fixture and ask it to identify the root contract, active task ID, prohibited actions, and difference between memory and knowledge. Record the Claude Code version, command, date, and output.

@@ -1,42 +1,52 @@
-# Mental Model For Non-Technical Users
+# Company Mental Model
 
-## One Sentence
+## One sentence
 
-A personal agentic system is a set of organised folders that let AI remember roles, rules, current work, reusable workflows, and long-term notes across sessions.
+An agent harness is the whole configured company around a replaceable active model: its mission, policies, organisation, playbooks, tools, work orders, archives, desks, quality gates, and access controls.
 
-## Household Metaphor
+## Map
 
-| Everyday idea | Agentic system term | Meaning |
-|---|---|---|
-| Front desk | Control center | Knows what rooms exist and routes requests |
-| Room | Agent | Handles one recurring life or work domain |
-| Name tag | Identity | Says who this agent is and what it does |
-| House rules | Rules | Says what the agent must and must not do |
-| Desk notebook | Workspace | Today's active task state |
-| Small memory card | Memory | Compact facts needed next time |
-| Library shelf | Knowledge/vault | Stable references and long-term notes |
-| Recipe card | Skill | Repeatable steps for common work |
-| Separate locked room | Subagent | Isolated project or sensitive context |
-| Plug adapter | Adapter | Lets another AI tool read the same files |
+| Agent system | Company |
+|---|---|
+| User | Board/owner: sets goals and authorises consequential actions |
+| Active model | Employee currently doing the work; replaceable |
+| Central model in multi-agent topology | Manager who routes and integrates employees |
+| Entire harness | Company operating system and working environment |
+| Identity | Mission, mandate, role, and boundary |
+| Rules | Company policies and standard operating constraints |
+| System map | Organisation chart and ownership registry |
+| Skills | Department playbooks and capability packages |
+| Tools/connectors | Equipment, databases, software, phones, and external access |
+| Task manifest | Work order/project charter |
+| Generated status | Operations dashboard |
+| Memory | Compact shift handover and recovery index |
+| Knowledge | Long-term archive, reference library, and institutional knowledge |
+| Raw data | Original-material warehouse |
+| Workspace/context | The actual desk where current work happens |
+| Artifacts/logs | Intermediate machinery output and execution traces |
+| Outputs | Reviewed delivery cabinet |
+| Hooks/gates/validators | Quality control, compliance, and sign-off desk |
+| Locks/worktrees | Room, file, and equipment booking for concurrent employees |
+| Runtime adapter | Building access and operating translation for a particular work platform |
+| Provider/switchboard | Employee pool and staff-switching desk, not the company itself |
 
-## Why This Helps
+## Crucial visual rule
 
-Most people use AI like a phone call: useful in the moment, gone afterward. This system turns AI into a local workbench:
+Draw one visible boundary around all harness components. Put the model in a high-contrast central card labelled `ACTIVE / REPLACEABLE`. Show alternative model cards on a swap rail. Do not draw “harness” as a vague second layer between model and files.
 
-1. The AI knows which role it is playing.
-2. It knows the rules for that role.
-3. It can find current tasks.
-4. It can reuse workflows instead of asking again.
-5. It writes important state back to files.
+## Five-minute explanation
 
-## What It Is Not
+The user owns a company. The currently selected model is an employee: it is the part actively reading, reasoning, using tools, and producing work. Tomorrow the owner can replace that employee with another model without throwing away the company's rules, files, project records, archives, tools, quality checks, or workspaces. All those configured parts together are the harness.
 
-- It is not a magic brain.
-- It is not one giant prompt.
-- It is not a database that automatically knows everything.
-- It is not safe to paste private raw documents into memory.
-- It is not useful to create a new agent for every tiny task.
+In a one-model system, call the model an employee. In a multi-agent system, call the central coordinating model the manager and the other active models employees. The labels describe organisational responsibility, not model quality.
 
-## Five-Minute Explanation Script
+The company's long-term archive is `knowledge/`. The small note that lets the next shift resume is `MEMORY.md`. The actual desktop holding the current assignment is `workspace/` plus the active context. Mixing these produces an overflowing memory file and unreliable retrieval.
 
-"Imagine your AI work as a small office. The front desk is the control center. It knows there is a research room, a job-search room, a family-admin room, and maybe a finance room. Each room has a sign on the door saying who works there, a rule sheet, a small notebook for current tasks, a shelf of references, and a few recipe cards for repeated work. When a task ends, the assistant writes down what matters so next time we do not start from zero."
+## What this metaphor must not imply
+
+- The model is not conscious, loyal, or permanently trained on the files.
+- Markdown rules are not automatically enforced policy.
+- A provider is not a complete employee or company; a runtime supplies tools and execution.
+- A folder name does not grant privacy or write protection.
+- Putting a file in `outputs/` does not authorise sending it.
+- More agents do not automatically create a better organisation.
