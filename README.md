@@ -1,47 +1,106 @@
-# Plug-And-Chug Agent Harness Building Guide
+# A Plug-And-Chug Guide to Building Your Personal Agentic System
 
 [English](README.md) | [中文](README.zh-CN.md)
 
-A public-safe, local-first toolkit for explaining, designing, generating, adapting, and validating durable AI agent systems.
+A public-safe, local-first guide and working toolkit for building an AI agent system that fits the way you actually think and work.
 
-## The central idea
+## Vision
 
-The model is the active worker, but it is not the whole agent system. The **harness** is every configured part around execution: runtime entrypoints, identity, rules, permissions, agent ownership, skills, tools, connectors, tasks, generated status, memory, knowledge, raw material, workspace, artifacts, logs, outputs, hooks, gates, budgets, locks, worktrees, validators, and adapters.
+This project helps people build a personal AI agent system that lives in ordinary local folders, remains understandable to its owner, and can travel across models and tools. The aim is not to make AI feel more complicated. It is to give recurring work a durable home: clear rules, organised context, reusable methods, visible task state, and checks that make completion mean something.
 
-Changing the model is like replacing an employee. The company keeps its mission, policies, archives, playbooks, work orders, tools, desks, and quality controls. In a single-agent system, call the model an employee. Only a central coordinating model in a multi-agent system is the manager.
+The system should become easier to use over time because it preserves its structure without turning every chat transcript into permanent memory. Models, APIs, and interfaces can change; your work should not have to restart from zero.
 
-### Harness concept map
+## Who this is for
+
+- researchers, students, writers, analysts, developers, and other knowledge workers;
+- non-technical users who want to organise recurring AI-assisted work before learning software engineering;
+- people who use AI across several areas of life or work and keep losing useful context between sessions;
+- anyone who wants reusable workflows, clearer privacy boundaries, and less dependence on one model or interface.
+
+A computer science degree is not required. A real reason to let AI help you, plus a willingness to give that help a clear structure, is enough to begin.
+
+## Use this if you
+
+- ask AI for help in multiple recurring domains;
+- repeatedly explain the same background in new chats;
+- want useful prompts and habits to become reusable skills;
+- need to separate private source material, drafts, and reviewed outputs;
+- want agents to borrow methods without mixing private data;
+- want active, blocked, verified, and completed work to be visible;
+- want the freedom to change models or runtimes without rebuilding your whole workspace.
+
+For one quick answer, a normal chat is often enough. This package becomes useful when work repeats, grows, carries risk, or needs to survive the end of a conversation.
+
+## The problem it addresses
+
+Once AI is used for more than isolated questions, work starts to scatter. One chat contains a good draft, another holds the source list, and a third contains the decision made last week. Files accumulate with temporary names. The model may be capable, but the working environment around it becomes hard to recover.
+
+The difficult part is often not model intelligence. It is continuity: what the model can see, which file is authoritative, what remains unfinished, what may be shared, and how the next session can continue without relying on human memory or the model remembering to update itself.
+
+A local agentic harness gives that work somewhere to land. The chat can end and the active model can change, while the rules, task state, knowledge, procedures, evidence, and reviewed outputs remain readable in your own workspace.
+
+## Why not just chat with the best model?
+
+A stronger model can produce a better answer. It does not automatically preserve the project rules, source trail, task state, privacy boundaries, or verification habits that make a long-running body of work reliable.
+
+For a developer, the durable value is not only one bug fix but also the project instructions, usual commands, tests, and unresolved edge cases. For a writer, it is the brand voice, source material, revision history, and approved formats. For a teacher, it is the course context and what students struggled with last time. For a researcher, it is the chain from sources and notes to methods, decisions, and drafts.
+
+Direct chat is excellent for quick questions. A harness is for work that comes back and needs a place to continue.
+
+## What a harness means here
+
+The model is the active worker, but it is not the whole agent system. The **harness** is the complete configured environment around execution: runtime entrypoints, identity, rules, permissions, agent ownership, skills, tools, connectors, tasks, generated status, memory, knowledge, raw material, workspace, artifacts, logs, outputs, hooks, gates, budgets, locks, worktrees, validators, and adapters.
+
+Changing the model is like replacing an employee. The company keeps its mission, policies, archives, department playbooks, work orders, tools, desks, and quality controls. In a single-agent system, the model is an employee. Only a coordinating model in a multi-agent system is the manager.
 
 ![The active replaceable model inside the complete harness boundary](docs/assets/harness-concept-map.png)
 
-### Anonymised example system map
+This distinction matters: a model supplies active reasoning; the harness supplies continuity, structure, access, procedures, and control. A folder full of Markdown is not automatically an enforced system, so this toolkit also includes scripts, manifests, hooks, validators, and evidence labels where deterministic behaviour is needed.
 
-![A control center, four functional owner agents, shared methods, private context boundaries, and a verified execution flow](docs/assets/anonymised-agent-system-map.png)
-
-The first map explains the concept. The second shows one possible multi-agent topology. Keep both: the example does not define every user's system, and the concept diagram does not pretend to be a complete implementation.
-
-## Memory is not knowledge
+## How the information is organised
 
 - `MEMORY.md` is a compact shift handover and recovery index.
 - `knowledge/` is the long-term archive, reference library, and institutional knowledge.
 - `task.yaml` and `workspace/` hold current task state and execution context.
 - `raw_data/` holds named originals; it must not be recursively loaded by default.
 - `outputs/` holds reviewed deliverables, but does not itself authorise sending or publishing.
+- `STATUS.md` is generated from task manifests so current state does not depend on a model remembering a second update.
+- `skills/` contains reusable procedures; rules that should always apply belong in entrypoints or policy files instead.
+- receipts, gates, budgets, and locks make verification and concurrent ownership explicit where prose alone is not enough.
 
-## What version 2 adds
+Memory and knowledge are both long-term files, but they serve different jobs. Memory answers “what must the next session know to resume?” Knowledge answers “what stable material should the system reuse?” Current execution belongs on the task desk, not in either archive.
 
-- Real Codex, Claude Code, and Gemini entrypoints instead of imaginary `@import` syntax.
-- A machine-readable compatibility manifest separating native runtimes, workspace projections, provisional products, switchboards, providers, and custom API harnesses.
-- A v2 task contract with objective, authority, prohibited actions, completion criteria, failure conditions, receipts, resource claims, and handoff.
-- Generated `STATUS.md` instead of relying on a model to remember to update two sources of truth.
-- Runtime-native closeout translators: Codex/Claude `Stop` and Gemini `AfterAgent` convert the common gate into each host's required block/retry protocol.
-- A deterministic closeout gate that rejects missing outputs, receipts, current status, released task locks, budget failures, or handoff.
-- Hard instruction, memory, task, and large-file manifest budgets.
-- Atomic, task-declared resource locks with writer/session/worktree checks, heartbeat renewal, and worktree guidance.
-- Description quality checks and positive/negative/collision evaluation templates.
-- A detailed but progressively disclosed production Skill plus a standalone textbook/workbook.
-- Two bilingual maps: a harness concept map and a systematic anonymised example system map.
-- A 30+ page textbook-style guide whose adapters are a compact appendix rather than the main subject.
+## Why personalisation matters
+
+- Your agent map can reflect your recurring work rather than somebody else's template.
+- Your rules can reflect your privacy needs, risk tolerance, language, and approval boundaries.
+- Your skills can capture procedures you actually repeat.
+- Your outputs can match the formats you really submit, publish, study from, or archive.
+- Your memory can stay compact because stable references live in knowledge and bulky originals remain outside automatic context.
+- Your verification can match the consequences of the task instead of treating every generated answer as complete.
+
+Personalisation is not decoration. It is how the system reduces repeated prompting without forcing your life into a tool's default workflow.
+
+## An anonymised example system
+
+The map below shows one possible multi-agent topology based on a real system, with names, private projects, paths, credentials, and sensitive domains replaced by neutral examples. A control centre routes work to functional owner agents. Methods may be shared, but private context remains with its owner. Tasks move through an explicit execution and verification flow.
+
+![A control center, four functional owner agents, shared methods, private context boundaries, and a verified execution flow](docs/assets/anonymised-agent-system-map.png)
+
+The concept map explains what surrounds one active model. The example map shows how those harness components can form a larger system. It is an example to adapt, not an organisation chart to copy.
+
+## Start small
+
+Two or three clear agents are usually more useful than ten vague ones.
+
+| Example agent | Owns | A useful first skill |
+|---|---|---|
+| Research Assistant | papers, notes, citations, analysis | source review |
+| Job Search Agent | postings, resumes, application tracking | posting intake |
+| Life Admin Agent | forms, household tasks, follow-ups | document checklist |
+| Learning Agent | courses, practice, review logs | mock review |
+
+Create an **agent** when work is recurring and needs separate ownership and context. Create a **skill** when a procedure repeats inside an existing agent. Create a **knowledge note** for stable reusable material. Keep one-time work in the current task workspace.
 
 ## Install the Skill
 
@@ -112,20 +171,24 @@ My Agent Harness/
 
 Every `raw_data/`, `artifacts/`, `logs/`, and `outputs/` directory includes a manifest. Files at or above 256 KiB must record an exact size, context policy, and retrieval summary instead of entering context recursively.
 
-## Product classification
+## Use it across different AI tools
 
-| Category | Products | Meaning |
-|---|---|---|
-| Native runtimes | Codex, Claude Code, Gemini CLI, OpenClaw, Hermes Agent, MiMo Code | Have product-specific entrypoint/workspace semantics |
-| Workspace/manual projections | Claude Cowork, ChatGPT Projects, Custom GPTs, generic workspace agents | Use project/folder/upload instructions rather than claiming a local native chain |
-| Provisional | Xiaomi MiMo Claw, Tencent WorkBuddy | Product exists; required native loading/gate semantics still need evidence |
-| Switchboard | CC Switch | Changes provider/model/config/routing; does not own durable harness state |
-| Providers | DeepSeek, Qwen, MiniMax, GLM, MiMo API, Tencent Hunyuan | Supply model inference; caller/runtime owns harness loading |
-| Custom harness | Direct API application | Application author owns context, tools, persistence, budgets, gates, and writeback |
+The same local structure can support different models and products, but portability does not mean pretending every product loads instructions in the same way. Codex, Claude Code, Gemini CLI, hosted workspaces, provider APIs, model switchboards, and custom applications have different discovery, permission, hook, and persistence behaviour.
 
-See the [compatibility manifest](skills/portable-agentic-system/pas/compatibility/runtime-compatibility.json) and [adapter guide](docs/adapters.md). Static checks, fresh-session loading, completion-gate behaviour, concurrency, and external delivery are separate evidence levels.
+This repository therefore keeps the durable harness model common while documenting each runtime's real entrypoints and evidence level separately. Start with the [adapter guide](docs/adapters.md) when connecting a tool, and use the [compatibility manifest](skills/portable-agentic-system/pas/compatibility/runtime-compatibility.json) when you need the precise support classification. A documented adapter is not automatically a runtime-tested integration.
 
-Only Codex, Claude Code, and Gemini CLI receive generated native entrypoints plus completion-hook translators. OpenClaw, Hermes Agent, and MiMo Code are documented runtime guides without generated integrations; direct API is a reference pattern. This distinction prevents a Markdown adapter shell from being mistaken for working support.
+## What the toolkit helps you do
+
+- interview the user and design a small agent map around real recurring work;
+- generate a control centre and domain-agent folders without overwriting an existing system by default;
+- separate identity, rules, memory, knowledge, active work, raw material, and outputs;
+- turn repeated procedures into progressively disclosed skills;
+- route tasks by clear descriptions and test positive, negative, and collision cases;
+- generate status from task contracts and require evidence before closeout;
+- manage memory and large-file context budgets;
+- coordinate concurrent work with resource claims, locks, and worktree guidance;
+- validate structure, privacy boundaries, references, manifests, and completion receipts;
+- review the system after real use and distil useful corrections into durable improvements.
 
 ## Main resources
 
