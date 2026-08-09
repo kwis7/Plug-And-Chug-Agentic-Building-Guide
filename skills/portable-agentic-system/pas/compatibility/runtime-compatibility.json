@@ -1,0 +1,255 @@
+{
+  "schema_version": 2,
+  "evidence_reviewed": "2026-08-09",
+  "verification_levels": {
+    "verified_runtime": "Official semantics, static checks, fresh-session loading, and completion/writeback smoke passed.",
+    "verified_static": "Official semantics and generated static checks passed; fresh-session runtime smoke not run.",
+    "documented_only": "Current official semantics were reviewed, but this repository generates no native integration and ran no fresh-session smoke.",
+    "reference_pattern": "An implementation pattern is documented; no product-specific runnable integration is claimed.",
+    "manual_projection": "No native local entrypoint is claimed; use an export, upload, project, or folder-instruction workflow.",
+    "provisional": "The product exists, but the required native loading or enforcement semantics are not yet proved.",
+    "provider_only": "Model/API backend only; the caller or runtime owns harness loading and persistence.",
+    "switchboard_only": "Configuration, routing, or provider switching layer; not the durable harness."
+  },
+  "products": [
+    {
+      "id": "codex",
+      "category": "native_runtime",
+      "status": "verified_static",
+      "native_entrypoint": "AGENTS.md",
+      "skill_locations": [".agents/skills", "$HOME/.agents/skills"],
+      "generated_configuration": ["AGENTS.md", ".codex/hooks.json", ".pas/bin/runtime_hook_gate.py"],
+      "completion_gate": {"event": "Stop", "block_protocol": "stdout JSON decision=block with reason", "session_binding": ".pas/runtime/sessions/<session_id>.json"},
+      "fresh_session_verification": "not_run",
+      "enforcement": ["hooks", "sandbox", "approval policy", "git worktrees"],
+      "official_evidence": [
+        "https://learn.chatgpt.com/docs/agent-configuration/agents-md",
+        "https://learn.chatgpt.com/docs/build-skills",
+        "https://learn.chatgpt.com/docs/hooks",
+        "https://learn.chatgpt.com/docs/environments/git-worktrees"
+      ],
+      "limitation": "No arbitrary @import directive in AGENTS.md; combined instruction chain has a runtime size ceiling."
+    },
+    {
+      "id": "claude-code",
+      "category": "native_runtime",
+      "status": "verified_static",
+      "native_entrypoint": "CLAUDE.md",
+      "skill_locations": [".claude/skills", "$HOME/.claude/skills"],
+      "generated_configuration": ["CLAUDE.md", ".claude/settings.json", ".pas/bin/runtime_hook_gate.py"],
+      "completion_gate": {"event": "Stop", "block_protocol": "stdout JSON decision=block with reason", "session_binding": ".pas/runtime/sessions/<session_id>.json"},
+      "fresh_session_verification": "not_run",
+      "enforcement": ["hooks", "permissions", "subagent tool restrictions"],
+      "official_evidence": [
+        "https://code.claude.com/docs/en/memory",
+        "https://code.claude.com/docs/en/hooks",
+        "https://code.claude.com/docs/en/skills",
+        "https://code.claude.com/docs/en/sub-agents"
+      ],
+      "limitation": "CLAUDE.md is context, not a security boundary; valid imports use @path, not @import."
+    },
+    {
+      "id": "gemini-cli",
+      "category": "native_runtime",
+      "status": "verified_static",
+      "native_entrypoint": "GEMINI.md",
+      "skill_locations": [".gemini/skills", ".agents/skills", "$HOME/.gemini/skills", "$HOME/.agents/skills"],
+      "generated_configuration": ["GEMINI.md", ".gemini/settings.json", ".pas/bin/runtime_hook_gate.py"],
+      "completion_gate": {"event": "AfterAgent", "block_protocol": "stdout JSON decision=deny with reason to force retry", "session_binding": ".pas/runtime/sessions/<session_id>.json"},
+      "fresh_session_verification": "not_run",
+      "enforcement": ["hooks", "policy engine", "git worktrees"],
+      "official_evidence": [
+        "https://geminicli.com/docs/cli/gemini-md/",
+        "https://geminicli.com/docs/cli/skills/",
+        "https://geminicli.com/docs/hooks/reference/",
+        "https://geminicli.com/docs/reference/policy-engine/",
+        "https://geminicli.com/docs/cli/git-worktrees/"
+      ],
+      "limitation": "Do not claim project policy enforcement where the installed Gemini documentation says that tier is not functional."
+    },
+    {
+      "id": "openclaw",
+      "category": "native_runtime",
+      "status": "documented_only",
+      "native_entrypoint": "workspace bootstrap files including AGENTS.md",
+      "skill_locations": ["workspace/skills", "workspace/.agents/skills", "$HOME/.agents/skills", "$HOME/.openclaw/skills"],
+      "generated_configuration": [],
+      "completion_gate": {"event": "typed before_agent_finalize plugin hook or external wrapper", "block_protocol": "product-specific implementation required", "session_binding": "not_generated"},
+      "fresh_session_verification": "not_run",
+      "enforcement": ["gateway config", "sandbox settings", "typed plugin hooks"],
+      "official_evidence": [
+        "https://docs.openclaw.ai/agent-workspace",
+        "https://docs.openclaw.ai/agent",
+        "https://docs.openclaw.ai/automation/hooks",
+        "https://docs.openclaw.ai/gateway/config-agents"
+      ],
+      "limitation": "A workspace path is not itself a hard sandbox, and basic lifecycle hooks are not equivalent to blocking typed plugin hooks."
+    },
+    {
+      "id": "hermes-agent",
+      "category": "native_runtime",
+      "status": "documented_only",
+      "native_entrypoint": "AGENTS.md",
+      "skill_locations": ["$HOME/.hermes/skills", "$HOME/.agents/skills"],
+      "generated_configuration": [],
+      "completion_gate": {"event": null, "block_protocol": "advisory until a supported wrapper is verified", "session_binding": "not_generated"},
+      "fresh_session_verification": "not_run",
+      "enforcement": ["runtime approvals", "bounded native memory"],
+      "official_evidence": [
+        "https://hermes-agent.nousresearch.com/docs/guides/tips",
+        "https://hermes-agent.nousresearch.com/docs/user-guide/features/skills",
+        "https://hermes-agent.nousresearch.com/docs/user-guide/features/memory/"
+      ],
+      "limitation": "External skill directories remain writable if filesystem permissions allow it; Hermes memory needs a smaller projection."
+    },
+    {
+      "id": "mimo-code",
+      "category": "native_runtime",
+      "status": "documented_only",
+      "native_entrypoint": "AGENTS.md generated by /init",
+      "skill_locations": [],
+      "generated_configuration": [],
+      "completion_gate": {"event": null, "block_protocol": "advisory until an official blocking event or wrapper is verified", "session_binding": "not_generated"},
+      "fresh_session_verification": "not_run",
+      "enforcement": ["runtime-specific persistent memory and task mechanisms"],
+      "official_evidence": ["https://mimo.mi.com/docs/en-US/tokenplan/integration/mimo-code"],
+      "limitation": "Fresh-session and completion-gate smoke remain unrun. Keep separate from MiMo API and MiMo Claw."
+    },
+    {
+      "id": "mimo-claw",
+      "category": "native_runtime",
+      "status": "provisional",
+      "native_entrypoint": null,
+      "skill_locations": [],
+      "enforcement": [],
+      "official_evidence": ["https://mimo.mi.com/docs/integration/tools-overview"],
+      "limitation": "Product availability is documented, but project entrypoint and blocking-gate semantics require product-specific verification."
+    },
+    {
+      "id": "claude-cowork",
+      "category": "workspace_agent",
+      "status": "manual_projection",
+      "native_entrypoint": "project and folder instructions",
+      "skill_locations": ["uploaded skills and plugins"],
+      "enforcement": ["folder permissions", "product approval modes", "deletion confirmation"],
+      "official_evidence": [
+        "https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork",
+        "https://claude.com/docs/cowork/guide/projects"
+      ],
+      "limitation": "Do not assume Claude Code CLAUDE.md import behavior is the Cowork project contract."
+    },
+    {
+      "id": "chatgpt-projects",
+      "category": "workspace_agent",
+      "status": "manual_projection",
+      "native_entrypoint": "project instructions and uploaded files",
+      "skill_locations": [],
+      "enforcement": ["project settings and product permissions"],
+      "official_evidence": ["https://help.openai.com/en/articles/10169521-using-projects-in-chatgpt"],
+      "limitation": "No native local AGENTS.md chain or guaranteed filesystem writeback is claimed."
+    },
+    {
+      "id": "custom-gpt",
+      "category": "workspace_agent",
+      "status": "manual_projection",
+      "native_entrypoint": "instructions, knowledge, capabilities, apps, and actions",
+      "skill_locations": [],
+      "enforcement": ["GPT configuration and action permissions"],
+      "official_evidence": ["https://help.openai.com/en/articles/8554407-key-guidelines-for-writing-instructions-for-custom-gpts"],
+      "limitation": "Knowledge is reference material, not an executable local harness entrypoint."
+    },
+    {
+      "id": "tencent-workbuddy",
+      "category": "workspace_agent",
+      "status": "provisional",
+      "native_entrypoint": null,
+      "skill_locations": ["product skill ecosystem"],
+      "enforcement": ["authorised folders", "product sandbox"],
+      "official_evidence": ["https://intl.cloud.tencent.com/techpedia/144100?lang=en"],
+      "limitation": "Official materials establish folder access and skills but not a PAS-native entrypoint contract."
+    },
+    {
+      "id": "cc-switch",
+      "category": "switchboard",
+      "status": "switchboard_only",
+      "native_entrypoint": null,
+      "skill_locations": [],
+      "enforcement": ["provider configuration", "local routing", "usage logging"],
+      "official_evidence": ["https://ccswitch.io/en/", "https://github.com/farion1231/cc-switch"],
+      "limitation": "Does not own agent identity, task state, memory, completion gates, or data ownership."
+    },
+    {
+      "id": "deepseek",
+      "category": "provider",
+      "status": "provider_only",
+      "native_entrypoint": null,
+      "skill_locations": [],
+      "enforcement": [],
+      "official_evidence": ["https://api-docs.deepseek.com/"],
+      "limitation": "The calling runtime or application must assemble, persist, and validate harness context."
+    },
+    {
+      "id": "qwen",
+      "category": "provider",
+      "status": "provider_only",
+      "native_entrypoint": null,
+      "skill_locations": [],
+      "enforcement": [],
+      "official_evidence": ["https://help.aliyun.com/en/model-studio/what-is-model-studio"],
+      "limitation": "Endpoints and available models vary by region and account."
+    },
+    {
+      "id": "minimax",
+      "category": "provider",
+      "status": "provider_only",
+      "native_entrypoint": null,
+      "skill_locations": [],
+      "enforcement": [],
+      "official_evidence": ["https://platform.minimax.io/docs/api-reference/text-openai-api"],
+      "limitation": "Keep endpoint and model IDs configurable and date-stamped."
+    },
+    {
+      "id": "glm",
+      "category": "provider",
+      "status": "provider_only",
+      "native_entrypoint": null,
+      "skill_locations": [],
+      "enforcement": [],
+      "official_evidence": ["https://docs.z.ai/guides/overview/quick-start"],
+      "limitation": "API compatibility does not imply local harness loading."
+    },
+    {
+      "id": "xiaomi-mimo-api",
+      "category": "provider",
+      "status": "provider_only",
+      "native_entrypoint": null,
+      "skill_locations": [],
+      "enforcement": [],
+      "official_evidence": ["https://mimo.mi.com/docs/en-US"],
+      "limitation": "Keep separate from MiMo Code and MiMo Claw."
+    },
+    {
+      "id": "tencent-hunyuan",
+      "category": "provider",
+      "status": "provider_only",
+      "native_entrypoint": null,
+      "skill_locations": [],
+      "enforcement": [],
+      "official_evidence": [
+        "https://cloud.tencent.com/document/product/1729/111007",
+        "https://cloud.tencent.com/document/product/1729/131925"
+      ],
+      "limitation": "The platform is migrating; verify current TokenHub endpoint and account instructions before use."
+    },
+    {
+      "id": "direct-api",
+      "category": "custom_harness",
+      "status": "reference_pattern",
+      "native_entrypoint": "caller-defined system/developer context assembly",
+      "skill_locations": [],
+      "enforcement": ["application code", "tool policy", "persistence layer", "validators"],
+      "official_evidence": [],
+      "limitation": "The application author owns tool loops, persistence, budgets, validation, and writeback."
+    }
+  ]
+}

@@ -1,15 +1,10 @@
 # MEMORY - [AGENT_NAME]
 
-Compact recovery memory for this domain agent.
+Compact recovery index. Budget: maximum 8 KiB or 100 lines.
 
-## Recovery Summary
+- Created: [DATE]
+- Mission: [PURPOSE]
+- Current task state belongs in `tasks/` and `workspace/`.
+- Stable background belongs in `knowledge/`.
 
-- Agent scaffold created on `[DATE]`.
-- Purpose: `[PURPOSE]`
-- Current task details should live in `task.yaml` or `workspace/current.md`, not here.
-
-## Operation Log
-
-| Date | Operation | Notes |
-|---|---|---|
-| `[DATE]` | Agent scaffold created | Created from Plug And Chug Agentic Empire template. |
+Keep only durable decisions, unresolved blockers, and recovery pointers. Do not store transcripts, bulk logs, raw source material, or repeated task history.

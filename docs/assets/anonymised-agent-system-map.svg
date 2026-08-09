@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1350" viewBox="0 0 1800 1350" role="img" aria-labelledby="title desc">
+  <title id="title">Anonymised Example Agentic System Map</title>
+  <desc id="desc">A systematic anonymous multi-agent harness with a user board, a control-center manager model, four domain agents with replaceable employee models, private owner data, shared methods, task flow, verification gates, and runtime adapters.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f7f3ec"/><stop offset="1" stop-color="#edf3f5"/></linearGradient>
+    <linearGradient id="navy" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#203c55"/><stop offset="1" stop-color="#315d73"/></linearGradient>
+    <linearGradient id="orange" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffb054"/><stop offset="1" stop-color="#ee773d"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#1d3548" flood-opacity=".16"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#315d73"/></marker>
+    <marker id="arrowGold" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#d98b2d"/></marker>
+    <style>
+      .sans{font-family:Inter,Arial,sans-serif}.title{font-family:Inter,Arial,sans-serif;font-weight:850;fill:#183247}.muted{fill:#627583}.white{fill:white}.navy{fill:#203c55}.orangeText{fill:#8b411c}.small{font-size:15px}.tiny{font-size:13px}.label{font-size:17px;font-weight:750}.card{fill:#fff;stroke:#b9c9d1;stroke-width:1.5}.soft{fill:#f2f6f7;stroke:#c6d3d8;stroke-width:1.2}.owner{fill:#fff8ed;stroke:#eaa75c;stroke-width:1.5;stroke-dasharray:6 5}.control{stroke:#315d73;stroke-width:3;fill:none;marker-end:url(#arrow)}.method{stroke:#8a6aad;stroke-width:2.5;fill:none;stroke-dasharray:8 6;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1800" height="1350" fill="url(#bg)"/>
+  <rect x="38" y="34" width="1724" height="1278" rx="34" fill="none" stroke="#315d73" stroke-width="3" stroke-dasharray="12 8"/>
+  <text x="900" y="66" text-anchor="middle" class="title" font-size="30">ANONYMISED EXAMPLE AGENTIC SYSTEM</text>
+  <text x="900" y="93" text-anchor="middle" class="sans muted" font-size="16">The harness is the entire configured boundary: models, files, flows, permissions, tools, state, gates, and adapters.</text>
+
+  <g filter="url(#shadow)">
+    <rect x="615" y="112" width="570" height="84" rx="22" fill="#fff" stroke="#d98b2d" stroke-width="2.5"/>
+    <text x="900" y="146" text-anchor="middle" class="title" font-size="23">USER / BOARD</text>
+    <text x="900" y="174" text-anchor="middle" class="sans muted" font-size="16">purpose • priorities • risk tolerance • approval for external action</text>
+  </g>
+  <path d="M900 196V227" class="control"/>
+
+  <g filter="url(#shadow)">
+    <rect x="135" y="230" width="1530" height="235" rx="28" fill="#fff" stroke="#315d73" stroke-width="2.5"/>
+    <rect x="135" y="230" width="1530" height="48" rx="28" fill="url(#navy)"/>
+    <path d="M135 254Q135 230 159 230H1641Q1665 230 1665 254V278H135Z" fill="url(#navy)"/>
+    <text x="900" y="262" text-anchor="middle" class="sans white" font-size="22" font-weight="820">CONTROL CENTER — REGISTRY, ROUTER, COORDINATOR, AND GOVERNANCE OWNER</text>
+
+    <rect x="175" y="300" width="315" height="124" rx="22" fill="url(#orange)" stroke="#c35a2b" stroke-width="2"/>
+    <text x="332" y="328" text-anchor="middle" class="sans orangeText" font-size="14" font-weight="800">ACTIVE MODEL • REPLACEABLE</text>
+    <text x="332" y="362" text-anchor="middle" class="sans navy" font-size="25" font-weight="900">MANAGER MODEL</text>
+    <text x="332" y="390" text-anchor="middle" class="sans navy" font-size="15" font-weight="700">manager only in this multi-agent role</text>
+    <text x="332" y="411" text-anchor="middle" class="sans navy" font-size="11">routes • integrates • private data stays with domain owners</text>
+
+    <rect x="520" y="300" width="250" height="124" rx="17" class="soft"/>
+    <text x="645" y="329" text-anchor="middle" class="sans label navy">REGISTRY &amp; ROUTING</text>
+    <text x="645" y="355" text-anchor="middle" class="sans small muted">SYSTEM_MAP.md</text>
+    <text x="645" y="379" text-anchor="middle" class="sans small muted">descriptions • exclusions</text>
+    <text x="645" y="403" text-anchor="middle" class="sans small muted">positive / negative / collision evals</text>
+
+    <rect x="790" y="300" width="250" height="124" rx="17" class="soft"/>
+    <text x="915" y="329" text-anchor="middle" class="sans label navy">TASK &amp; STATE</text>
+    <text x="915" y="355" text-anchor="middle" class="sans small muted">task.yaml = authority</text>
+    <text x="915" y="379" text-anchor="middle" class="sans small muted">STATUS.md = generated view</text>
+    <text x="915" y="403" text-anchor="middle" class="sans small muted">handoff • checkpoints • receipts</text>
+
+    <rect x="1060" y="300" width="250" height="124" rx="17" class="soft"/>
+    <text x="1185" y="329" text-anchor="middle" class="sans label navy">QUALITY &amp; SAFETY</text>
+    <text x="1185" y="355" text-anchor="middle" class="sans small muted">completion gates • validators</text>
+    <text x="1185" y="379" text-anchor="middle" class="sans small muted">budgets • locks • worktrees</text>
+    <text x="1185" y="403" text-anchor="middle" class="sans small muted">human approval for external action</text>
+
+    <rect x="1330" y="300" width="295" height="124" rx="17" class="soft"/>
+    <text x="1477" y="329" text-anchor="middle" class="sans label navy">RUNTIME ADAPTERS</text>
+    <text x="1477" y="355" text-anchor="middle" class="sans small muted">Codex: AGENTS.md + Stop</text>
+    <text x="1477" y="379" text-anchor="middle" class="sans small muted">Claude: CLAUDE.md + Stop</text>
+    <text x="1477" y="403" text-anchor="middle" class="sans small muted">Gemini: GEMINI.md + AfterAgent</text>
+  </g>
+
+  <path d="M330 465V500" class="control"/><path d="M710 465V500" class="control"/><path d="M1090 465V500" class="control"/><path d="M1470 465V500" class="control"/>
+
+  <g id="agent1" filter="url(#shadow)">
+    <rect x="70" y="505" width="390" height="485" rx="25" class="card"/>
+    <rect x="70" y="505" width="390" height="54" rx="25" fill="#315d73"/><path d="M70 535V559H460V535" fill="#315d73"/>
+    <text x="265" y="540" text-anchor="middle" class="sans white" font-size="20" font-weight="820">INVESTMENT ANALYSIS-AGENT</text>
+    <rect x="102" y="582" width="326" height="76" rx="18" fill="url(#orange)"/>
+    <text x="265" y="609" text-anchor="middle" class="sans orangeText tiny" font-weight="800">ACTIVE EMPLOYEE MODEL • REPLACEABLE</text>
+    <text x="265" y="639" text-anchor="middle" class="sans navy" font-size="21" font-weight="900">MODEL SLOT A</text>
+    <rect x="92" y="681" width="168" height="80" rx="14" class="soft"/><rect x="270" y="681" width="168" height="80" rx="14" class="soft"/>
+    <text x="176" y="709" text-anchor="middle" class="sans label navy">IDENTITY + RULES</text><text x="176" y="733" text-anchor="middle" class="sans" font-size="11" fill="#627583">mission • authority</text><text x="176" y="749" text-anchor="middle" class="sans" font-size="11" fill="#627583">freshness</text>
+    <text x="354" y="709" text-anchor="middle" class="sans label navy">SKILLS + TOOLS</text><text x="354" y="733" text-anchor="middle" class="sans" font-size="11" fill="#627583">analysis • sources</text><text x="354" y="749" text-anchor="middle" class="sans" font-size="11" fill="#627583">monitoring</text>
+    <rect x="92" y="779" width="346" height="78" rx="14" class="soft"/>
+    <text x="265" y="807" text-anchor="middle" class="sans label navy">MEMORY ≠ KNOWLEDGE</text><text x="265" y="833" text-anchor="middle" class="sans tiny muted">compact handover | long-term archive by retrieval</text>
+    <rect x="92" y="875" width="346" height="92" rx="14" class="owner"/>
+    <text x="265" y="903" text-anchor="middle" class="sans label orangeText">OWNER-ONLY CONTEXT</text>
+    <text x="265" y="930" text-anchor="middle" class="sans tiny muted">tasks • workspace • raw_data • artifacts • logs</text>
+    <text x="265" y="953" text-anchor="middle" class="sans tiny muted">reviewed reports / outputs remain with this owner</text>
+  </g>
+
+  <g id="agent2" filter="url(#shadow)">
+    <rect x="490" y="505" width="390" height="485" rx="25" class="card"/>
+    <rect x="490" y="505" width="390" height="54" rx="25" fill="#315d73"/><path d="M490 535V559H880V535" fill="#315d73"/>
+    <text x="685" y="540" text-anchor="middle" class="sans white" font-size="20" font-weight="820">RESEARCH-AGENT</text>
+    <rect x="522" y="582" width="326" height="76" rx="18" fill="url(#orange)"/>
+    <text x="685" y="609" text-anchor="middle" class="sans orangeText tiny" font-weight="800">ACTIVE EMPLOYEE MODEL • REPLACEABLE</text><text x="685" y="639" text-anchor="middle" class="sans navy" font-size="21" font-weight="900">MODEL SLOT B</text>
+    <rect x="512" y="681" width="168" height="80" rx="14" class="soft"/><rect x="690" y="681" width="168" height="80" rx="14" class="soft"/>
+    <text x="596" y="709" text-anchor="middle" class="sans label navy">IDENTITY + RULES</text><text x="596" y="733" text-anchor="middle" class="sans" font-size="11" fill="#627583">questions • evidence</text><text x="596" y="749" text-anchor="middle" class="sans" font-size="11" fill="#627583">uncertainty</text>
+    <text x="774" y="709" text-anchor="middle" class="sans label navy">SKILLS + TOOLS</text><text x="774" y="733" text-anchor="middle" class="sans" font-size="11" fill="#627583">search • data</text><text x="774" y="749" text-anchor="middle" class="sans" font-size="11" fill="#627583">claim ledgers</text>
+    <rect x="512" y="779" width="346" height="78" rx="14" class="soft"/>
+    <text x="685" y="807" text-anchor="middle" class="sans label navy">MEMORY ≠ KNOWLEDGE</text><text x="685" y="833" text-anchor="middle" class="sans tiny muted">recovery pointer | literature and method library</text>
+    <rect x="512" y="875" width="346" height="92" rx="14" class="owner"/>
+    <text x="685" y="903" text-anchor="middle" class="sans label orangeText">OWNER-ONLY CONTEXT</text><text x="685" y="930" text-anchor="middle" class="sans tiny muted">tasks • workspace • raw_data • artifacts • logs</text><text x="685" y="953" text-anchor="middle" class="sans tiny muted">evidence packages / outputs remain with this owner</text>
+  </g>
+
+  <g id="agent3" filter="url(#shadow)">
+    <rect x="910" y="505" width="390" height="485" rx="25" class="card"/>
+    <rect x="910" y="505" width="390" height="54" rx="25" fill="#315d73"/><path d="M910 535V559H1300V535" fill="#315d73"/>
+    <text x="1105" y="540" text-anchor="middle" class="sans white" font-size="19" font-weight="820">APPLICATION OPERATIONS-AGENT</text>
+    <rect x="942" y="582" width="326" height="76" rx="18" fill="url(#orange)"/>
+    <text x="1105" y="609" text-anchor="middle" class="sans orangeText tiny" font-weight="800">ACTIVE EMPLOYEE MODEL • REPLACEABLE</text><text x="1105" y="639" text-anchor="middle" class="sans navy" font-size="21" font-weight="900">MODEL SLOT C</text>
+    <rect x="932" y="681" width="168" height="80" rx="14" class="soft"/><rect x="1110" y="681" width="168" height="80" rx="14" class="soft"/>
+    <text x="1016" y="709" text-anchor="middle" class="sans label navy">IDENTITY + RULES</text><text x="1016" y="733" text-anchor="middle" class="sans" font-size="11" fill="#627583">case scope • claims</text><text x="1016" y="749" text-anchor="middle" class="sans" font-size="11" fill="#627583">approvals</text>
+    <text x="1194" y="709" text-anchor="middle" class="sans label navy">SKILLS + TOOLS</text><text x="1194" y="733" text-anchor="middle" class="sans" font-size="11" fill="#627583">requirements • forms</text><text x="1194" y="749" text-anchor="middle" class="sans" font-size="11" fill="#627583">tracking</text>
+    <rect x="932" y="779" width="346" height="78" rx="14" class="soft"/>
+    <text x="1105" y="807" text-anchor="middle" class="sans label navy">MEMORY ≠ KNOWLEDGE</text><text x="1105" y="833" text-anchor="middle" class="sans tiny muted">case recovery | stable requirements library</text>
+    <rect x="932" y="875" width="346" height="92" rx="14" class="owner"/>
+    <text x="1105" y="903" text-anchor="middle" class="sans label orangeText">OWNER-ONLY CONTEXT</text><text x="1105" y="930" text-anchor="middle" class="sans tiny muted">tasks • workspace • raw_data • artifacts • logs</text><text x="1105" y="953" text-anchor="middle" class="sans tiny muted">reviewed packages / outputs remain with this owner</text>
+  </g>
+
+  <g id="agent4" filter="url(#shadow)">
+    <rect x="1330" y="505" width="390" height="485" rx="25" class="card"/>
+    <rect x="1330" y="505" width="390" height="54" rx="25" fill="#315d73"/><path d="M1330 535V559H1720V535" fill="#315d73"/>
+    <text x="1525" y="540" text-anchor="middle" class="sans white" font-size="20" font-weight="820">REPORT &amp; DESIGN-AGENT</text>
+    <rect x="1362" y="582" width="326" height="76" rx="18" fill="url(#orange)"/>
+    <text x="1525" y="609" text-anchor="middle" class="sans orangeText tiny" font-weight="800">ACTIVE EMPLOYEE MODEL • REPLACEABLE</text><text x="1525" y="639" text-anchor="middle" class="sans navy" font-size="21" font-weight="900">MODEL SLOT D</text>
+    <rect x="1352" y="681" width="168" height="80" rx="14" class="soft"/><rect x="1530" y="681" width="168" height="80" rx="14" class="soft"/>
+    <text x="1436" y="709" text-anchor="middle" class="sans label navy">IDENTITY + RULES</text><text x="1436" y="733" text-anchor="middle" class="sans" font-size="11" fill="#627583">audience • claims</text><text x="1436" y="749" text-anchor="middle" class="sans" font-size="11" fill="#627583">release checks</text>
+    <text x="1614" y="709" text-anchor="middle" class="sans label navy">SKILLS + TOOLS</text><text x="1614" y="733" text-anchor="middle" class="sans" font-size="11" fill="#627583">layout • rendering</text><text x="1614" y="749" text-anchor="middle" class="sans" font-size="11" fill="#627583">visual QA</text>
+    <rect x="1352" y="779" width="346" height="78" rx="14" class="soft"/>
+    <text x="1525" y="807" text-anchor="middle" class="sans label navy">MEMORY ≠ KNOWLEDGE</text><text x="1525" y="833" text-anchor="middle" class="sans tiny muted">delivery handover | style and template library</text>
+    <rect x="1352" y="875" width="346" height="92" rx="14" class="owner"/>
+    <text x="1525" y="903" text-anchor="middle" class="sans label orangeText">OWNER-ONLY CONTEXT</text><text x="1525" y="930" text-anchor="middle" class="sans tiny muted">tasks • workspace • source package • artifacts • logs</text><text x="1525" y="953" text-anchor="middle" class="sans tiny muted">rendered deliverables / outputs remain with this owner</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="170" y="1023" width="1460" height="102" rx="23" fill="#f2ecfa" stroke="#8a6aad" stroke-width="2"/>
+    <text x="900" y="1055" text-anchor="middle" class="sans" fill="#5d477c" font-size="21" font-weight="850">SHARED METHODS LIBRARY — BORROW CAPABILITIES, NOT PRIVATE CONTEXT</text>
+    <text x="900" y="1083" text-anchor="middle" class="sans" fill="#6f5a89" font-size="16">reviewed skills • schemas • validators • templates • source strategies • rendering scripts</text>
+    <text x="900" y="1108" text-anchor="middle" class="sans" fill="#9a5b39" font-size="14" font-weight="750">Never copy raw data, private memory, task state, credentials, or owner-only outputs across agents by default.</text>
+  </g>
+  <path d="M265 990V1023" class="method"/><path d="M685 990V1023" class="method"/><path d="M1105 990V1023" class="method"/><path d="M1525 990V1023" class="method"/>
+
+  <g filter="url(#shadow)">
+    <rect x="120" y="1150" width="1560" height="82" rx="22" fill="#203c55"/>
+    <text x="900" y="1178" text-anchor="middle" class="sans white" font-size="17" font-weight="820">EXECUTION FLOW</text>
+    <text x="900" y="1208" text-anchor="middle" class="sans white" font-size="16">request → route → task contract → named context → tools → receipts → completion gate → reviewed output → human approval if external</text>
+  </g>
+
+  <line x1="180" y1="1272" x2="240" y2="1272" class="control"/><text x="255" y="1278" class="sans tiny muted">control / task flow</text>
+  <line x1="500" y1="1272" x2="560" y2="1272" stroke="#8a6aad" stroke-width="2.5" stroke-dasharray="8 6"/><text x="575" y="1278" class="sans tiny muted">reviewed method borrowing</text>
+  <rect x="865" y="1258" width="72" height="26" rx="8" class="owner"/><text x="952" y="1278" class="sans tiny muted">owner-only private context</text>
+  <rect x="1245" y="1258" width="72" height="26" rx="8" fill="url(#orange)"/><text x="1332" y="1278" class="sans tiny muted">active replaceable model slot</text>
+  <text x="900" y="1301" text-anchor="middle" class="sans tiny" fill="#6b7b85">All names and folders are functional examples. No private source data, identities, credentials, or task contents are represented.</text>
+</svg>

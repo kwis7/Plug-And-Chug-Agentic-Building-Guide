@@ -1,116 +1,44 @@
-# 15-Minute Quickstart
+# Quick Start
 
-This quickstart assumes you are not technical.
+## 1. Let the Skill interview you
 
-## Step 1: Choose A Place
-
-Pick a stable local folder. Good examples:
+Install the skill in the location documented for your runtime, then use:
 
 ```text
-Desktop/My Agentic Control Center
-Documents/My AI Agents
+Use $portable-agentic-system with pas-start. Explain the company metaphor, ask me the staged questionnaire one section at a time, recommend the smallest useful harness, and show me the tree, runtime status, privacy boundaries, task gate, budgets, and lock policy before writing files.
 ```
 
-Avoid temporary download folders.
+## 2. Edit the starter config
 
-## Step 2: Install The Skill
+Copy `skills/portable-agentic-system/pas/examples/starter-config.json` to a private working location. Start with two or three recurring domains. Every agent config needs a behavioral `routing_description`, exclusions, at least two positive prompts, and at least two negative prompts. A new agent needs a durable mission, privacy boundary, source base, authority, or output lifecycle; otherwise add a task or skill instead.
 
-For Codex:
-
-```bash
-mkdir -p ~/.codex/skills
-ln -s /path/to/Plug-And-Chug-Agentic-Building-Guide/skills/portable-agentic-system ~/.codex/skills/portable-agentic-system
-```
-
-Then restart Codex.
-
-## Step 3: Ask The Skill To Guide You
-
-Use:
-
-```text
-Use $portable-agentic-system with pas-start.
-```
-
-The skill should ask what areas of life or work need recurring AI help.
-
-## Step 4: Start With Two Agents
-
-A safe starter system:
-
-| Agent | Purpose |
-|---|---|
-| Research Assistant | Reading, notes, citations, writing |
-| Life Admin | Forms, household tasks, reminders |
-
-Add more after one real week of use.
-
-## Step 5: Generate The Folder
-
-If using the included script:
+## 3. Dry-run and generate
 
 ```bash
 python3 skills/portable-agentic-system/scripts/create_agentic_system.py \
-  --root "$HOME/Desktop/My Agentic Control Center" \
-  --config skills/portable-agentic-system/pas/examples/starter-config.json
+  --root "/path/to/My Agent Harness" \
+  --config /path/to/my-config.json \
+  --dry-run
+
+python3 skills/portable-agentic-system/scripts/create_agentic_system.py \
+  --root "/path/to/My Agent Harness" \
+  --config /path/to/my-config.json
 ```
 
-## Step 6: Validate
+## 4. Validate static structure
 
 ```bash
-python3 skills/portable-agentic-system/scripts/validate_agentic_system.py \
-  "$HOME/Desktop/My Agentic Control Center"
-
-python3 skills/portable-agentic-system/scripts/harness_health_check.py \
-  "$HOME/Desktop/My Agentic Control Center"
+python3 skills/portable-agentic-system/scripts/validate_agentic_system.py "/path/to/My Agent Harness"
+python3 skills/portable-agentic-system/scripts/check_budgets.py "/path/to/My Agent Harness"
+python3 skills/portable-agentic-system/scripts/check_descriptions.py "/path/to/My Agent Harness"
+python3 skills/portable-agentic-system/scripts/generate_status.py "/path/to/My Agent Harness" --check
+python3 skills/portable-agentic-system/scripts/harness_health_check.py "/path/to/My Agent Harness"
 ```
 
-If the report says `"valid": true`, the structure is ready.
+## 5. Test the actual runtime
 
-## Step 7: Use It
+Read the matching file under `pas/adapters/`. Review and trust generated project hooks where the runtime requires it. Start a clean session in the generated fixture and ask it for the operating contract, active task, prohibited actions, and memory/knowledge distinction. Then exercise one invalid and one valid closeout. Save runtime version, command, date, output, and hook receipt. Static validation is not runtime or gate verification.
 
-Open the new folder in your AI tool and ask:
+## 6. Complete one real task
 
-```text
-Read AGENTS.md, tell me which agents exist, and help me choose where my next task belongs.
-```
-
-## Step 8: Close The Loop
-
-After each real task, ask the AI:
-
-```text
-Update the relevant task.yaml, refresh STATUS.md if needed, and add only compact recovery notes to MEMORY.md.
-```
-
-That writeback is what makes the system improve over time.
-
-## Step 9: Distill What Repeats
-
-When you notice that you keep reusing the same notes, prompts, templates, or corrections, ask:
-
-```text
-Use $portable-agentic-system with pas-distill to turn this material into reusable knowledge or a skill.
-```
-
-This is how the system becomes personal without turning into a drawer full of mystery prompts.
-
-## Step 10: Borrow Methods Carefully
-
-When one agent has a useful method that another agent needs, ask:
-
-```text
-Use $portable-agentic-system with pas-borrow.
-```
-
-The skill should help you borrow the checklist or workflow while keeping private data inside its original agent.
-
-## Step 11: Review After Real Use
-
-After a few weeks or one completed project, ask:
-
-```text
-Use $portable-agentic-system with pas-review.
-```
-
-This turns logs, stale tasks, repeated borrowing, and useful corrections into a small update queue.
+Use a task contract, named inputs, a scoped workspace, reviewed outputs, verification receipts, and the closeout gate. Regenerate `STATUS.md`; do not edit it manually. The generated system contains its own scripts under `.pas/bin/`, so future operation does not depend on this source repository remaining at the same path. Review after real use before adding more agents or skills.

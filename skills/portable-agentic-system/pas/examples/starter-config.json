@@ -8,6 +8,11 @@
       "slug": "research-assistant",
       "purpose": "Help with reading, note-taking, source tracking, and writing projects.",
       "audience": "research and learning work",
+      "routing_description": "Use when a request requires reading, source review, literature synthesis, research notes, evidence tracking, or research writing. Do not use for job applications, household administration, external sending, or unrelated creative production.",
+      "exclusions": ["job and application operations", "life administration", "external sending"],
+      "positive_examples": ["Review these papers and build a claim ledger.", "Turn my source notes into a cited research outline."],
+      "negative_examples": ["Track my passport renewal appointment.", "Submit this job application for me."],
+      "collision_examples": ["Turn a research report into a public slide deck."],
       "vault": true
     },
     {
@@ -15,6 +20,11 @@
       "slug": "life-admin",
       "purpose": "Help with recurring personal administration, household planning, forms, and follow-ups.",
       "audience": "daily life and family logistics",
+      "routing_description": "Use when a request concerns forms, appointments, household planning, document checklists, recurring personal administration, or follow-up tracking. Do not use for academic research, software engineering, investment analysis, or autonomous external submissions.",
+      "exclusions": ["academic research", "software engineering", "investment analysis", "autonomous submission"],
+      "positive_examples": ["Build a checklist for renewing these documents.", "Track the dates and missing items for this household task."],
+      "negative_examples": ["Synthesize these sociology papers.", "Debug this Python package."],
+      "collision_examples": ["Research the official requirements for a government form and prepare a checklist."],
       "vault": true
     }
   ]

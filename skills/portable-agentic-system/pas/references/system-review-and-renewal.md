@@ -47,7 +47,7 @@ Ask:
 | Finding | Destination |
 |---|---|
 | Active task with unclear next step | `task.yaml.next_action` |
-| Current-state mismatch | `STATUS.md` |
+| Current-state mismatch | Correct the owning task manifest, then regenerate `STATUS.md` |
 | Reusable method | `skills/` |
 | Repeated borrowed method | Local `skills/`/`knowledge/`, or root `cross-agent-skill-map.md` update |
 | Stable background, style preference, or concept | `knowledge/` |

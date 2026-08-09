@@ -61,4 +61,4 @@ A plain-language guide and installable skill for building a portable, local-firs
 
 ## First Release
 
-For a first public release, tag it as `v0.1.0` and state that the package is a scaffold and teaching guide, not a security product.
+For the rebuilt public release, use the version declared in `CITATION.cff` and `skills/portable-agentic-system/manifest.json` (currently `v2.1.0`). State that the package is a scaffold and teaching guide, not a security product, and publish only after the full static, runtime-evidence, privacy, PDF-render, and Git diff review.

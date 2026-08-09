@@ -16,7 +16,8 @@ The short answer: do not paste everything into memory. Distill first, then decid
 | Skill | Repeated procedure with inputs, steps, outputs, and verification | `skills/` |
 | Borrowed method | Another agent's checklist, source strategy, writing form, or QA logic | Use through `knowledge/cross-agent-skill-map.md`; distil locally if it repeats |
 | Task state | What is happening right now | `tasks/**/task.yaml` |
-| Subagent | Large, sensitive, or long-running project context | A dedicated agent folder |
+| Durable agent | Repeated work with its own mission, owner, privacy/authority boundary, source base, or output lifecycle | A dedicated agent folder |
+| Temporary subagent | One bounded workstream with independent context or review value | Runtime task/delegation, not a permanent folder by default |
 
 The boring table is the magic trick. It keeps useful material from becoming one enormous memory soup. Soup is nice at dinner, less nice as infrastructure.
 
@@ -62,7 +63,9 @@ Then sort the result:
 - borrowed method used repeatedly -> local `skills/` or `knowledge/`, with a short source note;
 - current task state -> `task.yaml`;
 - one-time scratch work -> `workspace/`;
-- large or sensitive project -> subagent.
+- durable ownership boundary -> dedicated agent;
+- one bounded parallel or independent workstream -> temporary subagent;
+- merely large source material -> indexed storage and retrieval, not a new agent by itself.
 
 ## Step 3: Build A Skill Only When There Is A Repeated Procedure
 
@@ -97,9 +100,14 @@ Good fusion makes a skill easier to invoke. Bad fusion makes it feel like a kitc
 
 ## Step 5: Write The Smallest Useful Skill
 
-Use this template:
+Use this minimal package shape. The YAML frontmatter is required for discovery; routing triggers and exclusions belong in the description because many runtimes inspect metadata before loading the body.
 
 ```markdown
+---
+name: source-review
+description: Review named sources and produce an evidence ledger. Use when claims require source comparison, contradiction tracking, or citation checks. Do not use for final visual layout, unsupported factual invention, or external publication.
+---
+
 # Skill Name
 
 ## Use When
@@ -132,10 +140,11 @@ The goal is not literary grandeur. The goal is that a future AI session can use 
 After creating or updating a skill:
 
 1. add it to the agent's `skills/README.md`;
-2. update `SYSTEM_MAP.md` if the skill is important across the whole system;
+2. update the owning skills index or cross-agent capability map when discovery requires it; do not put ordinary skill inventory into `SYSTEM_MAP.md` unless it changes stable ownership or routing;
 3. create a tiny test task in `workspace/` or `tasks/`;
 4. run the skill once on harmless sample material;
-5. check that the output goes to `outputs/` only after review.
+5. run positive, negative, and near-neighbour routing prompts;
+6. check that the output goes to `outputs/` only after review.
 
 ## Cross-Agent Borrowing And Distillation
 

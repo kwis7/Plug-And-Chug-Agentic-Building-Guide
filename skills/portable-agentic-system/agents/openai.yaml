@@ -1,7 +1,7 @@
 interface:
-  display_name: "Plug And Chug Agentic Empire"
-  short_description: "Build a portable personal agentic harness"
-  default_prompt: "Use $portable-agentic-system with pas-start to help me build a personal local-first agentic harness."
+  display_name: "Agent Harness Builder"
+  short_description: "Build and harden portable local agent systems"
+  default_prompt: "Use $portable-agentic-system to interview me, design the smallest useful agent harness, select real runtime adapters, and validate the generated system before calling it complete."
 
 policy:
   allow_implicit_invocation: true

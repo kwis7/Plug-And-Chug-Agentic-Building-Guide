@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run a lightweight health check for a personal agentic harness."""
+"""Report harness health without overstating runtime verification."""
 
 from __future__ import annotations
 
@@ -10,143 +10,91 @@ import sys
 from pathlib import Path
 
 import validate_agentic_system as validator
+from adapter_smoke import smoke as adapter_smoke
+from pas_common import ACTIVE_STATUSES, SUCCESS_STATUSES, discover_task_manifests, load_manifest
 
 
-SENSITIVE_TRACKED_PATTERNS = (
-    ".env",
-    "raw_data/",
-    "/raw_data/",
-    "private/",
-    "/private/",
-    ".pem",
-    ".key",
-    ".p12",
-    ".pfx",
-)
+SENSITIVE_SUFFIXES = {".pem", ".key", ".p12", ".pfx"}
 
 
-def git_tracked_files(root: Path) -> list[str]:
-    result = subprocess.run(
-        ["git", "-C", str(root), "ls-files"],
-        text=True,
-        capture_output=True,
-        check=False,
-    )
+def sensitive_tracked_path(value: str) -> bool:
+    """Flag likely private payloads without rejecting public-safe metadata files."""
+
+    path = Path(value.replace("\\", "/"))
+    lowered_parts = [part.lower() for part in path.parts]
+    name = path.name.lower()
+    if name == ".env" or name.startswith(".env.") or path.suffix.lower() in SENSITIVE_SUFFIXES:
+        return True
+    if "private" in lowered_parts:
+        return True
+    if "raw_data" in lowered_parts and name not in {"readme.md", "manifest.json", ".gitkeep"}:
+        return True
+    return False
+
+
+def tracked_sensitive(root: Path) -> list[str]:
+    result = subprocess.run(["git", "-C", str(root), "ls-files"], text=True, capture_output=True, check=False)
     if result.returncode != 0:
         return []
-    return [line.strip() for line in result.stdout.splitlines() if line.strip()]
+    return [line for line in result.stdout.splitlines() if sensitive_tracked_path(line)]
 
 
-def sensitive_tracked_files(root: Path) -> list[str]:
-    tracked = git_tracked_files(root)
-    sensitive: list[str] = []
-    for rel_path in tracked:
-        normalized = rel_path.replace("\\", "/")
-        if any(pattern in normalized for pattern in SENSITIVE_TRACKED_PATTERNS):
-            sensitive.append(rel_path)
-    return sensitive
-
-
-def task_status_counts(root: Path) -> tuple[int, int, int]:
-    active = 0
-    missing_verification = 0
-    missing_next_action = 0
-    for task_path in validator.discover_task_manifests(root):
-        manifest = validator.parse_task_manifest(task_path)
-        status = str(manifest.get("status", "")).strip().lower()
-        if status in {"active", "waiting_review", "blocked", "in_progress"}:
-            active += 1
-        if not manifest.get("verification"):
-            missing_verification += 1
-        if not manifest.get("next_action"):
-            missing_next_action += 1
-    return active, missing_verification, missing_next_action
-
-
-def score_report(
-    validation: dict[str, object],
-    sensitive_files: list[str],
-    tasks_without_verification: int,
-    tasks_without_next_action: int,
-    has_cross_agent_map: bool,
-) -> int:
-    score = 100
-    score -= int(validation.get("error_count", 0)) * 12
-    score -= int(validation.get("warning_count", 0)) * 4
-    score -= len(sensitive_files) * 20
-    score -= tasks_without_verification * 10
-    score -= tasks_without_next_action * 8
-    if not has_cross_agent_map:
-        score -= 6
-    return max(0, min(100, score))
-
-
-def health_check(root: Path) -> dict[str, object]:
-    root = root.resolve()
+def health(root: Path) -> dict[str, object]:
     validation = validator.validate(root)
-    sensitive_files = sensitive_tracked_files(root)
-    active_tasks, tasks_without_verification, tasks_without_next_action = task_status_counts(root)
-    has_cross_agent_map = (root / "knowledge" / "cross-agent-skill-map.md").exists()
-    errors = list(validation.get("errors", []))
-    broken_references = len([error for error in errors if "missing" in error.lower() or "imports" in error.lower()])
-
-    report = {
+    sensitive = tracked_sensitive(root)
+    tasks = []
+    active = 0
+    terminal_without_receipts = 0
+    for path in discover_task_manifests(root):
+        task = load_manifest(path)
+        status = str(task.get("status") or "").lower()
+        active += status in ACTIVE_STATUSES
+        verification = task.get("verification") if isinstance(task.get("verification"), dict) else {}
+        if status in SUCCESS_STATUSES and not verification.get("receipts"):
+            terminal_without_receipts += 1
+        tasks.append({"id": task.get("id"), "status": status, "verification_state": task.get("verification_state")})
+    adapter_reports = [adapter_smoke(root, runtime) for runtime in ("codex", "claude-code", "gemini-cli")]
+    adapter_failures = [report["runtime"] for report in adapter_reports if not report["passed"]]
+    deductions = int(validation.get("error_count", 0)) * 12 + int(validation.get("warning_count", 0)) * 3
+    deductions += len(adapter_failures) * 12
+    deductions += len(sensitive) * 20 + terminal_without_receipts * 15
+    score = max(0, min(100, 100 - deductions))
+    return {
         "root": str(root),
-        "score": score_report(
-            validation,
-            sensitive_files,
-            tasks_without_verification,
-            tasks_without_next_action,
-            has_cross_agent_map,
-        ),
-        "valid": validation.get("valid", False) and not sensitive_files,
+        "score": score,
+        "static_valid": validation.get("valid", False) and not sensitive and not adapter_failures,
+        "runtime_verification": "not_run",
         "agent_count": validation.get("agent_count", 0),
-        "task_count": validation.get("task_count", 0),
-        "active_tasks": active_tasks,
-        "has_cross_agent_map": has_cross_agent_map,
-        "broken_references": broken_references,
-        "tasks_without_verification": tasks_without_verification,
-        "tasks_without_next_action": tasks_without_next_action,
-        "sensitive_files_tracked": len(sensitive_files),
-        "sensitive_files": sensitive_files,
+        "task_count": len(tasks),
+        "active_tasks": active,
+        "terminal_tasks_without_receipts": terminal_without_receipts,
+        "sensitive_files_tracked": sensitive,
+        "adapter_static_reports": adapter_reports,
+        "adapter_static_failures": adapter_failures,
         "errors": validation.get("errors", []),
         "warnings": validation.get("warnings", []),
+        "tasks": tasks,
+        "note": "A static score never proves native runtime loading, hook execution, external delivery, or deployment.",
     }
-    return report
-
-
-def print_text(report: dict[str, object]) -> None:
-    print(f"Harness health: {report['score']}/100")
-    print(f"{report['broken_references']} broken references")
-    print(f"{report['active_tasks']} active tasks")
-    print(f"cross-agent map: {'present' if report['has_cross_agent_map'] else 'missing'}")
-    print(f"{report['tasks_without_verification']} tasks without verification")
-    print(f"{report['sensitive_files_tracked']} sensitive files tracked by Git")
-    if report["errors"]:
-        print("\nErrors:")
-        for error in report["errors"]:
-            print(f"- {error}")
-    if report["warnings"]:
-        print("\nWarnings:")
-        for warning in report["warnings"]:
-            print(f"- {warning}")
-
-
-def parse_args(argv: list[str]) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Run a lightweight health check for a personal agentic harness.")
-    parser.add_argument("root", type=Path, help="System root to check")
-    parser.add_argument("--json", action="store_true", help="Print machine-readable JSON")
-    return parser.parse_args(argv)
 
 
 def main(argv: list[str] | None = None) -> int:
-    args = parse_args(argv or sys.argv[1:])
-    report = health_check(args.root)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("root", type=Path)
+    parser.add_argument("--json", action="store_true")
+    args = parser.parse_args(argv or sys.argv[1:])
+    report = health(args.root.resolve())
     if args.json:
         print(json.dumps(report, ensure_ascii=False, indent=2))
     else:
-        print_text(report)
-    return 0 if report["score"] >= 80 and not report["errors"] else 1
+        print(f"Static harness health: {report['score']}/100")
+        print(f"Runtime verification: {report['runtime_verification']}")
+        for error in report["errors"]:
+            print(f"ERROR: {error}")
+        for warning in report["warnings"]:
+            print(f"WARNING: {warning}")
+        print(report["note"])
+    return 0 if report["static_valid"] and report["score"] >= 80 else 1
 
 
 if __name__ == "__main__":

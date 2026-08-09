@@ -1,219 +1,96 @@
-# Plug And Chug Agentic Empire Workflow
+# Harness Builder Workflow
 
-Use this workflow for all `portable-agentic-system` modes.
+Use `Route -> Discover -> Contract -> Design -> Build -> Verify -> Persist`.
 
-## Operating Style
+## 1. Route
 
-Start from the user's actual life and work, not from tool names. A good first sentence is:
+- Decide whether the request is explanation, new build, audit, migration, runtime adaptation, skill design, or system renewal.
+- Identify the owning domain and whether the work belongs to a control center, domain agent, temporary task, or reusable skill.
+- Reject unnecessary agent proliferation.
 
-> We can build this like a set of labeled workrooms: one front desk, one room per recurring domain, a status board, a task card, a library for durable knowledge, and recipes for repeated tasks.
+## 2. Discover
 
-Then ask for the next needed decision. Do not ask for every detail at once.
+- For a new build, use the staged questionnaire.
+- For an existing system, inspect actual entrypoints, rules, maps, task files, skills, scripts, outputs, tests, runtime versions, and Git state.
+- Separate current official runtime facts from old notes and provider marketing.
+- Identify sensitive data and external-action boundaries before loading sources.
 
-## Mode Selection
+## 3. Contract
 
-| Mode | Choose when | Main output |
-|---|---|---|
-| `pas-start` | User wants a new system | Intake, agent matrix, scaffold, validation |
-| `pas-audit` | User has an existing folder or messy setup | Diagnosis and cleanup plan |
-| `pas-add-agent` | User wants one more domain or project agent | Agent spec and files |
-| `pas-create-skill` | User repeats a workflow | Skill placement and template |
-| `pas-distill` | User wants to turn notes, prompts, templates, or habits into reusable knowledge or skills | Distilled knowledge, skill draft, or fusion plan |
-| `pas-borrow` | User wants one agent to use another agent's method without mixing data | Borrowing plan, source note, boundary check |
-| `pas-review` | User has used the system for a while and wants to review logs, task state, memory, skills, and structure | System review report and renewal queue |
-| `pas-adapt` | User wants to use another AI tool | Adapter instructions |
-| `pas-explain` | User wants to teach or explain the system | Plain-language explanation |
+Record objective, included/excluded scope, owner, inputs, allowed reads/writes/tools, prohibited actions, outputs, completion criteria, failure conditions, verification, resources, and handoff.
 
-## `pas-start`: Build A New System
+Use a task manifest for multi-step, multi-file, cross-session, high-risk, or formally delivered work. Skip it for a truly trivial explanation or edit.
 
-1. Explain the model in plain language.
-2. Ask where the system should live. If the user is unsure, suggest a desktop folder named `My Agentic Control Center`.
-3. Ask for 2-5 recurring domains. Use `pas/references/intake-questions.md`.
-4. Convert domains into an agent matrix:
+## 4. Design
 
-   | Agent | Purpose | Private raw data? | First skill candidate | Vault? |
-   |---|---|---|---|---|
+- Draw the harness boundary around all configured architecture.
+- Single out the active replaceable model.
+- Create new domain agents only for durable ownership boundaries.
+- Separate runtime from provider and switchboard.
+- Define memory, knowledge, workspace, raw data, artifacts, logs, outputs, and archive.
+- Set budgets and consolidation rules.
+- Define completion gate and verification receipts.
+- Define one-writer, lock, and worktree rules.
+- Draft skill/subagent descriptions and routing evaluations.
 
-5. Ask the user to confirm the matrix.
-6. Create a JSON config matching `pas/examples/starter-config.json`.
-7. If the user wants files created, run `scripts/create_agentic_system.py`.
-8. Run `scripts/validate_agentic_system.py`.
-9. Run `scripts/harness_health_check.py`.
-10. Explain how to start the next session:
-   - open the root folder;
-   - let the AI read `AGENTS.md` or `CLAUDE.md`;
-   - ask for the relevant domain agent;
-   - close the loop by updating the task manifest, status snapshot, and compact recovery notes.
+Present the proposed tree, adapter status, and authority boundaries before writing an existing user system.
 
-## `pas-audit`: Review Existing Setup
+## 5. Build
 
-1. Ask for the folder path or inspect the current workspace if already provided.
-2. Map files into categories:
-   - identity;
-   - rules;
-   - memory;
-   - knowledge;
-   - skills;
-   - system map;
-   - status;
-   - task manifests;
-   - workspace;
-   - outputs;
-   - vault;
-   - raw data;
-   - adapters.
-3. Flag risks:
-   - mixed private data and public instructions;
-   - too many overlapping agents;
-   - no current workspace file;
-   - no single `SYSTEM_MAP.md`;
-   - no single `STATUS.md`;
-   - active work without `task.yaml`;
-   - outputs mixed with raw data;
-   - rules hidden inside skills;
-   - no operation log;
-   - raw data pasted into memory.
-4. If files exist, run `scripts/validate_agentic_system.py` and `scripts/harness_health_check.py`.
-5. Return a cleanup plan with concrete file moves.
-6. Do not move files unless the user asks for execution.
+- Generate from canonical templates.
+- Preserve existing files unless overwrite is explicitly approved.
+- Use native runtime entrypoints and valid bridge syntax.
+- Generate status from task manifests.
+- Keep memory compact and long details in knowledge or archive files.
+- Put runtime-specific deltas in runtime-specific files.
 
-## `pas-add-agent`: Add One Agent
+## 6. Verify
 
-1. Ask what recurring domain or project needs its own room.
-2. Decide whether this should be:
-   - a domain agent;
-   - a subagent under an existing agent;
-   - a skill inside an existing agent;
-   - a one-time workspace note.
-3. If an agent is warranted, create:
-   - `IDENTITY.md`;
-   - `RULES.md`;
-   - `MEMORY.md`;
-   - `knowledge/README.md`;
-   - `skills/README.md`;
-   - `raw_data/README.md`;
-   - `workspace/current.md`;
-   - `outputs/README.md`;
-   - `archive/README.md`;
-   - optional `vault/`.
-4. Update `SYSTEM_MAP.md` if working in an existing control center.
-5. Add or update a `task.yaml` if the new agent has active work.
+Run in increasing evidence order:
 
-## `pas-create-skill`: Build A Skill Matrix
+1. file/schema/path/privacy checks;
+2. budget checks;
+3. generated status check;
+4. static adapter smoke;
+5. fresh-session runtime smoke;
+6. invalid and valid completion-gate smoke;
+7. lock/worktree contention smoke;
+8. output rendering or behaviour checks;
+9. external delivery/readback only when authorised.
 
-1. Ask the user to describe the repeated workflow.
-2. Decide placement:
-   - always-on behaviour -> `RULES.md`;
-   - reusable procedure -> `skills/`;
-   - stable background -> `knowledge/`;
-   - current task state -> `tasks/**/task.yaml`;
-   - current system snapshot -> `STATUS.md`;
-   - external service -> adapter or connector.
-3. Choose skill level:
-   - Level 1: instruction checklist;
-   - Level 2: script-enhanced;
-   - Level 3: subagent-isolated.
-4. Use `pas/references/skill-matrix.md`.
-5. Create only the smallest useful skill.
+Label unrun levels explicitly.
 
-## `pas-distill`: Distill Knowledge And Fuse Skills
+## 7. Persist
 
-1. Ask what source material the user wants to reuse:
-   - old prompts;
-   - notes;
-   - PDFs or webpages;
-   - downloaded skills or templates;
-   - personal habits or repeated corrections.
-2. Ask which agent should own the result.
-3. Read `pas/references/skill-distillation-and-fusion.md`.
-4. Classify each reusable unit:
-   - stable knowledge -> `knowledge/`;
-   - always-on behaviour -> `RULES.md`;
-   - repeated procedure -> `skills/`;
-   - current task state -> `tasks/**/task.yaml`;
-   - one-time material -> `workspace/` or `archive/`;
-   - large or sensitive context -> subagent.
-5. If a skill is warranted, read `pas/references/skill-matrix.md` and draft the smallest useful skill.
-6. Decide whether to fuse with an existing skill or keep it separate.
-7. Keep source material in `raw_data/` or outside Git unless it is public and safe.
-8. End with a short report: what became knowledge, what became a skill, what stayed raw, what was rejected, and the first harmless test task.
+- Update task state and regenerate `STATUS.md`.
+- Store receipts outside the task body and link them.
+- Add only durable recovery pointers to `MEMORY.md`.
+- Distil stable background into `knowledge/`.
+- Promote repeated procedures into skills after validation.
+- Release or transfer locks and write a handoff.
 
-## `pas-borrow`: Borrow Methods Across Agents
+## Mode notes
 
-1. Ask which agent is active and what task it is doing.
-2. Read `pas/references/cross-agent-skill-borrowing.md`.
-3. In the user's system, read root `knowledge/cross-agent-skill-map.md` if it exists. If it does not exist, propose creating it from `pas/templates/control-center/knowledge/cross-agent-skill-map.md`.
-4. Decide whether the requested borrowing is:
-   - safe method borrowing;
-   - better handled by `pas-distill`;
-   - blocked because it would cross private data boundaries;
-   - a sign that the agent responsibilities need review.
-5. Read only the borrowed skill, knowledge note, checklist, or adapter file needed for the method.
-6. Keep all private/raw data inside its owning agent. Do not copy another agent's `MEMORY.md`, private `workspace/`, raw data, or task state into the active agent.
-7. Write a small source note under the active agent's task folder or `workspace/source-map.md`.
-8. End with:
-   - borrowed method;
-   - data boundary respected;
-   - files written;
-   - whether to distill a local skill later.
+### `pas-start`
 
-## `pas-review`: Review And Renew The System
+Explain the company metaphor, ask the staged questionnaire, design the smallest system, request location approval, scaffold, and verify.
 
-1. Ask for the review window:
-   - since the last review;
-   - the last one to four weeks;
-   - one completed project;
-   - all current active tasks.
-2. Read `pas/references/system-review-and-renewal.md`.
-3. If the system exists on disk, run `scripts/harness_health_check.py` and include the score.
-4. Inspect only the relevant state files:
-   - `SYSTEM_MAP.md`;
-   - `STATUS.md`;
-   - `tasks/**/task.yaml`;
-   - root and relevant agent `MEMORY.md`;
-   - relevant `knowledge/README.md`, `skills/README.md`, `workspace/current.md`, and reviewed `outputs/`.
-5. Classify findings:
-   - stale active tasks;
-   - blocked tasks needing human review;
-   - completed tasks that should be archived;
-   - memory entries that belong in task manifests;
-   - repeated prompts or corrections that should become skills;
-   - stable facts or preferences that should become knowledge;
-   - rule or safety updates;
-   - repeated cross-agent borrowing that should become a local skill;
-   - missing or outdated entries in `knowledge/cross-agent-skill-map.md`;
-   - adapter/model usage patterns worth recording.
-6. Use `pas/templates/review-report.md` to produce a review report.
-7. Do not edit files by default. Mark proposed changes as `safe_to_apply`, `needs_human_review`, or `do_not_apply_yet`.
-8. If the user asks to apply changes, do a small batch:
-   - update `task.yaml` and `STATUS.md`;
-   - archive completed tasks;
-   - create or update one or two `knowledge/` or `skills/` files;
-   - add only a compact review note to `MEMORY.md`;
-   - rerun validation and health check.
+### `pas-audit`
 
-## `pas-adapt`: Use Another AI Tool
+Read actual files, reproduce failures, compare claims with native runtime semantics, and report static versus runtime verification separately. Do not repair unless authorised.
 
-1. Ask which tool the user wants: Codex, Claude Code, CC Switch, ChatGPT Project, Gemini CLI, direct API, OpenClaw, Hermes Agent, Xiaomi MiMo Claw / MiMo Code, DeepSeek, Qwen, MiniMax, Z.AI GLM, Xiaomi MiMo, Tencent Hunyuan, or another runtime.
-2. Read `pas/references/adapters.md`.
-3. Read the relevant file under `pas/adapters/`.
-4. If it is a tool runtime, explain workspace boundaries and confirmation rules before the first prompt.
-5. Explain the minimum install path and the first prompt to try.
+### `pas-adapt`
 
-## `pas-explain`: Teach The System
+Classify the product first. Read the compatibility manifest and one matching adapter. Generate a native bridge only where official semantics support it.
 
-1. Use the household or workroom metaphor from `pas/references/mental-model.md`.
-2. Explain only five terms first: control center, agent, memory, knowledge, skill.
-3. Use examples from ordinary life before research or programming examples.
-4. End with a simple test: "What should happen when a task ends?" Expected answer: task state is updated, reviewed deliverables go to `outputs/`, durable learning goes to `knowledge/` or reviewed vault notes, and only compact recovery notes go to `MEMORY.md`.
+### `pas-create-skill`
 
-## Done Criteria
+Define repeated job, triggers, exclusions, inputs, outputs, tools, permission boundary, and positive/negative/collision evaluations. Keep `SKILL.md` concise and move long details to references.
 
-A setup pass is done only when one of these is true:
+### `pas-review`
 
-- files were created and validator plus health check output have no blocking errors;
-- a concrete scaffold plan is ready and the user chose not to execute yet;
-- an audit produced a prioritized cleanup plan;
-- a distillation pass produced routed knowledge, a skill draft, or a clear rejection/fusion plan;
-- a review pass produced a system review report, renewal queue, or applied and verified small-batch updates;
-- an adapter path was given with a first invocation prompt.
+Review tasks, generated status, receipts, memory size, knowledge candidates, skill reuse, logs, outputs, stale locks, runtime evidence, and archived material. Fix root causes in one authority rather than adding duplicate rules.
+
+### `pas-explain`
+
+Use the company metaphor. State explicitly that all configuration belongs to the harness and the model is the active replaceable employee. Call only the central coordinator a manager in a multi-agent system.

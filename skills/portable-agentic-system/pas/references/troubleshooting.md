@@ -4,10 +4,10 @@
 
 Check:
 
-- Did it read `AGENTS.md` or `CLAUDE.md`?
-- Does that entry file import `IDENTITY.md`, `RULES.md`, `SYSTEM_MAP.md`, `STATUS.md`, and `MEMORY.md`?
+- Did the selected runtime load its real entrypoint: `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, or the product's documented equivalent?
+- Does that entrypoint define a minimal loading order and point to `IDENTITY.md`, `RULES.md`, `SYSTEM_MAP.md`, generated `STATUS.md`, and compact `MEMORY.md` without inventing unsupported import syntax?
 - Is current task state in `tasks/**/task.yaml`?
-- Did the previous session write back task state and status?
+- Did the previous session update the task manifest and regenerate status?
 
 ## "Everything is mixed together"
 
