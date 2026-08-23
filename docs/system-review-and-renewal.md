@@ -44,6 +44,14 @@ If the system exists on disk, run:
 python3 skills/portable-agentic-system/scripts/harness_health_check.py /path/to/system
 ```
 
+For a lightweight domain Agent that deliberately inherits its rules and shared skill map from a parent control center, use:
+
+```bash
+python3 skills/portable-agentic-system/scripts/harness_health_check.py /path/to/agent --inherit-root /path/to/control-center
+```
+
+This checks the leaf Agent without requiring duplicate copies of the parent control-center files.
+
 The health check catches mechanical issues. The review catches meaning.
 
 ## The Review Loop

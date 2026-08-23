@@ -98,6 +98,20 @@ class ScaffoldTests(unittest.TestCase):
         self.assertEqual(health_report["runtime_verification"], "not_run")
         self.assertIn("never proves", health_report["note"])
 
+    def test_health_accepts_inherited_control_center(self):
+        self.create()
+        leaf = self.root / "leaf-agent"
+        (leaf / "workspace").mkdir(parents=True)
+        (leaf / "AGENTS.md").write_text("# Leaf Agent\n", encoding="utf-8")
+        (leaf / "CLAUDE.md").write_text("@AGENTS.md\n", encoding="utf-8")
+        (leaf / "workspace" / "current.md").write_text("# Current\n", encoding="utf-8")
+
+        health = self.run_cmd(HEALTH, leaf, "--inherit-root", self.root, "--json")
+        self.assertEqual(health.returncode, 0, health.stderr + health.stdout)
+        report = json.loads(health.stdout)
+        self.assertTrue(report["static_valid"], report)
+        self.assertEqual(report["inherited_root"], str(self.root.resolve()))
+
     def test_false_import_fixture_fails(self):
         self.create()
         path = self.root / "AGENTS.md"

@@ -363,6 +363,8 @@ python3 scripts/adapter_smoke.py /path/to/system --runtime claude-code
 python3 scripts/adapter_smoke.py /path/to/system --runtime gemini-cli
 ```
 
+For a lightweight domain Agent that inherits shared files from a parent control center, append `--inherit-root /path/to/control-center` to the health-check command.
+
 For a terminal task:
 
 ```bash

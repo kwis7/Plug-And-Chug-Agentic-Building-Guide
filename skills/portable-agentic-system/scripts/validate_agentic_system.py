@@ -74,6 +74,21 @@ AGENT_FILES = [
     "outputs/manifest.json",
     "archive/README.md",
 ]
+LEGACY_AGENT_FILES = [
+    "AGENTS.md",
+    "CLAUDE.md",
+    "IDENTITY.md",
+    "RULES.md",
+    "MEMORY.md",
+    "workspace/current.md",
+]
+PROJECT_AGENT_FILES = [
+    "AGENTS.md",
+    "CLAUDE.md",
+    "README.md",
+    "STATUS.md",
+    "workspace/current.md",
+]
 SECRET_RE = re.compile(r"(api[_-]?key|secret[_-]?key|access[_-]?token|private[_-]?key|password)\s*[:=]", re.I)
 ACTIVE_IMPORT_RE = re.compile(r"^\s*@import\s+", re.M)
 
@@ -165,7 +180,25 @@ def scan_secrets(root: Path, errors: list[str]) -> None:
             errors.append(f"secret-like assignment found in {path.relative_to(root)}")
 
 
-def validate(root: Path) -> dict[str, object]:
+def agent_mode(root: Path, agent: Path) -> str:
+    """Return the optional mode declared for an Agent in SYSTEM_MAP.md."""
+
+    source = root / "SYSTEM_MAP.md"
+    if not source.exists():
+        return "standard"
+    for line in read_text(source).splitlines():
+        if not line.startswith("|") or "---" in line:
+            continue
+        cells = [cell.strip() for cell in line.strip("|").split("|")]
+        if len(cells) < 5 or cells[0].lower() == "agent":
+            continue
+        candidate = cells[1].strip("` ").rstrip("/")
+        if candidate == agent.name:
+            return cells[4].lower() or "standard"
+    return "standard"
+
+
+def validate(root: Path, inherited_root: Path | None = None) -> dict[str, object]:
     root = root.resolve()
     errors: list[str] = []
     warnings: list[str] = []
@@ -179,7 +212,11 @@ def validate(root: Path) -> dict[str, object]:
     if not agents:
         errors.append("No domain agent folders found")
     for agent in agents:
-        check_required(agent, AGENT_FILES, agent.name, errors)
+        mode = agent_mode(root, agent)
+        if mode == "placeholder":
+            continue
+        required = PROJECT_AGENT_FILES if mode == "project" else LEGACY_AGENT_FILES if mode == "legacy" else AGENT_FILES
+        check_required(agent, required, agent.name, errors)
         check_entrypoints(agent, agent.name, errors)
         check_memory(agent / "MEMORY.md", 8 * 1024, 100, errors)
     tasks = validate_tasks(root, errors, warnings)
@@ -188,7 +225,8 @@ def validate(root: Path) -> dict[str, object]:
     description_report = check_descriptions(root)
     errors.extend(f"description/routing: {item}" for item in description_report["issues"])
     errors.extend(f"description collision: {item}" for item in description_report["collisions"])
-    adapter_reports = [adapter_smoke(root, runtime) for runtime in ("codex", "claude-code", "gemini-cli")]
+    adapter_root = inherited_root.resolve() if inherited_root else root
+    adapter_reports = [adapter_smoke(adapter_root, runtime) for runtime in ("codex", "claude-code", "gemini-cli")]
     for report in adapter_reports:
         failed_checks = [item["name"] for item in report["checks"] if not item["passed"]]
         if failed_checks:

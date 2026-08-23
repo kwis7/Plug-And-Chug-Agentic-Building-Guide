@@ -13,7 +13,7 @@ from typing import Any
 SUCCESS_STATUSES = {"complete", "completed"}
 UNSUCCESSFUL_TERMINAL_STATUSES = {"cancelled", "failed"}
 TERMINAL_STATUSES = SUCCESS_STATUSES | UNSUCCESSFUL_TERMINAL_STATUSES
-ACTIVE_STATUSES = {"active", "in_progress", "waiting_review", "blocked"}
+ACTIVE_STATUSES = {"active", "in_progress", "waiting_review", "waiting_user_input", "blocked"}
 TASK_REQUIRED_KEYS = {
     "schema_version",
     "id",
