@@ -16,7 +16,7 @@ Design and maintain an inspectable operating system around one or more replaceab
 - Treat **context** as the finite working surface assembled for the current turn, not as the whole filesystem.
 - Treat **memory** as a compact recovery handover and index.
 - Treat **knowledge** as the long-term archive or institutional library, loaded by retrieval only when relevant.
-- Treat a **skill** as a reusable department playbook or capability package, not a permanent persona.
+- Treat a **skill** as a reusable department playbook: its core is a `SKILL.md` document that becomes context when loaded, optionally accompanied by scripts and resources. Pinning makes it available for reuse; it does not keep its full text permanently active or change model weights.
 - Treat a **runtime** as the software that loads instructions, grants tools, runs hooks, and hosts the model.
 - Treat a **provider** as an inference backend. A provider does not automatically read local entrypoints or persist state.
 
@@ -39,7 +39,7 @@ This division keeps the trigger description precise, the operating instructions 
 | Mode | Trigger | Required references | Default result |
 |---|---|---|---|
 | `pas-explain` | Explain harness, model, memory, knowledge, skill, or context | `mental-model.md` | A clear explanation or system map |
-| `pas-start` | Build a personal system from zero | `intake-questions.md`, `filesystem-contract.md`, `privacy-boundaries.md` | Design Contract, preview tree, then scaffold |
+| `pas-start` | Build a personal system from zero | `friend-starter-prompt.md`, `facilitation-protocol.md`, `privacy-boundaries.md` | Agreed setup, checked first task, handoff and next-use card |
 | `pas-audit` | Review an existing agent system or repository | `filesystem-contract.md`, `description-routing-evals.md`, `system-review-and-renewal.md` | Evidence-backed findings and minimal patch plan |
 | `pas-adapt` | Add or repair runtime support | `adapters.md`, compatibility manifest, exactly one product adapter | Correct entrypoint/projection/gate plus evidence label |
 | `pas-add-agent` | Add a durable owner or a bounded temporary worker | `intake-questions.md`, `description-routing-evals.md`, `filesystem-contract.md` | Agent-vs-skill-vs-task decision, routing contract, then files |
@@ -50,6 +50,19 @@ This division keeps the trigger description precise, the operating instructions 
 | full handoff | Teach another agent to build the whole system | `master-build-playbook.md`, `facilitation-protocol.md` | Standalone guide and starter prompt |
 
 If several modes apply, sequence them. For example: audit first, adapt second, migrate only after the target contract is approved.
+
+For a narrow repair, such as a missing closeout receipt, inspect that task and its failed check first. Use only the relevant references; do not expand it into a whole-system audit.
+
+## Choose setup depth before applying toolkit requirements
+
+For a new personal system, recommend one route based on the user's work:
+
+- **Teaching workspace:** the default for a beginner with one recurring task. Use a small runtime-appropriate instruction file, named working inputs, a saved result, a handoff, and a next-use card. Combine roles where useful; do not generate empty folders or introduce manifests, hooks, locks, or routing fixtures merely to satisfy the standard scaffold. Follow `facilitation-protocol.md`.
+- **Standard scaffold:** use when the user selects the toolkit or needs its task manifests, validators, generated status, completion gates, or concurrent-work controls. Also read `intake-questions.md` and `filesystem-contract.md`; apply the standard requirements below.
+
+The privacy, authority, context-loading and honest-reporting rules apply to both routes. File-role tables describe responsibilities, not a checklist of files every beginner must create. In the teaching route, check the saved result against its inputs, record a handoff and actual paths, and help the user try a fresh session. Record recovery as observed or not tested; never claim scaffold or gate validation for this route.
+
+An existing standard scaffold retains its task, gate and validation requirements. Do not relabel it as a teaching workspace to bypass a failed check. Upgrading a teaching workspace requires an agreed migration that preserves existing files and verifies the new mechanisms.
 
 ## Establish authority before inspecting or writing
 
@@ -137,7 +150,9 @@ Use the complete staged prompts in `pas/references/intake-questions.md` when mor
 
 ## Produce a Design Contract before writing
 
-Present a compact Design Contract containing:
+For a teaching workspace, show a brief proposal in ordinary language: the recurring job, exact folder and files, allowed inputs and actions, first useful result, and how you will check and resume it. Wait for agreement before creating the proposed files; carry forward existing answers and approval of that exact scope.
+
+For a standard scaffold, present a compact Design Contract containing:
 
 1. objective and non-goals;
 2. target root and privacy classification;
@@ -170,6 +185,8 @@ Prefer one agent with several skills over many overlapping agents. Split only wh
 
 ## Design descriptions before agent folders
 
+For a single teaching workspace, state its job and boundaries plainly. Apply the routing fixtures below when creating a standard scaffold or adding distinct agents or reusable Skills.
+
 Treat every agent, skill, and subagent description as executable routing infrastructure.
 
 For each agent description include:
@@ -190,7 +207,7 @@ Require at least:
 
 Reject promotional descriptions such as “helps with research”. Write behavioral descriptions such as “Use when a request requires evidence collection, source comparison, and uncertainty tracking; not for final visual packaging or external publication.”
 
-Read `pas/references/description-routing-evals.md`. Run `check_descriptions.py` after generation.
+For those routing changes, read `pas/references/description-routing-evals.md`. Run `check_descriptions.py` after standard-scaffold generation.
 
 ## Apply the filesystem contract
 
@@ -214,11 +231,11 @@ Use one purpose per durable location:
 | `outputs/` | Reviewed deliverables | load named output only |
 | `archive/` | Closed or superseded material | retrieval only |
 
-Read `pas/references/filesystem-contract.md` for ownership and movement rules.
+For the standard scaffold, read `pas/references/filesystem-contract.md` for its full ownership and movement rules. Consult it for a teaching workspace only when a specific file-role question needs that detail.
 
 ## Bound context and storage
 
-Use hard limits, not prose reminders:
+Keep both routes small and load named material only. The following enforced budgets and manifest requirements apply to the standard scaffold; a teaching workspace should not add infrastructure solely to run these checks:
 
 - root `AGENTS.md`: portable target at or below 24 KiB and 400 lines;
 - runtime delta files: at or below 4 KiB and 100 lines;
@@ -238,7 +255,9 @@ When a memory file reaches 80% of budget, compact it. Move stable background int
 
 ## Use task contracts as the source of operational truth
 
-Create a task manifest for cross-session, multi-file, high-risk, concurrent, or formally deliverable work. Require:
+In a teaching workspace, keep current progress in one handoff file: objective, named inputs, completed work, result path, checks, unknowns and the next allowed step. A new conversation must be able to find and use that file.
+
+In a standard scaffold, create a task manifest for cross-session, multi-file, high-risk, concurrent, or formally deliverable work. Require:
 
 - unique task ID and owner root;
 - objective, scope, inputs, and outputs;
@@ -259,6 +278,8 @@ Successful completion requires declared outputs, satisfied criteria, `verificati
 
 ## Make completion gates mechanical
 
+This section applies to standard scaffolds. Teaching-workspace completion uses the saved-result and recovery checks above; it does not claim a mechanical gate.
+
 Do not rely on the user or model to remember status, memory, or handoff updates.
 
 1. Update the task manifest.
@@ -278,6 +299,8 @@ Do not require a memory edit on every task. Require memory only when a stable de
 
 Use a single writer for each authoritative path.
 
+The lock protocol below applies to standard scaffolds. Keep a teaching workspace to one writer; if concurrent writes become necessary, propose an explicit upgrade rather than silently adding or bypassing controls.
+
 - Declare resources in `task.yaml` before acquiring locks.
 - Acquire a lock with task ID, session ID, writer, worktree, mode, and TTL.
 - Renew the heartbeat during long work.
@@ -290,6 +313,8 @@ Use a single writer for each authoritative path.
 ## Classify adapters honestly
 
 Read `pas/compatibility/runtime-compatibility.json`, then exactly one relevant file in `pas/adapters/`.
+
+For a teaching workspace, use the adapter's relevant entrypoint and access guidance. Its descriptions of generated hooks and configurations do not require adding those standard-scaffold mechanisms.
 
 Keep these categories separate:
 
@@ -315,6 +340,10 @@ Never merge these labels into “works”.
 
 ## Build a new harness
 
+For a teaching workspace, use the approved small proposal and facilitator protocol, then complete the first-task and recovery checks. The generator does not have a minimal-profile option.
+
+For a standard scaffold, follow this procedure:
+
 Resolve the directory containing this `SKILL.md` as the skill root.
 
 1. Copy `pas/examples/starter-config.json` to a user-owned working file.
@@ -335,6 +364,8 @@ The generator refuses to overwrite existing files unless `--force` is explicitly
 
 ## Audit an existing harness
 
+Identify its route first. For a teaching workspace, check clear instructions, allowed inputs, file discoverability, the first result, handoff and observed recovery; missing standard-scaffold machinery is not itself a defect. For a standard scaffold, use the full audit below and retain every applicable gate.
+
 Inspect before recommending changes:
 
 1. enumerate first- and second-level structure without opening private payloads;
@@ -351,6 +382,8 @@ Inspect before recommending changes:
 Score architecture, entrypoints, routing, state, context, data lifecycle, enforcement, concurrency, security, and recoverability separately. Label unavailable evidence `partial`; do not fill gaps with model confidence.
 
 ## Run the built-in checks
+
+These commands validate the standard scaffold. They are not a prerequisite for starting a teaching workspace and cannot substitute for observing a real session.
 
 ```bash
 python3 scripts/validate_agentic_system.py /path/to/system
@@ -403,8 +436,9 @@ Save receipts outside compact memory. Put only a pointer and the stable conclusi
 - Treating knowledge and memory as synonyms.
 - One giant `MEMORY.md` containing logs, tasks, sources, and history.
 - Recursively loading `raw_data/`, `knowledge/`, `logs/`, or `archive/`.
-- Maintaining `STATUS.md` by hand.
-- Declaring completion without receipts or current generated status.
+- Maintaining a standard scaffold's generated `STATUS.md` by hand.
+- Declaring standard-scaffold completion without receipts or current generated status.
+- Claiming teaching-workspace recovery before a fresh session has actually found and used its files.
 - Copying one hook command across runtimes without protocol translation.
 - Claiming support from an adapter shell or configuration file alone.
 - Creating agents before writing routing descriptions and collision tests.

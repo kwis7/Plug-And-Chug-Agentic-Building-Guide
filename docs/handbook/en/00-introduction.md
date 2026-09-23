@@ -1,27 +1,35 @@
 # Build an AI workspace you can return to
 
-Good work with AI should be easy to pick up again. You may have produced a useful comparison, found a better way to review sources, or made an important decision halfway through a project. When the conversation ends, those things should remain understandable and available to you.
+You do not need to learn programming before using this guide. Begin with work you understand: reading, writing, studying, research, or a recurring task you would like help with. The aim is to build an AI working system that you understand and can use again tomorrow.
 
-This handbook shows how to give recurring work a durable home. We begin with a small task, save the evidence behind its result, and leave enough state for another session to continue. Reusable procedures, additional agents, and stronger controls enter the picture when there is a concrete reason for them.
+Good work should survive the end of a chat. Your sources, choices, useful methods, checked results and unfinished tasks need a home that the next session can find. Your existing AI app can help create that home and explain it as you go.
+
+## Start with your own assistant
+
+Open the [beginner guide](../../start-here.md) and give its starting prompt to the AI app you already use. It includes the repository link. The assistant begins with a few questions about your work, app and computer, then proposes a small setup suited to you. You review where it will create files before it performs the technical steps its tools allow.
+
+The first useful milestone is concrete: a local workspace, one checked result, a handoff, and a short card saying what to open and ask next time. Try that card in a new conversation. A proposed design, a created folder and a successful restart are different milestones; the assistant should show which ones actually happened.
+
+This book explains the choices along that route. If a term is unfamiliar, ask the assistant to explain it using your own task. Terminal commands are an optional implementation route, collected in the final reference chapter and the [quick start](../../../QUICKSTART.md).
 
 ## Keep the work, change the model
 
-The central idea is simple: the active model can change while the work remains yours. Your sources, decisions, procedures, task records, and reviewed results should live in forms you can inspect and carry elsewhere. A change of interface or provider may require adaptation, but it need not erase what you have learned.
+The active model can change while the work remains yours. Your sources, decisions, procedures, task records and reviewed results should live in forms you can inspect and carry elsewhere. A change of interface or provider may require adaptation, but it need not erase what you have learned.
 
-We call the configured environment around the model a **harness**. It includes the instructions it receives, the files and tools it can access, the state it writes, and the checks around its actions. Some of that environment is ordinary text. Some is software that grants access or rejects invalid actions. Those parts have different powers, which we will distinguish throughout the book.
+We call the configured environment around model execution a **harness**. It includes instructions, files, tools, task state and checks. Some parts are ordinary text; others are software that grants access or checks actions. We will distinguish them throughout the book.
 
-One company metaphor can help: a model is the worker currently doing the reasoning; the harness holds the working arrangements, records, tools, and procedures. You remain the owner. The metaphor stops there. A model has no enduring loyalty or automatic knowledge of every file. A folder name grants no privacy, and a written rule does not enforce itself. With one agent, there is no need to invent a management hierarchy.
+The company metaphor helps: a model is the worker currently doing the reasoning, while the harness holds the working arrangements, records and tools. You remain the owner. It is a way to explain roles, not a claim that a model has human loyalty, awareness or automatic access to every file.
 
-## Begin with one visible result
+## Learn through one example, then apply it to your work
 
-The first exercise compares three fictional venues using supplied notes. No account, booking, or live search is needed. You will produce a comparison with source links and a handoff that another session can use. That modest result demonstrates the same habits that support research, writing, learning, and software projects.
+Chapters 1–4 follow a small comparison of three fictional venues. The supplied notes let you see how to check a result, save it and recover the next step without introducing personal information. You may do this optional exercise, or use the same ideas with the task you chose during guided setup. You do not need a venue-comparison Agent to build a personal system.
 
-Chapters 1–4 follow the exercise. Chapters 5–8 explain when to introduce ownership boundaries, tool adaptation, stronger verification, and maintenance. The reference chapter connects those ideas to the repository's existing toolkit. You can stop after the first exercise and still have something useful.
+Chapters 5–8 explain when more roles, a different tool, stronger checks or maintenance become useful. The reference chapter connects those ideas to the standard toolkit. Each part should answer a practical question that arises as your work grows.
 
-The small learning workspace is intentionally not the full Portable Agentic System scaffold. The generator provides a more elaborate standard structure, with task manifests and checks. Choose it when those features solve problems you actually have.
+The teaching workspace is deliberately small. The standard generator offers a fuller structure with task manifests and local checks. Your assistant should explain which approach fits your needs; a smaller teaching workspace is not an undocumented generator option.
 
 ## Read evidence at its stated level
 
-The example data is synthetic. Repository commands and compatibility records describe the included implementation; they do not establish that a particular installed product has been tested on your machine. Instructions, static checks, fresh-session behavior, and external delivery need their own evidence.
+The example data is synthetic. Repository commands and compatibility records describe the included implementation; they do not certify an app installed on your computer. Instructions, static checks, fresh-session behavior and external delivery each need their own evidence.
 
-If the terms are new, start with [how an agent works](00-foundations.md): the company diagram, prompts, Skills, files, local ownership and personalization. Then try [one small task](01-first-task.md). Keep one question in mind as you read: what would make the next session easier to begin?
+Continue with [how an agent works](00-foundations.md) for the company diagram and core concepts. Keep your own task in mind while reading the example: what would make your next session easier to begin?

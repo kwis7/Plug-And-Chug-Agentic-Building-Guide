@@ -7,13 +7,16 @@ Useful contributions make the first task easier to finish or make an existing cl
 | Material | Edit here | Generated copies |
 |---|---|---|
 | English and Chinese handbook | `docs/handbook/en/`, `docs/handbook/zh-CN/` | Compiled online guides, packaged reading copies and PDFs |
+| Copyable beginner starting prompt | `skills/portable-agentic-system/pas/references/friend-starter-prompt.md` | Marked prompt blocks in both READMEs and both start pages |
 | Handbook order and edition | `docs/handbook/book.json` | Contents, metadata and source manifests |
 | Technical explanation | `docs/reference/` | Old `docs/*.md` URLs forward here |
 | Installable skill behavior | `skills/portable-agentic-system/` | Keep its local dependencies inside that package |
 | First learning exercise | `examples/first-project/` | Expected answers are fixtures, not user results |
 | Shared diagrams and fonts | `docs/assets/` | PDFs embed the needed assets |
 
-Do not edit a compiled guide or a PDF independently. The older `textbook-*.md` files in the skill are advanced implementation references; they no longer assemble the reader handbook. This distinction lets the skill retain detail without forcing beginners through the full implementation interview.
+The primary reader is a non-programmer building a personal local system with an existing AI app. Keep the journey consistent: copied prompt, a few questions, a concrete proposal, local setup, a checked first task, a fresh-session handoff and a next-use card. The fictional exercise is optional practice; direct toolkit commands are an optional technical route. Preserve homepage feature links when simplifying explanations.
+
+Edit the shared starting prompt once, then run `build_master_playbook.py` to synchronise its marked blocks. The surrounding homepage and start-page prose remains hand-authored. Do not edit a compiled guide or a PDF independently. The older `textbook-*.md` files in the skill are advanced implementation references; they no longer assemble the reader handbook. This distinction lets the skill retain detail without forcing beginners through the full implementation interview.
 
 ## Build the documents
 

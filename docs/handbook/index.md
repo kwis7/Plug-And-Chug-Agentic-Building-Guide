@@ -1,8 +1,8 @@
 # The handbook / 核心手册
 
-AI Agents, Explained: why build your own local agentic system when you already have Codex, Claude Code, or WorkBuddy? Begin with the company diagram and the concepts, then follow one small task. Each chapter is available in English and Chinese.
+AI Agents, Explained: why build your own local agentic system when you already have fancy apps like Codex, Claude Code, or WorkBuddy? Use the [beginner guide](../start-here.md) to build with your existing AI app. This book explains the concepts and methods along the way, using one optional worked example. No programming background is required.
 
-理解 AI Agent，搭建自己的工作系统：已经有 Codex、Claude Code 或 WorkBuddy，为什么还需要本地 Agent 系统？先借公司图讲清基本关系，再从一项小任务开始实践。中英文按同一条学习路线展开。
+理解 AI Agent，搭建自己的工作系统：已经有 Codex、Claude Code、WorkBuddy 这些好用的应用，为什么还需要自己的本地系统？先用[新手指南](../start-here.zh-CN.md)让已有的 AI 带着搭建；手册解释过程中用到的原理和方法，并用一个可选案例贯穿讲解。不需要编程基础。
 
 [English PDF](../downloads/Agentic-System-Building-Guide.pdf) · [中文 PDF](../downloads/Agentic-System-Building-Guide.zh-CN.pdf) · [Start here](../start-here.md) · [从这里开始](../start-here.zh-CN.md)
 

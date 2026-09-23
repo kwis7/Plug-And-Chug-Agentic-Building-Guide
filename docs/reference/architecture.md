@@ -1,5 +1,7 @@
 # Architecture
 
+This page describes the fuller standard scaffold. Begin with the [guided setup](../start-here.md) for a small personal workspace; add the structures below when the work needs them. A coordinator, task manifests and mechanical gates are not prerequisites for the teaching route.
+
 ## Harness boundary
 
 The harness is not one middle layer. It is the full configured environment around model execution:

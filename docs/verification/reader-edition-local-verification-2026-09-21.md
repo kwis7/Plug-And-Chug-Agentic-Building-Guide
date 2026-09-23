@@ -1,6 +1,6 @@
 # Reader edition: local verification — 2026-09-21
 
-> Historical draft: the files at the download paths have since been replaced. The page counts and hashes below describe the September 21 draft, not the current editions. See the [September 22 receipt](reader-edition-local-verification-2026-09-22.md) for current artifact verification.
+> Historical draft: the files at the download paths have since been replaced. The page counts and hashes below describe the September 21 draft, not the current editions. See the [current teaching-journey receipt](reader-journey-verification-2026-09-22.md) for current artifact verification.
 
 This is a local verification receipt for the unpublished reader-edition rebuild. It does not replace the historical runtime evidence or certify a hosted release.
 

@@ -1,5 +1,7 @@
 # 1. Finish one small task
 
+This chapter uses the optional fictional exercise to make the method visible. If you have already chosen your own task in the [beginner guide](../../start-here.md), use the same sequence—agree on the result, work from named inputs, check, save and leave a handoff—with that task.
+
 Suppose you are planning a workshop for 16 people after 18:00. Everyone must be able to enter without steps. Before anyone contacts a venue, you want a short comparison that distinguishes a suitable candidate from an unsuitable or uncertain one.
 
 The [first-project exercise](../../../examples/first-project/README.md) contains three synthetic source notes. They represent fictional venues, not real businesses or verified live information. The assignment is a source-comparison exercise; it grants no permission to book, send messages, or make payments.

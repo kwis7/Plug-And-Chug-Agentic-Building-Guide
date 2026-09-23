@@ -1,6 +1,8 @@
 # Staged Harness Questionnaire
 
-Ask one stage at a time. Summarise decisions and unresolved questions after each stage. Do not dump the whole questionnaire on a new user.
+This is a question bank for the standard scaffold and more involved designs. For a first personal workspace, begin with the [starting prompt](friend-starter-prompt.md) and [facilitator protocol](facilitation-protocol.md). Choose only questions that affect the current proposal; starting with one recurring job is enough.
+
+Ask no more than two or three related questions at a time. Carry forward existing answers, recommend a default, and explain the next useful decision. The sections below are reference categories, not a required interview sequence.
 
 ## A. Outcomes and recurring domains
 

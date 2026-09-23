@@ -1,5 +1,7 @@
 # Reader edition 3: local verification — 2026-09-22
 
+> Historical publication candidate: the downloads have since been revised. See the [teaching-journey receipt](reader-journey-verification-2026-09-22.md) for current artifact counts and hashes.
+
 This receipt records the reviewed publication candidate, including the agent foundations revision. It supersedes the [September 21 draft receipt](reader-edition-local-verification-2026-09-21.md). It records local checks; GitHub publication and Actions results are separate remote evidence.
 
 ## Scope

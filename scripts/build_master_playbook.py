@@ -57,8 +57,30 @@ def source_manifest():
     files = [BOOK] + [p for lang in settings()['languages'] for p in chapters(lang)] + image_sources()
     return {'edition': settings()['edition'], 'date': settings()['date'],
             'sources': {p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in files}}
-def generated_files():
+def onboarding_files():
+    """Synchronise the copyable prompt without owning the surrounding page prose."""
+    prompt = (SKILL / 'pas/references/friend-starter-prompt.md').read_text(encoding='utf-8')
     result = {}
+    for language, heading, targets in [
+        ('en', 'English', ['README.md', 'docs/start-here.md']),
+        ('zh-CN', '中文', ['README.zh-CN.md', 'docs/start-here.zh-CN.md']),
+    ]:
+        match = re.search(r'## ' + heading + r'\n\n```text\n(.*?)\n```', prompt, re.S)
+        if not match:
+            raise ValueError(f'Missing canonical starting prompt: {language}')
+        begin, end = f'<!-- STARTING_PROMPT:{language} -->', '<!-- /STARTING_PROMPT -->'
+        block = begin + '\n```text\n' + match[1] + '\n```\n' + end
+        for name in targets:
+            path = ROOT / name
+            text = path.read_text(encoding='utf-8')
+            pattern = re.escape(begin) + r'.*?' + re.escape(end)
+            if len(re.findall(pattern, text, re.S)) != 1:
+                raise ValueError(f'Expected one starting-prompt region in {name}')
+            result[path] = re.sub(pattern, lambda _: block, text, flags=re.S)
+    return result
+
+def generated_files():
+    result = onboarding_files()
     for language in settings()['languages']:
         for output in output_paths(language):
             result[output] = compile_book(language, output)

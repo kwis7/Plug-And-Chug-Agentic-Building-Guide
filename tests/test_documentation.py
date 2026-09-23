@@ -1,5 +1,7 @@
 """Documentation contract tests: source drift, links, exercise facts and export."""
 import json
+import re
+from urllib.parse import unquote
 import sys
 import tempfile
 import unittest
@@ -17,6 +19,37 @@ class DocumentationTests(unittest.TestCase):
 
     def test_document_links_resolve(self):
         self.assertEqual(check_docs.check_links(),[])
+
+    def test_homepages_preserve_functional_entrypoints(self):
+        # Reader-facing capabilities must remain discoverable during editorial changes.
+        required = {
+            'skills/portable-agentic-system/SKILL.md',
+            'skills/portable-agentic-system/pas/references/friend-starter-prompt.md',
+            'skills/portable-agentic-system/pas/references/intake-questions.md',
+            'skills/portable-agentic-system/pas/references/filesystem-contract.md',
+            'skills/portable-agentic-system/pas/references/master-build-playbook.md',
+            'skills/portable-agentic-system/scripts/create_agentic_system.py',
+            'docs/reference/task-lifecycle.md', 'docs/reference/compatibility.md',
+            'docs/downloads/Agentic-System-Building-Guide.pdf',
+        }
+        for language, name, suffix in [('en','README.md',''),('zh-CN','README.zh-CN.md','.zh-CN')]:
+            text=(ROOT/name).read_text(encoding='utf-8')
+            targets={target.partition('#')[0] for target in check_docs.LINK.findall(text)}
+            self.assertTrue(required.issubset(targets), f'{name}: missing {required-targets}')
+            for stem in ['harness-concept-map','anonymised-agent-system-map']:
+                self.assertIn(f'docs/assets/{stem}{suffix}.png',targets)
+                self.assertIn(f'docs/assets/{stem}{suffix}.svg',targets)
+            for target in check_docs.LINK.findall(text):
+                if target.startswith(('http:', 'https:', 'mailto:')) or '#' not in target:
+                    continue
+                path,_,fragment=target.partition('#')
+                destination=ROOT/path if path else ROOT/name
+                content=destination.read_text(encoding='utf-8')
+                anchors=set(re.findall(r'<a id="([^"]+)"',content))
+                for heading in re.findall(r'^#+ (.+)$',content,re.M):
+                    slug=re.sub(r'[^\w\s-]','',heading.lower()).replace(' ','-')
+                    anchors.add(slug)
+                self.assertIn(unquote(fragment),anchors,f'{name} -> {target}')
 
     def test_skill_markdown_is_self_contained(self):
         for path in book.SKILL.rglob('*.md'):

@@ -2,18 +2,20 @@
 
 [English](QUICKSTART.md) | [中文](QUICKSTART.zh-CN.md) · [首页](README.zh-CN.md)
 
-选一条路线即可。“跟着 AI 做学习案例”和“手动运行标准生成器”是两种入口，不需要依次完成。
+大多数读者可以先把仓库链接和起步提示词交给正在使用的 AI，让它带着选择并搭建自己的本地系统。下面的手动命令路线是可选项。
 
 | 路线 | 需要什么 | 得到什么 |
 |---|---|---|
-| [跟着 AI 完成第一个任务](docs/start-here.zh-CN.md) | 能读取所选本地文件的 AI 工具；保存结果还需要写入权限 | 一份资料比较和可以接着做的交接说明 |
+| [让 AI 带着搭建](docs/start-here.zh-CN.md) | 已有的 AI 应用、选定的本地目录和起步提示词 | 适合自己的工作安排、一份检查过的成果和下次使用卡 |
 | [手动生成标准结构](#manual-standard-scaffold) | Git、Python 3.10+、终端、可写的父目录 | 中控、两个示例领域 Agent、运行环境配置和本地检查工具 |
 
 只有聊天功能的工具，可以在你粘贴虚构资料后讨论案例；没有文件能力时，不能证明本地文件读取或持久保存有效。AI 工具可能收取订阅或 API 费用。本地 Python 生成器不调用模型 API。
 
-## 跟着 AI 完成第一个任务
+## 让 AI 带着搭建
 
-打开[从这里开始](docs/start-here.zh-CN.md)，再按[第一个项目](examples/first-project/README.zh-CN.md)操作。这个学习工作空间不需要安装 Skill，也不是生成器提供的“最小模式”。练习以后，想整理自己的经常性工作，可以使用[简短起步提示词](skills/portable-agentic-system/pas/references/friend-starter-prompt.md#中文)。
+打开[从这里开始](docs/start-here.zh-CN.md)，或直接复制[起步提示词](skills/portable-agentic-system/pas/references/friend-starter-prompt.md#中文)。开始对话不需要预先安装 Skill，也不需要运行终端命令。助手先问少量问题，提出适合你的工作空间方案，确认后处理自己能执行的技术步骤，再带着你完成一个任务、练习下次继续。
+
+想用现成资料练手，可以选择[虚构项目教程](examples/first-project/README.zh-CN.md)。它是可选练习，不是搭建个人系统的必经步骤。
 
 <a id="manual-standard-scaffold"></a>
 ## 手动生成标准结构

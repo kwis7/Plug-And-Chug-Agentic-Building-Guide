@@ -2,18 +2,20 @@
 
 [English](QUICKSTART.md) | [中文](QUICKSTART.zh-CN.md) · [Home](README.md)
 
-Choose one route. The guided learning example and the standard generator are alternatives; neither is a prerequisite for the other.
+For most readers, start by giving the repository link and starting prompt to the AI app you already use. It will guide you through choosing and building your own local system. The direct-command route below is optional.
 
 | Route | You need | You get |
 |---|---|---|
-| [AI-guided first task](docs/start-here.md) | An AI tool that can read your selected local files; write access for saved work | A small source comparison and a handoff you can resume |
+| [Build with your AI](docs/start-here.md) | Your existing AI app, a chosen local folder and the starting prompt | A setup for your work, a checked first result and a card for next time |
 | [Manual standard scaffold](#manual-standard-scaffold) | Git, Python 3.10+, a terminal, and a writable parent directory | A control center, two example domain agents, runtime configurations, and local checks |
 
 A chat-only tool can discuss the example if you paste its fictional inputs, but cannot demonstrate local file discovery or persistence without those capabilities. Your AI tool may have subscription or API costs. The local Python generator does not call a model API.
 
-## AI-guided first task
+## Build with your AI
 
-Open [Start here](docs/start-here.md), then follow the [first-project tutorial](examples/first-project/README.md). No skill installation is needed. It is a small learning workspace, not a supported minimal generator profile. For your own recurring work afterward, use the [short starting prompt](skills/portable-agentic-system/pas/references/friend-starter-prompt.md).
+Open [Start here](docs/start-here.md) or copy the [starting prompt](skills/portable-agentic-system/pas/references/friend-starter-prompt.md#english). No prior Skill installation or terminal commands are required to begin the conversation. Your assistant asks a few questions, proposes a suitable workspace, handles the technical steps it can perform after your agreement, and helps you finish and resume one task.
+
+If you want supplied material to practise with, use the optional [fictional first-project tutorial](examples/first-project/README.md). It is not a prerequisite for building your personal system.
 
 <a id="manual-standard-scaffold"></a>
 ## Manual standard scaffold

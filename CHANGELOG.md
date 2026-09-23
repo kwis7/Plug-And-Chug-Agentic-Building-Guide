@@ -2,6 +2,11 @@
 
 ## Reader edition 3 - 2026-09-22
 
+- Made the main entry a shared prompt for an existing AI app: needs discussion, personal setup, checked first task, fresh-session recovery and a next-use card.
+- Restored both original homepage diagrams, functional navigation, optional Skill installation, generator commands and direct reference links.
+- Aligned the installed Skill and facilitator protocol with the beginner journey; distinguished a small teaching workspace from the standard scaffold without weakening existing gates.
+- Added synchronized bilingual prompt copies and homepage-link checks; updated both PDFs to match the guided entry.
+
 - Added a bilingual foundations chapter using the author's company diagram to explain models, agents, prompts, Skills, files, local workspaces and personalization alongside existing agent software.
 - Reorganized the reading experience around a first task, a persistent workspace and a resumed session.
 - Added matching English and Chinese entry routes, a synthetic source-comparison exercise and an authored handbook in both languages.

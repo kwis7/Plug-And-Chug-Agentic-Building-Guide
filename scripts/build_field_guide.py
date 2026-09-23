@@ -262,8 +262,8 @@ def build_pdf(language,output):
       Paragraph('@kwis7',sty['h3']),Paragraph(config['edition']+' / '+config['date'],sty['small']),
       Paragraph(f'<a href="{config["repository"]}" color="#12665F">github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide</a>',sty['small']),
       PageBreak(),Paragraph(meta['contents'],sty['h1'])]
-    intro='Start with the first task. Return to the reference when your work needs more structure.'
-    if language=='zh-CN':intro='从第一个任务开始。遇到具体问题时，再回到相应章节和技术参考。'
+    intro='Start with your own AI assistant. Use this book to understand each step, and try the worked example when it helps.'
+    if language=='zh-CN':intro='让你正在使用的 AI 带着搭建；用本书理解每一步，需要练手时再使用贯穿全书的案例。'
     story.extend([Paragraph(intro,sty['body']),Spacer(1,10)])
     toc=TableOfContents();toc.levelStyles=[sty['toc']];toc.dotsMinLevel=0;story.append(toc)
     refs=[]
