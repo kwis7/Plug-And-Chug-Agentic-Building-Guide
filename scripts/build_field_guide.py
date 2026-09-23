@@ -1,467 +1,300 @@
 #!/usr/bin/env python3
-"""Build the public DOCX field guide and a PDF companion from Markdown.
-
-The Markdown source remains the editable public source of truth. The generated
-editions add a Word TOC field, page numbers, and repeated lightweight authorship
-markers requested for the distributable guide.
-"""
-
+"""Build linked bilingual PDFs directly from the canonical Markdown chapters."""
 from __future__ import annotations
-
+import argparse
+import hashlib
+import html
+import json
 import re
-import shutil
-import subprocess
-import tempfile
 from pathlib import Path
+from urllib.parse import quote, unquote
+from reportlab import rl_config
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import A4, landscape
+from reportlab.lib.utils import ImageReader
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.platypus import (BaseDocTemplate, Frame, PageTemplate, Paragraph, PageBreak,
+                               Spacer, Table, TableStyle, Flowable, CondPageBreak, KeepTogether, NextPageTemplate)
+from reportlab.platypus.tableofcontents import TableOfContents
+from reportlab.platypus import paragraph as paragraph_layout
+from reportlab.lib import textsplit
+from build_master_playbook import ROOT, settings, chapters, source_manifest
+rl_config.invariant = 1
+# ReportLab's Japanese kinsoku list omits these common Chinese closing marks.
+# Extend only this renderer's in-process line-breaking tables.
+for layout in (paragraph_layout, textsplit):
+    layout.ALL_CANNOT_START += '，；：！？、。）》】〉」』”’'
+INK=colors.HexColor('#172D36')
+TEAL=colors.HexColor('#12665F')
+MUTED=colors.HexColor('#61747A')
+PALE=colors.HexColor('#EEF4F1')
+LINE=colors.HexColor('#D2DFDB')
+PAGE_W,PAGE_H=A4
+MARGIN=52
+WIDTH=PAGE_W-2*MARGIN
+FIGURE_W,FIGURE_H=landscape(A4)
+FIGURE_MARGIN=28
 
-from docx import Document
-from pypdf import PdfReader
-from docx.enum.section import WD_SECTION
-from docx.enum.style import WD_STYLE_TYPE
-from docx.enum.table import WD_CELL_VERTICAL_ALIGNMENT
-from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_TAB_ALIGNMENT, WD_TAB_LEADER
-from docx.oxml import OxmlElement
-from docx.oxml.ns import qn
-from docx.shared import Cm, Pt, RGBColor
+class DiagramPage(Flowable):
+    """Keep the author's full diagram sharp on a dedicated landscape page."""
+    def __init__(self,path,caption,style):
+        Flowable.__init__(self)
+        self.path=path
+        self.caption=Paragraph(html.escape(caption),style)
+        self.width=FIGURE_W-2*FIGURE_MARGIN
+        self.height=FIGURE_H-88
+    def wrap(self,available,height):
+        return self.width,self.height
+    def draw(self):
+        _,caption_height=self.caption.wrap(self.width,50)
+        picture=ImageReader(str(self.path))
+        width,height=picture.getSize()
+        scale=min(self.width/width,(self.height-caption_height-12)/height)
+        draw_width,draw_height=width*scale,height*scale
+        self.canv.drawImage(picture,(self.width-draw_width)/2,self.height-draw_height,
+                            width=draw_width,height=draw_height,mask='auto')
+        self.caption.drawOn(self.canv,0,0)
 
+def register_fonts():
+    folder=ROOT/'docs/assets/fonts'
+    for name,filename in [('Text','PlugChugSans-Regular.ttf'),('Strong','PlugChugSans-Semibold.ttf')]:
+        pdfmetrics.registerFont(TTFont(name,str(folder/filename)))
+    pdfmetrics.registerFontFamily('Text',normal='Text',bold='Strong',italic='Text',boldItalic='Strong')
 
-ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "docs" / "agentic-systems-field-guide.md"
-OUTPUT_DIR = ROOT / "docs" / "downloads"
-DOCX_OUT = OUTPUT_DIR / "Agentic-System-Building-Guide.docx"
-PDF_OUT = OUTPUT_DIR / "Agentic-System-Building-Guide.pdf"
-CONCEPT_MAP = ROOT / "harness-concept-map.png"
-EXAMPLE_MAP = ROOT / "anonymised-agent-system-map.png"
+def styles(language):
+    base=ParagraphStyle('Body',fontName='Text',textColor=INK,fontSize=10.5,leading=16.4,
+                        wordWrap='CJK' if language=='zh-CN' else None,splitLongWords=True,spaceAfter=8)
+    return {
+      'body':base,
+      'h1':ParagraphStyle('Chapter',parent=base,fontName='Strong',fontSize=24,leading=31,spaceAfter=20,keepWithNext=True),
+      'chapter':ParagraphStyle('ChapterStart',parent=base,fontName='Strong',fontSize=24,leading=31,spaceBefore=30,spaceAfter=20,keepWithNext=True),
+      'h2':ParagraphStyle('Section',parent=base,fontName='Strong',fontSize=14,leading=20,textColor=TEAL,spaceBefore=15,spaceAfter=8,keepWithNext=True),
+      'h3':ParagraphStyle('Subsection',parent=base,fontName='Strong',fontSize=11.5,leading=17,spaceBefore=10,spaceAfter=6,keepWithNext=True),
+      'list':ParagraphStyle('List',parent=base,leftIndent=15,firstLineIndent=0,bulletIndent=0,spaceAfter=5),
+      'quote':ParagraphStyle('Quote',parent=base,leftIndent=14,rightIndent=10,textColor=TEAL,spaceBefore=5,spaceAfter=10),
+      'table':ParagraphStyle('Cell',parent=base,fontSize=9,leading=13,spaceAfter=0),
+      'tablehead':ParagraphStyle('CellHead',parent=base,fontName='Strong',fontSize=9,leading=13,textColor=colors.white,spaceAfter=0),
+      'small':ParagraphStyle('Small',parent=base,fontSize=8.5,leading=12.5,textColor=MUTED),
+      'eyebrow':ParagraphStyle('Eyebrow',parent=base,fontName='Strong',fontSize=10,leading=15,textColor=TEAL,spaceAfter=12),
+      'toc':ParagraphStyle('Contents',parent=base,fontSize=11.5,leading=18,spaceBefore=5,spaceAfter=8),
+      'title':ParagraphStyle('Title',parent=base,fontName='Strong',fontSize=35,leading=46,spaceAfter=21),
+      'subtitle':ParagraphStyle('Subtitle',parent=base,fontSize=15,leading=24,textColor=TEAL,spaceAfter=18),
+    }
 
+class CodeBlock(Flowable):
+    """Wrap at glyph boundaries, keeping every code character on the page."""
+    def __init__(self,text,lines=None):
+        Flowable.__init__(self)
+        self.text,self.lines=text,lines
+        self.spaceBefore,self.spaceAfter=5,12
+        self.font='Text' if re.search(r'[^\x00-\x7f]',text) else 'Courier'
+        self.size,self.leading,self.pad=8.3,12.6,10
+    def wrap(self,available,height):
+        self.width=available
+        if self.lines is None:
+            self.lines=[]
+            for raw in self.text.expandtabs(4).splitlines() or ['']:
+                current=''
+                for ch in raw:
+                    if pdfmetrics.stringWidth(current+ch,self.font,self.size)>available-2*self.pad:
+                        self.lines.append(current);current=ch
+                    else: current+=ch
+                self.lines.append(current)
+        self.height=len(self.lines)*self.leading+2*self.pad
+        return self.width,self.height
+    def split(self,available,height):
+        self.wrap(available,height)
+        if len(self.lines)<=18: return []
+        count=int((height-2*self.pad)/self.leading)
+        if count<2: return []
+        return [CodeBlock(self.text,self.lines[:count]),CodeBlock(self.text,self.lines[count:])]
+    def draw(self):
+        c=self.canv
+        c.setFillColor(PALE);c.roundRect(0,0,self.width,self.height,3,fill=1,stroke=0)
+        c.setFillColor(INK);c.setFont(self.font,self.size)
+        for i,line in enumerate(self.lines):
+            c.drawString(self.pad,self.height-self.pad-self.size-i*self.leading,line)
 
-def set_cell_border(*_args, **_kwargs):
-    """Reserved for future table formatting without expanding public dependencies."""
+class WorkFlow(Flowable):
+    def __init__(self,language):
+        Flowable.__init__(self)
+        self.language=language
+        self.width,self.height=WIDTH,108
+    def draw(self):
+        labels=['A real task','Working files','Checked result','A next step']
+        if self.language=='zh-CN': labels=['一项真实任务','整理工作材料','检查形成成果','留下下一步']
+        c=self.canv;w=(self.width-42)/4
+        for i,label in enumerate(labels):
+            x=i*(w+14)
+            c.setFillColor(PALE);c.roundRect(x,25,w,65,5,stroke=0,fill=1)
+            c.setFillColor(TEAL);c.setFont('Strong',9);c.drawString(x+11,70,f'0{i+1}')
+            c.setFillColor(INK);c.setFont('Text',10);c.drawString(x+11,44,label)
+            if i<3:
+                c.setStrokeColor(TEAL);c.line(x+w+3,56,x+w+11,56)
+                c.line(x+w+8,59,x+w+11,56);c.line(x+w+8,53,x+w+11,56)
 
+def destination(target,source,chapter_map):
+    if target.startswith(('https://','http://','mailto:')): return target
+    raw,_,fragment=target.partition('#')
+    if not raw:
+        return settings()['repository']+'/blob/main/'+source.relative_to(ROOT).as_posix()+('#'+fragment if fragment else '')
+    resolved=(source.parent/unquote(raw)).resolve()
+    if resolved in chapter_map and not fragment: return '#'+chapter_map[resolved]
+    relative=resolved.relative_to(ROOT).as_posix()
+    return settings()['repository']+'/blob/main/'+quote(relative,safe='/')+('#'+fragment if fragment else '')
 
-def add_field(paragraph, instruction: str) -> None:
-    run = paragraph.add_run()
-    begin = OxmlElement("w:fldChar")
-    begin.set(qn("w:fldCharType"), "begin")
-    instr = OxmlElement("w:instrText")
-    instr.set(qn("xml:space"), "preserve")
-    instr.text = instruction
-    separate = OxmlElement("w:fldChar")
-    separate.set(qn("w:fldCharType"), "separate")
-    text = OxmlElement("w:t")
-    text.text = "1"
-    separate.append(text)
-    end = OxmlElement("w:fldChar")
-    end.set(qn("w:fldCharType"), "end")
-    run._r.extend([begin, instr, separate, end])
+def inline(text,source,chapter_map,refs):
+    tokens={}
+    def reserve(value):
+        key=f'ZZINLINE{len(tokens)}ZZ';tokens[key]=value;return key
+    def code(match):
+        value=match[1];font='Text' if re.search(r'[^\x00-\x7f]',value) else 'Courier'
+        return reserve(f'<font name="{font}" size="9">{html.escape(value)}</font>')
+    text=re.sub(r'`([^`]+)`',code,text)
+    def link(match):
+        label,target=match[1],match[2]
+        url=destination(target,source,chapter_map)
+        plain_label=label
+        for key,value in tokens.items():
+            plain_label=plain_label.replace(key,html.unescape(re.sub(r'<[^>]+>','',value)))
+        if not url.startswith('#') and (plain_label,url) not in refs: refs.append((plain_label,url))
+        return reserve(f'<a href="{html.escape(url,quote=True)}" color="#12665F"><u>{html.escape(label)}</u></a>')
+    text=re.sub(r'\[([^\]]+)\]\(([^)]+)\)',link,text)
+    text=html.escape(text)
+    text=re.sub(r'\*\*([^*]+)\*\*',r'<b>\1</b>',text)
+    text=re.sub(r'(?<!\*)\*([^*]+)\*(?!\*)',r'<i>\1</i>',text)
+    for key,value in reversed(list(tokens.items())):text=text.replace(key,value)
+    return text
 
+def markdown(text,source,chapter_map,sty,refs):
+    lines=text.splitlines();story=[];i=0
+    fmt=lambda t:inline(t,source,chapter_map,refs)
+    while i<len(lines):
+        line=lines[i].strip()
+        if not line or line=='---' or line.startswith('<!--'):i+=1;continue
+        if line.startswith('!['):
+            match=re.fullmatch(r'!\[([^\]]*)\]\(([^)]+)\)',line)
+            if not match:raise ValueError(f'Unsupported image block: {source}')
+            path=(source.parent/unquote(match[2])).resolve()
+            if not path.is_relative_to(ROOT) or not path.is_file():raise ValueError(f'Invalid diagram: {path}')
+            story.extend([NextPageTemplate('figure'),PageBreak(),DiagramPage(path,match[1],sty['small']),
+                          NextPageTemplate('reading'),PageBreak()]);i+=1;continue
+        if line.startswith('```'):
+            block=[];i+=1
+            while i<len(lines) and not lines[i].startswith('```'):block.append(lines[i]);i+=1
+            if story and isinstance(story[-1],Paragraph):story[-1].keepWithNext=True
+            story.append(CodeBlock('\n'.join(block)));i+=1;continue
+        if line.startswith('# '):i+=1;continue
+        if re.match(r'#{2,6} ',line):
+            level='h2' if line.startswith('## ') else 'h3'
+            story.append(Paragraph(fmt(re.sub(r'^#+ ','',line)),sty[level]));i+=1;continue
+        if line.startswith('|'):
+            rows=[]
+            while i<len(lines) and lines[i].strip().startswith('|'):
+                row=[v.strip() for v in lines[i].strip().strip('|').split('|')]
+                if not all(re.fullmatch(r'[:\- ]+',v) for v in row):rows.append(row)
+                i+=1
+            count=max(map(len,rows))
+            for row in rows:row.extend(['']*(count-len(row)))
+            weights=[max(6,min(24,max(len(row[col]) for row in rows))) for col in range(count)]
+            # Reserve enough room for a complete header word before distributing
+            # the remaining width by content length.
+            minimums=[min(WIDTH/count,max(38,max(pdfmetrics.stringWidth(word,'Strong',9)
+                       for word in (re.sub(r'[*`]', '',cell).split() or ['']))+18)) for cell in rows[0]]
+            remaining=WIDTH-sum(minimums)
+            widths=[minimum+remaining*weight/sum(weights) for minimum,weight in zip(minimums,weights)]
+            cells=[[Paragraph(fmt(v),sty['tablehead' if r==0 else 'table']) for v in row] for r,row in enumerate(rows)]
+            table=Table(cells,colWidths=widths,repeatRows=1,hAlign='LEFT',spaceBefore=6,spaceAfter=15)
+            table.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),TEAL),('ROWBACKGROUNDS',(0,1),(-1,-1),[colors.white,PALE]),
+              ('VALIGN',(0,0),(-1,-1),'TOP'),('LEFTPADDING',(0,0),(-1,-1),8),('RIGHTPADDING',(0,0),(-1,-1),8),
+              ('TOPPADDING',(0,0),(-1,-1),8),('BOTTOMPADDING',(0,0),(-1,-1),8),('LINEBELOW',(0,0),(-1,0),0.7,TEAL),
+              ('LINEBELOW',(0,1),(-1,-1),0.35,LINE)]))
+            if story and isinstance(story[-1],Paragraph):story[-1].keepWithNext=True
+            story.append(KeepTogether([table]) if table.wrap(WIDTH,PAGE_H)[1]<350 else table);continue
+        bullet=re.match(r'^(?:[-*] |(\d+)\. )(.*)$',line)
+        if bullet:
+            label=(bullet[1]+'.') if bullet[1] else '•'
+            story.append(Paragraph(fmt(bullet[2]),sty['list'],bulletText=label));i+=1;continue
+        if line.startswith('> '):story.append(Paragraph(fmt(line[2:]),sty['quote']));i+=1;continue
+        para=[line];i+=1
+        while i<len(lines) and lines[i].strip() and not re.match(r'^(?:#{1,6} |```|!\[|\||[-*] |\d+\. |> |---)',lines[i].strip()):
+            para.append(lines[i].strip());i+=1
+        story.append(Paragraph(fmt(' '.join(para)),sty['body']))
+    return story
 
-def shade(paragraph, fill: str) -> None:
-    props = paragraph._p.get_or_add_pPr()
-    shd = OxmlElement("w:shd")
-    shd.set(qn("w:fill"), fill)
-    props.append(shd)
+class Guide(BaseDocTemplate):
+    def __init__(self,filename,language):
+        super().__init__(filename,pagesize=A4,leftMargin=MARGIN,rightMargin=MARGIN,topMargin=57,bottomMargin=53,
+                         title=settings()['languages'][language]['title'],author='@kwis7',
+                         subject='Plug & Chug | Personal AI workspace handbook',pageCompression=1)
+        self.language=language
+        frame=Frame(MARGIN,53,WIDTH,PAGE_H-110,leftPadding=0,rightPadding=0,topPadding=0,bottomPadding=0)
+        figure=Frame(FIGURE_MARGIN,44,FIGURE_W-2*FIGURE_MARGIN,FIGURE_H-88,
+                     leftPadding=0,rightPadding=0,topPadding=0,bottomPadding=0)
+        self.addPageTemplates([PageTemplate(id='reading',frames=[frame],onPage=self.draw_page,pagesize=A4),
+                               PageTemplate(id='figure',frames=[figure],onPage=self.draw_page,pagesize=landscape(A4))])
+    def draw_page(self,canvas,doc):
+        canvas.saveState()
+        if doc.page>1:
+            width,height=canvas._pagesize
+            margin=FIGURE_MARGIN if width>height else MARGIN
+            canvas.setFont('Text',8);canvas.setFillColor(MUTED)
+            canvas.drawString(margin,height-31,'PLUG & CHUG')
+            canvas.drawRightString(width-margin,height-31,settings()['edition'])
+            canvas.drawString(margin,28,'@kwis7  /  '+settings()['date'])
+            canvas.drawRightString(width-margin,28,str(doc.page))
+        canvas.restoreState()
+    def afterFlowable(self,flowable):
+        if isinstance(flowable,Paragraph) and hasattr(flowable,'bookmark'):
+            key=flowable.bookmark;text=flowable.getPlainText()
+            self.canv.bookmarkPage(key);self.canv.addOutlineEntry(text,key,0,False)
+            self.notify('TOCEntry',(0,text,self.page,key))
 
+def build_pdf(language,output):
+    register_fonts();config=settings();meta=config['languages'][language];sty=styles(language)
+    sources=chapters(language);chapter_map={p.resolve():f'chapter-{i}' for i,p in enumerate(sources)}
+    cover_title=html.escape(meta['title'])
+    if language=='zh-CN':cover_title=cover_title.replace('，','，<br/>',1)
+    story=[Spacer(1,66),Paragraph('PLUG &amp; CHUG',sty['eyebrow']),Paragraph(cover_title,sty['title']),
+      Paragraph(meta['subtitle'],sty['subtitle']),Spacer(1,19),WorkFlow(language),Spacer(1,32),
+      Paragraph('@kwis7',sty['h3']),Paragraph(config['edition']+' / '+config['date'],sty['small']),
+      Paragraph(f'<a href="{config["repository"]}" color="#12665F">github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide</a>',sty['small']),
+      PageBreak(),Paragraph(meta['contents'],sty['h1'])]
+    intro='Start with the first task. Return to the reference when your work needs more structure.'
+    if language=='zh-CN':intro='从第一个任务开始。遇到具体问题时，再回到相应章节和技术参考。'
+    story.extend([Paragraph(intro,sty['body']),Spacer(1,10)])
+    toc=TableOfContents();toc.levelStyles=[sty['toc']];toc.dotsMinLevel=0;story.append(toc)
+    refs=[]
+    for index,source in enumerate(sources):
+        text=source.read_text(encoding='utf-8')
+        first=next(line[2:] for line in text.splitlines() if line.startswith('# '))
+        story.append(PageBreak() if index==0 else CondPageBreak(320))
+        heading=Paragraph(html.escape(first),sty['chapter'])
+        heading.bookmark=chapter_map[source.resolve()];story.append(heading)
+        story.extend(markdown(text,source,chapter_map,sty,refs))
+    story.append(CondPageBreak(320));title=Paragraph(meta['links'],sty['chapter']);title.bookmark='further-reading';story.append(title)
+    explanation='Links lead to this repository and its technical references. Product guidance carries its own evidence date; a link does not establish a new runtime verification.'
+    if language=='zh-CN':explanation='本版链接指向仓库及相关技术参考。产品接入说明有各自的证据日期；保留链接不代表本次已重新验证运行行为。'
+    story.append(Paragraph(explanation,sty['body']));seen=set()
+    for label,url in refs:
+        if url in seen:continue
+        seen.add(url);story.append(CondPageBreak(50));story.append(Paragraph(html.escape(label),sty['h3']))
+        story.append(Paragraph(f'<a href="{html.escape(url,quote=True)}" color="#12665F">{html.escape(unquote(url))}</a>',sty['small']))
+    output.parent.mkdir(parents=True,exist_ok=True)
+    Guide(str(output),language).multiBuild(story)
 
-def add_header_footer(section) -> None:
-    section.top_margin = Cm(2.0)
-    section.bottom_margin = Cm(1.7)
-    section.left_margin = Cm(2.15)
-    section.right_margin = Cm(2.15)
-
-    section.header.is_linked_to_previous = False
-    section.footer.is_linked_to_previous = False
-    header = section.header.paragraphs[0]
-    header.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    header_run = header.add_run("@kwis7")
-    header_run.font.name = "Arial"
-    header_run.font.size = Pt(7.5)
-    header_run.font.color.rgb = RGBColor(190, 190, 190)
-
-    footer = section.footer.paragraphs[0]
-    footer.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    footer_run = footer.add_run("@kwis7  ·  ")
-    footer_run.font.name = "Arial"
-    footer_run.font.size = Pt(8)
-    footer_run.font.color.rgb = RGBColor(135, 135, 135)
-    add_field(footer, "PAGE")
-
-
-def add_cover(doc: Document) -> None:
-    p = doc.add_paragraph()
-    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p.paragraph_format.space_before = Pt(96)
-    r = p.add_run("BUILDING A\nPORTABLE AGENT HARNESS")
-    r.bold = True
-    r.font.name = "Arial"
-    r.font.size = Pt(28)
-    r.font.color.rgb = RGBColor(33, 66, 100)
-
-    p = doc.add_paragraph()
-    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r = p.add_run("A textbook and practical workbook for understanding,\ndesigning, implementing, and verifying agentic systems")
-    r.italic = True
-    r.font.size = Pt(14)
-    r.font.color.rgb = RGBColor(91, 105, 120)
-
-    p = doc.add_paragraph()
-    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p.paragraph_format.space_before = Pt(42)
-    r = p.add_run("@kwis7\ngithub.com/kwis7")
-    r.bold = True
-    r.font.size = Pt(13)
-    r.font.color.rgb = RGBColor(33, 66, 100)
-
-    p = doc.add_paragraph()
-    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p.paragraph_format.space_before = Pt(36)
-    r = p.add_run("Version 2.1 textbook draft  |  9 August 2026")
-    r.font.size = Pt(10)
-    r.font.color.rgb = RGBColor(115, 115, 115)
-
-
-def toc_entries() -> list[str]:
-    return [
-        line[2:].strip()
-        for line in SOURCE.read_text(encoding="utf-8").splitlines()
-        if line.startswith("# Part ") or line.startswith("# Appendix ")
-    ]
-
-
-def add_hyperlink(paragraph, text: str, anchor: str) -> None:
-    hyperlink = OxmlElement("w:hyperlink")
-    hyperlink.set(qn("w:anchor"), anchor)
-    hyperlink.set(qn("w:history"), "1")
-    run = OxmlElement("w:r")
-    properties = OxmlElement("w:rPr")
-    color = OxmlElement("w:color")
-    color.set(qn("w:val"), "214264")
-    underline = OxmlElement("w:u")
-    underline.set(qn("w:val"), "single")
-    size = OxmlElement("w:sz")
-    size.set(qn("w:val"), "22")
-    properties.extend([color, underline, size])
-    run.append(properties)
-    content = OxmlElement("w:t")
-    content.text = text
-    run.append(content)
-    hyperlink.append(run)
-    paragraph._p.append(hyperlink)
-
-
-def add_bookmark(paragraph, name: str, bookmark_id: int) -> None:
-    start = OxmlElement("w:bookmarkStart")
-    start.set(qn("w:id"), str(bookmark_id))
-    start.set(qn("w:name"), name)
-    end = OxmlElement("w:bookmarkEnd")
-    end.set(qn("w:id"), str(bookmark_id))
-    paragraph._p.insert(0, start)
-    paragraph._p.append(end)
-
-
-def add_toc(doc: Document, page_refs: dict[str, int] | None = None) -> None:
-    title = doc.add_paragraph()
-    title.style = "Heading 1"
-    title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    title.paragraph_format.space_before = Pt(22)
-    title.paragraph_format.space_after = Pt(24)
-    title.add_run("Contents")
-    current_group = None
-    for index, entry in enumerate(toc_entries(), start=1):
-        group = "Reference appendices" if entry.startswith("Appendix ") else "Core chapters"
-        if group != current_group:
-            label = doc.add_paragraph()
-            label.paragraph_format.space_before = Pt(14 if current_group else 0)
-            label.paragraph_format.space_after = Pt(5)
-            label.paragraph_format.left_indent = Cm(0.45)
-            label_run = label.add_run(group.upper())
-            label_run.bold = True
-            label_run.font.name = "Arial"
-            label_run.font.size = Pt(9)
-            label_run.font.color.rgb = RGBColor(91, 105, 120)
-            current_group = group
-        toc = doc.add_paragraph()
-        toc.paragraph_format.space_before = Pt(5)
-        toc.paragraph_format.space_after = Pt(5)
-        toc.paragraph_format.line_spacing = 1.2
-        toc.paragraph_format.left_indent = Cm(0.45)
-        toc.paragraph_format.right_indent = Cm(0.45)
-        toc.paragraph_format.tab_stops.add_tab_stop(Cm(15.0), WD_TAB_ALIGNMENT.RIGHT, WD_TAB_LEADER.DOTS)
-        add_hyperlink(toc, entry, f"section-{index}")
-        page = page_refs.get(entry, "-") if page_refs else "-"
-        toc.add_run("\t")
-        page_run = toc.add_run(str(page))
-        page_run.bold = True
-        page_run.font.name = "Arial"
-        page_run.font.size = Pt(10.5)
-        page_run.font.color.rgb = RGBColor(33, 66, 100)
-    note = doc.add_paragraph()
-    note.paragraph_format.space_before = Pt(18)
-    note.paragraph_format.space_after = Pt(0)
-    note.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run = note.add_run("Entries are linked to their sections. Page numbers are generated from the PDF layout.")
-    run.italic = True
-    run.font.size = Pt(9)
-    run.font.color.rgb = RGBColor(125, 125, 125)
-
-
-def configure_styles(doc: Document) -> None:
-    styles = doc.styles
-    normal = styles["Normal"]
-    normal.font.name = "Arial"
-    normal.font.size = Pt(10.5)
-    normal.paragraph_format.space_after = Pt(6)
-    normal.paragraph_format.line_spacing = 1.18
-    for name, size, color in [
-        ("Title", 25, RGBColor(33, 66, 100)),
-        ("Heading 1", 17, RGBColor(33, 66, 100)),
-        ("Heading 2", 13, RGBColor(46, 92, 129)),
-        ("Heading 3", 11.5, RGBColor(58, 99, 134)),
-    ]:
-        style = styles[name]
-        style.font.name = "Arial"
-        style.font.size = Pt(size)
-        style.font.bold = True
-        style.font.color.rgb = color
-        style.paragraph_format.space_before = Pt(16 if name != "Title" else 0)
-        style.paragraph_format.space_after = Pt(7)
-        style.paragraph_format.keep_with_next = True
-
-    if "Quote" not in styles:
-        quote = styles.add_style("Quote", WD_STYLE_TYPE.PARAGRAPH)
-        quote.font.italic = True
-
-
-def clean_inline(text: str) -> str:
-    text = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", text)
-    text = text.replace("**", "").replace("`", "").replace("*", "")
-    return (
-        text.replace("\u2010", "-")
-        .replace("\u2011", "-")
-        .replace("\u2012", "-")
-        .replace("\u2013", "-")
-        .replace("\u2014", "-")
-        .replace("\u2015", "-")
-        .replace("\u2018", "'")
-        .replace("\u2019", "'")
-        .replace("\u201c", '"')
-        .replace("\u201d", '"')
-        .replace("\u00a0", " ")
-    )
-
-
-def parse_table(lines: list[str], start: int):
-    rows = []
-    idx = start
-    while idx < len(lines) and lines[idx].lstrip().startswith("|"):
-        parts = [clean_inline(cell.strip()) for cell in lines[idx].strip().strip("|").split("|")]
-        if not all(re.fullmatch(r"[: -]+", cell) for cell in parts):
-            rows.append(parts)
-        idx += 1
-    return rows, idx
-
-
-def add_table(doc: Document, rows: list[list[str]]) -> None:
-    if not rows:
-        return
-    table = doc.add_table(rows=len(rows), cols=max(len(row) for row in rows))
-    table.style = "Light Shading Accent 1"
-    table.autofit = True
-    for row_idx, row in enumerate(rows):
-        for col_idx, value in enumerate(row):
-            cell = table.cell(row_idx, col_idx)
-            cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
-            cell.text = value
-            for paragraph in cell.paragraphs:
-                for run in paragraph.runs:
-                    run.font.size = Pt(8.5)
-                    if row_idx == 0:
-                        run.bold = True
-
-
-def add_map_page(doc: Document, title_text: str, image_path: Path, caption_text: str) -> None:
-    """Insert one print-friendly diagram page before the textbook."""
-    title = doc.add_paragraph(title_text, style="Heading 1")
-    title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    if image_path.exists():
-        image = doc.add_paragraph()
-        image.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        image.add_run().add_picture(str(image_path), width=Cm(16.6))
-    caption = doc.add_paragraph()
-    caption.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run = caption.add_run(caption_text)
-    run.italic = True
-    run.font.size = Pt(9)
-    run.font.color.rgb = RGBColor(95, 95, 95)
-    doc.add_page_break()
-
-
-def add_markdown_content(doc: Document) -> None:
-    lines = SOURCE.read_text(encoding="utf-8").splitlines()
-    in_code = False
-    code_lines: list[str] = []
-    idx = 0
-    bookmark_id = 1
-    while idx < len(lines):
-        raw = lines[idx]
-        line = raw.rstrip()
-        if line.startswith("Author:") or line.startswith("Repository:") or line.startswith("Edition:") or line.startswith("Generated:"):
-            idx += 1
-            continue
-        if line.startswith("```"):
-            if in_code:
-                p = doc.add_paragraph(style="No Spacing")
-                p.paragraph_format.left_indent = Cm(0.5)
-                p.paragraph_format.space_after = Pt(8)
-                shade(p, "F2F5F7")
-                run = p.add_run("\n".join(code_lines))
-                run.font.name = "Courier New"
-                run.font.size = Pt(8.5)
-                code_lines = []
-                in_code = False
-            else:
-                in_code = True
-            idx += 1
-            continue
-        if in_code:
-            code_lines.append(raw)
-            idx += 1
-            continue
-        if line.lstrip().startswith("|"):
-            rows, idx = parse_table(lines, idx)
-            add_table(doc, rows)
-            continue
-        if not line.strip():
-            idx += 1
-            continue
-        if re.match(r"^#{4,6} ", line):
-            heading = clean_inline(re.sub(r"^#{4,6} ", "", line))
-            paragraph = doc.add_paragraph()
-            paragraph.paragraph_format.space_before = Pt(9)
-            paragraph.paragraph_format.space_after = Pt(3)
-            run = paragraph.add_run(heading)
-            run.bold = True
-            run.font.color.rgb = RGBColor(58, 99, 134)
-        elif line.startswith("### "):
-            doc.add_paragraph(clean_inline(line[4:]), style="Heading 3")
-        elif line.startswith("## "):
-            heading = clean_inline(line[3:])
-            doc.add_paragraph(heading, style="Heading 2")
-        elif line.startswith("# "):
-            heading = clean_inline(line[2:])
-            if heading == "Building a Portable Agent Harness":
-                idx += 1
-                continue
-            if heading.startswith("Part ") or heading.startswith("Appendix "):
-                paragraph = doc.add_paragraph(heading, style="Heading 1")
-                paragraph.paragraph_format.page_break_before = True
-                add_bookmark(paragraph, f"section-{bookmark_id}", bookmark_id)
-                bookmark_id += 1
-            else:
-                doc.add_paragraph(heading, style="Heading 1")
-        elif line.startswith("> "):
-            p = doc.add_paragraph(clean_inline(line[2:]), style="Quote")
-            shade(p, "EEF3F7")
-        elif re.match(r"^[-*] ", line):
-            doc.add_paragraph(clean_inline(line[2:]), style="List Bullet")
-        elif re.match(r"^\d+\. ", line):
-            paragraph = doc.add_paragraph(clean_inline(line))
-            paragraph.paragraph_format.left_indent = Cm(0.45)
-            paragraph.paragraph_format.first_line_indent = Cm(-0.35)
-        elif line == "---":
-            pass
-        elif line.startswith("!"):
-            image = ROOT / "docs" / "assets" / "anonymised-agent-system-map.png"
-            if image.exists():
-                p = doc.add_paragraph()
-                p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                p.add_run().add_picture(str(image), width=Cm(15.5))
-        else:
-            doc.add_paragraph(clean_inline(line))
-        idx += 1
-
-
-def build_docx(page_refs: dict[str, int] | None = None) -> None:
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    doc = Document()
-    configure_styles(doc)
-    add_header_footer(doc.sections[0])
-    doc.core_properties.author = "@kwis7"
-    doc.core_properties.title = "Building a Portable Agent Harness"
-    doc.core_properties.subject = "A practical field guide for agentic systems"
-    doc.core_properties.comments = "Authored by @kwis7."
-    add_cover(doc)
-    toc_section = doc.add_section(WD_SECTION.NEW_PAGE)
-    add_header_footer(toc_section)
-    add_toc(doc, page_refs)
-    body_section = doc.add_section(WD_SECTION.NEW_PAGE)
-    add_header_footer(body_section)
-    add_map_page(
-        doc,
-        "Harness concept map",
-        CONCEPT_MAP,
-        "The active model is visible and replaceable. Every configured component and relationship around execution belongs to the harness; only a central coordinating model in a multi-agent topology is the manager.",
-    )
-    add_map_page(
-        doc,
-        "An anonymised example system",
-        EXAMPLE_MAP,
-        "A control center routes work to functional owner agents. Methods may be shared deliberately, while raw data, private memory, task state, and reviewed outputs remain with their owners.",
-    )
-    add_markdown_content(doc)
-    doc.save(DOCX_OUT)
-
-
-def build_pdf() -> None:
-    soffice = shutil.which("soffice")
-    if not soffice:
-        raise RuntimeError("soffice is required to create the PDF edition")
-    with tempfile.TemporaryDirectory() as temp:
-        profile = Path(temp) / "libreoffice-profile"
-        subprocess.run(
-            [
-                soffice,
-                f"-env:UserInstallation={profile.as_uri()}",
-                "--headless",
-                "--convert-to",
-                "pdf",
-                "--outdir",
-                temp,
-                str(DOCX_OUT),
-            ],
-            check=True,
-            text=True,
-            capture_output=True,
-        )
-        generated = Path(temp) / (DOCX_OUT.stem + ".pdf")
-        if not generated.exists():
-            raise RuntimeError("PDF conversion completed without a PDF output")
-        shutil.copy2(generated, PDF_OUT)
-
-
-def discover_section_pages() -> dict[str, int]:
-    pages: dict[str, int] = {}
-    reader = PdfReader(str(PDF_OUT))
-    body_start = 0
-    for page_no, page in enumerate(reader.pages, start=1):
-        text = re.sub(r"\s+", " ", page.extract_text() or "")
-        if "Harness concept map" in text:
-            body_start = page_no
-            break
-    for page_no, page in enumerate(reader.pages, start=1):
-        if page_no <= body_start:
-            continue
-        text = re.sub(r"\s+", " ", page.extract_text() or "")
-        for entry in toc_entries():
-            normalized_entry = re.sub(r"\s+", " ", clean_inline(entry))
-            if normalized_entry in text and entry not in pages:
-                pages[entry] = page_no
-    return pages
-
-
-if __name__ == "__main__":
-    build_docx()
-    build_pdf()
-    build_docx(discover_section_pages())
-    build_pdf()
-    print(DOCX_OUT)
-    print(PDF_OUT)
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--language',choices=['all','en','zh-CN'],default='all')
+    parser.add_argument('--output-dir',type=Path,default=ROOT/'docs/downloads')
+    args=parser.parse_args();languages=settings()['languages'] if args.language=='all' else [args.language]
+    for language in languages:
+        path=args.output_dir/settings()['languages'][language]['pdf'];build_pdf(language,path);print(path)
+    if args.language=='all':
+        artifacts={settings()['languages'][lang]['pdf']:hashlib.sha256((args.output_dir/settings()['languages'][lang]['pdf']).read_bytes()).hexdigest() for lang in languages}
+        manifest={**source_manifest(),'pdf_sha256':artifacts,'builder_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                  'fonts_sha256':{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted((ROOT/'docs/assets/fonts').glob('*.ttf'))}}
+        (args.output_dir/'pdf-manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+if __name__=='__main__':main()

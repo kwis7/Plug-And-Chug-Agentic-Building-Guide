@@ -29,7 +29,7 @@ python3 skills/portable-agentic-system/scripts/generate_status.py /tmp/pas-smoke
 git diff --check
 ```
 
-Generated DOCX/PDF claims require a fresh build, page-count check, full-page rendering, and visual inspection. Static tests do not prove runtime loading, external delivery, deployment, or publication.
+Generated PDF claims require a fresh build, page-count check, full-page rendering, and visual inspection. Static tests do not prove runtime loading, external delivery, deployment, or publication.
 
 ## Git and release boundary
 

@@ -1,0 +1,24 @@
+name: Repository checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install -r requirements-docs.txt
+      - run: python scripts/build_master_playbook.py --check
+      - run: python scripts/check_docs.py
+      - run: python -m unittest discover -s tests -v
+      - name: Rebuild both PDF editions without modifying checked-in files
+        run: python scripts/build_field_guide.py --output-dir "$RUNNER_TEMP/pdf-rebuild"
+      - run: git diff --check

@@ -12,3 +12,6 @@ private/
 *.key
 *.p12
 *.pfx
+.venv/
+.pytest_cache/
+build/

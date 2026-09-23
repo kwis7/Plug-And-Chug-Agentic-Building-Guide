@@ -1,0 +1,34 @@
+{
+  "edition": "Reader edition 3",
+  "date": "2026-09-22",
+  "repository": "https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide",
+  "languages": {
+    "en": {
+      "title": "AI Agents, Explained",
+      "subtitle": "Why build your own local agentic system when you already have fancy apps like Codex, Claude Code, or WorkBuddy?",
+      "contents": "In this guide",
+      "links": "Further reading",
+      "pdf": "Agentic-System-Building-Guide.pdf"
+    },
+    "zh-CN": {
+      "title": "理解 AI Agent，搭建自己的工作系统",
+      "subtitle": "已经有 Codex、Claude Code、WorkBuddy 这些好用的应用，为什么还需要自己的本地 Agent 系统？",
+      "contents": "阅读路线",
+      "links": "延伸阅读",
+      "pdf": "Agentic-System-Building-Guide.zh-CN.pdf"
+    }
+  },
+  "chapters": [
+    "00-introduction.md",
+    "00-foundations.md",
+    "01-first-task.md",
+    "02-workspace.md",
+    "03-resume.md",
+    "04-skills.md",
+    "05-agents.md",
+    "06-portability.md",
+    "07-verification.md",
+    "08-maintenance.md",
+    "09-reference.md"
+  ]
+}

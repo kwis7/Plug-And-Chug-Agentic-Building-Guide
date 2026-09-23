@@ -47,7 +47,7 @@ This division keeps the trigger description precise, the operating instructions 
 | `pas-distill` | Convert notes, prompts, or repeated corrections into durable architecture | `skill-distillation-and-fusion.md`, `privacy-boundaries.md` | Classified rule, knowledge, skill, task, or archive material |
 | `pas-borrow` | Reuse another agent's method without merging private context | `cross-agent-skill-borrowing.md`, `privacy-boundaries.md` | Scoped method borrowing and optional local distillation |
 | `pas-review` | Compact memory, renew architecture, or archive noise | `system-review-and-renewal.md` | Renewal report and bounded state |
-| full handoff | Teach another agent to build the whole system | `master-build-playbook.md`, `friend-starter-prompt.md` | Standalone guide and starter prompt |
+| full handoff | Teach another agent to build the whole system | `master-build-playbook.md`, `facilitation-protocol.md` | Standalone guide and starter prompt |
 
 If several modes apply, sequence them. For example: audit first, adapt second, migrate only after the target contract is approved.
 
@@ -443,5 +443,6 @@ Do not say “complete” if the applicable gate has not passed.
 - `pas/references/system-review-and-renewal.md` — compaction, archive, and renewal.
 - `pas/references/troubleshooting.md` — failure diagnosis.
 - `pas/references/facilitation-script.md` — guided workshop flow.
-- `pas/references/master-build-playbook.md` — standalone long-form textbook/workbook.
-- `pas/references/friend-starter-prompt.md` — short prompt that activates this workflow.
+- `pas/references/master-build-playbook.md` — generated reader handbook; detailed implementation chapters remain in `textbook-*.md`.
+- `pas/references/friend-starter-prompt.md` — short user-facing starting prompt.
+- `pas/references/facilitation-protocol.md` — detailed staged conversation protocol; load when guiding a build.

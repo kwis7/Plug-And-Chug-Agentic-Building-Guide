@@ -1,0 +1,2 @@
+# Only needed to rebuild the redistributable font subsets.
+fonttools==4.62.1

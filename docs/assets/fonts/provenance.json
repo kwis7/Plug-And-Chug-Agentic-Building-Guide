@@ -1,0 +1,12 @@
+{
+  "source_repository": "https://github.com/notofonts/noto-cjk",
+  "source_commit": "f8d157532fbfaeda587e826d4cd5b21a49186f7c",
+  "source_path": "Sans/Variable/TTF/Subset/NotoSansSC-VF.ttf",
+  "source_sha256": "d68bafcb48a2707749396aa12bbbd833cb70401f3a9a689fd2902c7e0d295964",
+  "license": "SIL Open Font License 1.1",
+  "derivation": "Static weights 400 and 600, GB2312 plus Latin, punctuation, arrows, box drawing and authored handbook characters; renamed PlugChug Sans.",
+  "outputs": {
+    "PlugChugSans-Regular.ttf": "5dd9eea56a3ee338428d2495722ed9f45d5693e2a9687e01c8cf01910c8e2b63",
+    "PlugChugSans-Semibold.ttf": "2d8696fa233514043879d40b707226a917e555bd8a88247913aac987dbd5ad2e"
+  }
+}
