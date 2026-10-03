@@ -1,35 +1,37 @@
 # Build an AI workspace you can return to
 
-You do not need to learn programming before using this guide. Begin with work you understand: reading, writing, studying, research, or a recurring task you would like help with. The aim is to build an AI working system that you understand and can use again tomorrow.
+Suppose you are preparing a report over several weeks. An AI assistant helps you compare sources and revise a draft. By the second week, you have more than a collection of answers: you have selected evidence, rejected a few claims, settled on a format and left questions for later. To continue well, you need to recover those decisions along with the draft. Otherwise, you may repeat work or quietly lose the reasons behind it.
 
-Good work should survive the end of a chat. Your sources, choices, useful methods, checked results and unfinished tasks need a home that the next session can find. Your existing AI app can help create that home and explain it as you go.
+This guide grew out of Computational Social Science research, where the relationship between sources, methods and conclusions matters. The same problem appears in studying, writing, teaching and many other recurring tasks. A personal AI system gives that work a structure you can inspect and revise. You decide what to keep, what the assistant may use and which methods are worth repeating.
+
+You can build it with the AI application you already use. The guided setup assumes no programming background. As you work through the book, the assistant can handle the technical steps its tools permit and explain the choices involved. The purpose is to make your work easier to continue without requiring you to organise your life around the software.
 
 ## Start with your own assistant
 
-Open the [beginner guide](../../start-here.md) and give its starting prompt to the AI app you already use. It includes the repository link. The assistant begins with a few questions about your work, app and computer, then proposes a small setup suited to you. You review where it will create files before it performs the technical steps its tools allow.
+The [beginner guide](../../start-here.md) contains a starting prompt with the repository link. Give it to your usual assistant. It will ask about your work, app and computer, then propose a small setup. Review the proposed folder and its contents before agreeing to file creation. The proposal should account for the tools actually available: a chat-only assistant can explain a step for you to perform, while an assistant with appropriate file access may perform it directly.
 
-The first useful milestone is concrete: a local workspace, one checked result, a handoff, and a short card saying what to open and ask next time. Try that card in a new conversation. A proposed design, a created folder and a successful restart are different milestones; the assistant should show which ones actually happened.
+Choose a task small enough to finish and check. At the end, you should have the result, a record of unfinished work and a short card telling you which files to open next time. Try that card in a new conversation and check that the assistant reads the named files, identifies the unfinished work and resumes at the agreed next step.
 
-This book explains the choices along that route. If a term is unfamiliar, ask the assistant to explain it using your own task. Terminal commands are an optional implementation route, collected in the final reference chapter and the [quick start](../../../QUICKSTART.md).
+The chapters explain why each part is useful. When a term is unfamiliar, ask the assistant to explain it through your task. You can also use terminal commands directly; that optional route is collected in the final reference chapter and the [quick start](../../../QUICKSTART.md).
 
 ## Keep the work, change the model
 
-The active model can change while the work remains yours. Your sources, decisions, procedures, task records and reviewed results should live in forms you can inspect and carry elsewhere. A change of interface or provider may require adaptation, but it need not erase what you have learned.
+The report example also explains why ownership matters. You should be able to inspect the sources and decisions, correct a procedure or try another model without surrendering the work you have already done. Keeping records in accessible formats makes those choices possible. Moving to another interface or provider still requires adaptation and checks; saving the files does not establish compatibility by itself.
 
-We call the configured environment around model execution a **harness**. It includes instructions, files, tools, task state and checks. Some parts are ordinary text; others are software that grants access or checks actions. We will distinguish them throughout the book.
+The book uses **harness** for the configured environment around model execution: instructions, files, tools, task state and checks. Some of these are text that guides the model. Others are software that controls access or checks an action. Their effects differ, so we will be careful about what each one can establish.
 
-The company metaphor helps: a model is the worker currently doing the reasoning, while the harness holds the working arrangements, records and tools. You remain the owner. It is a way to explain roles, not a claim that a model has human loyalty, awareness or automatic access to every file.
+The company diagram in the next chapter separates these responsibilities. You are the owner who sets the purpose and authorises consequential actions. The model does the reasoning within the working arrangements you have chosen. This analogy describes roles; it does not imply human awareness, loyalty or automatic access to the company's records.
 
 ## Learn through one example, then apply it to your work
 
-Chapters 1–4 follow a small comparison of three fictional venues. The supplied notes let you see how to check a result, save it and recover the next step without introducing personal information. You may do this optional exercise, or use the same ideas with the task you chose during guided setup. You do not need a venue-comparison Agent to build a personal system.
+Chapters 1-4 use three fictional venue notes to compare options, check a conclusion and leave the next step for another session. Because the inputs are supplied and contain no personal information, you can concentrate on the method. The exercise is optional. If you have already chosen a task during setup, apply the explanations to that task; there is no need to build a dedicated venue-comparison Agent.
 
-Chapters 5–8 explain when more roles, a different tool, stronger checks or maintenance become useful. The reference chapter connects those ideas to the standard toolkit. Each part should answer a practical question that arises as your work grows.
+Chapters 5-8 consider the decisions that follow: when to separate responsibilities, how to change tools, what to verify and how to maintain the system. The reference chapter then points to the standard toolkit. Read those sections when the corresponding question arises in your work.
 
-The teaching workspace is deliberately small. The standard generator offers a fuller structure with task manifests and local checks. Your assistant should explain which approach fits your needs; a smaller teaching workspace is not an undocumented generator option.
+The exercise needs only a few files. The guided route can create those teaching files directly; the standard generator creates a fuller scaffold with task manifests and local checks. Ask your assistant which arrangement suits the task and how it will be created.
 
 ## Read evidence at its stated level
 
-The example data is synthetic. Repository commands and compatibility records describe the included implementation; they do not certify an app installed on your computer. Instructions, static checks, fresh-session behavior and external delivery each need their own evidence.
+Throughout the example, we will distinguish what a source says, what the assistant concludes and what has actually been tested. The data is synthetic. Commands and compatibility records describe the repository's implementation, with their stated limits; they do not certify the app on your computer. Reading an instruction, passing a static check, resuming in a fresh session and delivering something externally each require their own evidence.
 
-Continue with [how an agent works](00-foundations.md) for the company diagram and core concepts. Keep your own task in mind while reading the example: what would make your next session easier to begin?
+Continue with [how an agent works](00-foundations.md) for the company diagram and the concepts behind it. As you read, consider which records your own task would need for someone to resume it accurately.

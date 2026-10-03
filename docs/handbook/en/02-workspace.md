@@ -1,14 +1,16 @@
 # 2. Give the work a place to continue
 
-A finished comparison preserves an answer. A useful workspace also preserves how to understand that answer: the inputs, the requirements, the checks, and any unfinished work. Without those, the next conversation can easily repeat the research or inherit a conclusion whose limits have been forgotten.
+Imagine reopening the venue comparison a week later. The recommendation says Cedar Hall is suitable, but you also need to know what "suitable" meant: enough space for 16 people, hours after 18:00 and recorded step-free entry. You need to see the notes behind that judgment and remember that availability and booking terms were never checked. The answer alone cannot preserve all of this.
 
-Our example needs only a small folder. The supplied source notes stay separate from the working result and handoff. The bundled `expected/` directory remains a teaching reference. Nothing about this layout requires a new agent, a database, or the full scaffold.
+A workspace keeps the result together with the evidence and state needed to interpret it. For this exercise, a small folder is sufficient. Separate the supplied notes from your draft, checked result and handoff. Leave the bundled `expected/` directory as a teaching reference. You can establish these roles without adding a database, a new Agent or the full standard scaffold.
 
 ## Give each file a clear job
 
-The source notes establish what was supplied. `workspace/comparison.md` is the draft; after review, `outputs/comparison.md` becomes the checked answer. `workspace/handoff.md` records current state and the next permitted step. These files have different jobs: the draft is not a second authority for the reviewed result. If a decision changes, review the change, update the result, and record its status in the handoff.
+The notes under `sources/` record the supplied evidence. Work on the comparison at `workspace/comparison.md`, then place the reviewed version at `outputs/comparison.md`. Keeping both makes the review visible, but it also introduces a responsibility: the old draft must not become a competing source of current conclusions. When new evidence changes the decision, review the revision, update the result and record its status in `workspace/handoff.md`.
 
-As work grows, these distinctions become useful:
+The handoff answers a different question from the comparison. It tells the next session where the work stands and which step is permitted next. In our example, no venue has been contacted and Maple's accessibility remains unknown. A reader should be able to recover those facts without searching through the entire conversation.
+
+Larger projects need the same distinctions, even if their files have different names:
 
 | Kind of information | Question it answers | Example |
 |---|---|---|
@@ -18,18 +20,18 @@ As work grows, these distinctions become useful:
 | Knowledge | What stable understanding is reusable? | How missing evidence affects a comparison |
 | Skill | What procedure should we repeat? | Compare each candidate against every requirement |
 
-**Context** is different: it is the material actually supplied to the model in the current session. A file can exist on disk without entering context. An instruction to read a source is also different from evidence that it was read. Ask the agent to identify the files and facts supporting its answer when loading matters.
+These records become useful to a model when the runtime supplies them as **context** for the current session. A saved handoff may be available on disk yet absent from the model's input. For that reason, instructions about resuming should identify what to read, and the resumed answer should identify the files and facts it used. Asking the agent to read a source establishes an instruction; observing the read and checking its use establish more.
 
 ## Preserve sources and uncertainty
 
-Do not rewrite Maple's source note to make the comparison easier. Leave “accessibility unspecified” in the input and explain its consequence in the result. If new evidence arrives later, preserve its source and date, then revise the affected judgment. This keeps changes traceable without retaining every sentence of the conversation.
+Maple's missing accessibility information belongs in the result as an unknown. Editing the source note to make the comparison complete would destroy the distinction between supplied evidence and your interpretation. If a new statement arrives later, preserve its source and date, then revise the affected judgment. The record will show why the answer changed without needing every sentence of the intervening chat.
 
-The same principle applies to real work. A summary is an interpretation of a source, not a replacement for provenance. Separate the source's claim from your conclusion, and retain enough attribution for a reviewer to inspect the bridge between them. Store only material you are authorised to retain and make available to the tool.
+Apply the same care to real research. A summary helps you understand a source, but a reviewer still needs to know which source supports the conclusion. Keep the attribution and the limits of the claim. Retain and expose only material you are authorised to use. Personal originals remain under your control, outside the Agent's read scope; provide the minimum authorised fields, an explicitly agent-readable redacted derivative or a controlled mediator output when such material is needed.
 
 ## Let structure follow need
 
-The standard scaffold gives larger projects named places: `raw_data/` for original inputs, `workspace/` for drafts, `artifacts/` for generated intermediates, `logs/` for execution traces, `outputs/` for reviewed results, and `archive/` for closed material. Their full responsibilities are defined in the [filesystem contract](../../../skills/portable-agentic-system/pas/references/filesystem-contract.md).
+The standard scaffold offers named places for a larger project: `raw_data/` for public, synthetic or explicitly authorised nonprivate source inputs; `workspace/` for drafts; `artifacts/` for generated intermediates; `logs/` for execution traces; `outputs/` for reviewed results; and `archive/` for closed material. The [filesystem contract](../../../skills/portable-agentic-system/pas/references/filesystem-contract.md) defines their full responsibilities.
 
-Those names express intent. They do not enforce permissions. A tool that can read the whole directory may still reach a file called private. Sensitive work therefore needs actual access restrictions and a deliberate choice about which material enters the model. A useful public example should contain synthetic or authorised material, not a disguised copy of someone's private records.
+These names make the intended use easier to understand. Access still depends on the tools and permissions: a file named "private" remains readable to a tool with access to the whole directory. Sensitive work needs actual access restrictions and a deliberate decision about what enters the model. Public examples should use synthetic or authorised material, never disguised personal records.
 
-Before adding folders, try one practical test: can you identify the current answer, its sources, and the next action within a minute? If yes, your present structure may be enough. If not, fix the ambiguity that caused the delay. Structure earns its place by reducing the cost of continuing.
+Before creating another folder, try finding the current answer, its sources and the next action. If that takes less than a minute, the present structure may be enough. If it takes longer, identify the ambiguity: perhaps two drafts look current, or the handoff names a file that has moved. Repair that problem first. Add structure when it makes a specific part of the work easier to continue.

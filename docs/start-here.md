@@ -44,6 +44,16 @@ Keep this [short starting prompt](../skills/portable-agentic-system/pas/referenc
 
 The conversation should begin with your needs. For example: “Every week I read a few articles and want a comparison note, but I keep losing my sources and the next step.” You can answer in ordinary language. Ask it to explain any unfamiliar term before moving on.
 
+### What the first conversation can look like
+
+This short fictional exchange shows the sequence, not a record of an actual setup:
+
+> **You:** I want to practise comparing the three fictional workshop venue notes, then continue another day without pasting the old chat.
+>
+> **Assistant:** Which AI app do you use, and what computer are you on? I will check whether I can read the guide and work with your selected local folder.
+>
+> **Assistant, after your answers:** I will propose a place for the source notes, a draft, a checked result, and a handoff. Before creating anything, I will show you the exact destination and wait for your agreement. If I cannot access the files, I will explain the next step you need to take.
+
 The assistant should then show a small, concrete proposal: the exact new folder, the job the agent will do, where inputs and results belong, and how progress will survive the conversation. It should explain why each part helps. Review that proposal before it creates files. If an existing folder contains work, have it inspect the relevant files and preserve them.
 
 Once you agree, let it perform the technical steps and show you the resulting files. The repository's generator creates a **standard scaffold**, a fuller starting structure. The assistant may use that when it fits, or propose a smaller learning workspace first. That smaller workspace is a separate teaching choice; the generator does not currently offer a minimal-profile option.
@@ -64,6 +74,19 @@ Next, have it leave a short handoff: what was done, which files were used, what 
 | Find my progress | The handoff or current-task file's path |
 | Next step | One concrete action and the inputs it needs |
 | Checked so far | What was observed, and what remains untested |
+
+### What a filled practice card can look like
+
+This is an authored checkpoint for the [fictional workshop exercise](../examples/first-project/README.md), based on its [reference comparison](../examples/first-project/expected/comparison.md) and [reference handoff](../examples/first-project/expected/handoff.md). Paths below are relative to `examples/first-project/` in a local repository copy. The working result and handoff must be created during your attempt; this card is not a claim that those files already exist or a downloadable setup.
+
+- **Open next time:** A local-file-capable AI app, with the local `examples/first-project/` folder selected
+- **Say this:** “Read `workspace/handoff.md` and only its permitted inputs. Check the reviewed result, then draft the recorded unsent question.”
+- **Find my results:** `outputs/comparison.md`, saved after checking the draft against all three notes
+- **Find my progress:** `workspace/handoff.md`, naming the sources, result, information gap, and next allowed step
+- **Next step:** Draft the question about Maple's step-free entry at `workspace/maple-question.md`; do not send it or fill the gap by guessing
+- **Checked so far:** The teaching reference shows sourced comparisons and explicit unknowns. File saving and fresh-session recovery in your setup remain **not tested until observed**
+
+For your own card, replace these relative examples with your actual app and folder paths. Record only files you can reopen and checks you observed.
 
 ## 5. Try a fresh session
 

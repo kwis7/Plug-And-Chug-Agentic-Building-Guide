@@ -1,28 +1,30 @@
 # 1. Finish one small task
 
-This chapter uses the optional fictional exercise to make the method visible. If you have already chosen your own task in the [beginner guide](../../start-here.md), use the same sequence—agree on the result, work from named inputs, check, save and leave a handoff—with that task.
+You are planning a workshop for 16 people after 18:00, and everyone must be able to enter without steps. Before contacting a venue, you want to know which options meet those requirements and which need more information. A short comparison is enough for this decision. A booking would require additional facts and separate permission.
 
-Suppose you are planning a workshop for 16 people after 18:00. Everyone must be able to enter without steps. Before anyone contacts a venue, you want a short comparison that distinguishes a suitable candidate from an unsuitable or uncertain one.
+The [first-project exercise](../../../examples/first-project/README.md) supplies three synthetic venue notes. These are fictional examples, not real businesses or verified live information. Use them to practise working from sources without browsing, sending messages, booking or making payments. None of those actions is authorised by the exercise.
 
-The [first-project exercise](../../../examples/first-project/README.md) contains three synthetic source notes. They represent fictional venues, not real businesses or verified live information. The assignment is a source-comparison exercise; it grants no permission to book, send messages, or make payments.
+If you have chosen your own task in the [beginner guide](../../start-here.md), follow the same method with its agreed inputs and result. The venue example shows the reasoning in a form you can inspect; it is optional practice.
 
 ## Know the result you want
 
-A useful answer is more than a ranking. It should show the recorded facts, apply each requirement consistently, explain the resulting judgment, and preserve what remains unknown.
+A ranking alone would conceal a crucial difference: one venue fails a requirement, while another has an unanswered question. Ask for a comparison that shows the source facts before explaining the judgment. Applying the same requirements to each candidate makes the conclusion easier to inspect.
 
 | Venue | Capacity | Recorded hours | Step-free entry | Judgment |
 |---|---|---|---|---|
-| Cedar Hall | 18 | 18:00–21:00 | Yes | Meets the recorded requirements |
-| Willow Room | 24 | 09:00–17:00 | Yes | Fails the evening-hours requirement |
-| Maple Studio | 20 | 18:00–22:00 | Unspecified | Cannot confirm accessibility |
+| Cedar Hall | 18 | 18:00-21:00 | Yes | Meets the recorded requirements |
+| Willow Room | 24 | 09:00-17:00 | Yes | Fails the evening-hours requirement |
+| Maple Studio | 20 | 18:00-22:00 | Unspecified | Cannot confirm accessibility |
 
-Cedar Hall is the suitable candidate on the supplied facts. That is a bounded conclusion. It does not establish availability on a particular date, the duration of a workshop, price, or booking terms. Maple Studio's missing accessibility statement is an unknown; it is not evidence that the venue is inaccessible. Willow Room's larger capacity does not compensate for its hours.
+Cedar Hall meets all three requirements on the supplied facts. Willow Room has enough space, but its recorded hours end before the workshop begins. Maple Studio has enough space and evening hours; the note gives no accessibility information, so its suitability remains uncertain. Missing evidence of step-free entry does not establish that an entrance has steps.
+
+These notes also leave other questions open. They do not establish availability on a particular date, the workshop's duration, price or booking terms. The comparison can identify a suitable candidate for further investigation. It cannot supply the missing facts needed for a booking.
 
 ## Choose an available working route
 
-Use an AI tool you already have. For direct file work, it must be able to read the exercise files and write inside your chosen working copy. Check its actual permissions before starting. If your interface only accepts pasted text or uploads, provide the three notes explicitly and save the returned Markdown yourself. That route still teaches the method, although filesystem loading and writeback remain manual. Your existing model or API usage may carry its normal costs; the exercise itself needs no paid data service.
+Use an AI tool you already have and check what it can access. Direct file work requires permission to read the exercise files and write inside the working copy you choose. If your interface accepts only pasted text or uploads, supply the three notes and save the returned Markdown yourself. You can still examine the comparison, but filesystem loading and writeback remain manual and untested. Normal model or API usage costs may apply; the exercise needs no paid data service.
 
-Copy the exercise into a local practice folder if you want to preserve the bundled reference files. Tell the agent exactly which copy it may change. From the exercise root, a suitable assignment is:
+To preserve the bundled references, copy the exercise into a local practice folder and identify that copy as the place the agent may change. From the exercise root, give it this assignment:
 
 ```text
 Read task-brief.md, sources/cedar.md, sources/willow.md,
@@ -34,12 +36,14 @@ and unknowns. Identify missing inputs instead of guessing.
 Do not browse, contact, or book. Agree on any overwrite first.
 ```
 
-The tutorial agent first creates the draft. In a chat-only interface, you perform that saving step and mark local file loading untested. The repository's `expected/comparison.md` and `expected/handoff.md` are reference answers, not proof that your own exercise has been completed. Leave them closed until you have attempted the draft.
+Start by producing your own draft, with the reference answers still closed. In a chat-only interface, save it yourself and record that local file loading was not tested. The files `expected/comparison.md` and `expected/handoff.md` show what a checked exercise might contain. Their presence in the repository says nothing about whether your attempt succeeded.
 
 ## Review before accepting
 
-Open your `workspace/comparison.md` and follow its links to the three files under `sources/`. Confirm the capacities and time windows yourself. Then inspect the reasoning: all three have enough capacity, only two have evening hours, and only Cedar has both evening hours and a recorded step-free entrance. You can now compare it with `expected/comparison.md`.
+Open `workspace/comparison.md` and follow its source links to the three files under `sources/`. Check the capacities and time windows against the notes. Then examine how the requirements were applied: all three venues have enough capacity; Cedar and Maple have evening hours; Cedar alone also has a recorded step-free entrance. Once you have reviewed that reasoning, compare your result with `expected/comparison.md`.
 
-If the answer says Maple is suitable, ask which source establishes its accessibility. The correct repair is to mark that requirement unknown, revise the judgment, and record the correction. A polished paragraph cannot fill a missing source field.
+If the draft recommends Maple without qualification, ask what establishes its accessibility. The note cannot answer that question. Correct the entry to "unknown," revise the recommendation and record the repair. This is a useful review habit: follow an important conclusion back to the specific fact it needs, rather than judging the answer by how convincing the prose sounds.
 
-After review and any corrections, ask the agent to save the checked version at `outputs/comparison.md`, preserving the draft. Then have it create `workspace/handoff.md` with the actual checks, remaining unknowns, permitted inputs and writes, and next step: an unsent clarification question about Maple's entrance. Record recovery as untested until you observe it. A real booking decision still requires new information and separate authority.
+After any corrections, save the checked version at `outputs/comparison.md` while preserving the draft. The handoff at `workspace/handoff.md` should say what was checked, what remains unknown, which inputs and writes are permitted, and what to do next. Here the next step is to draft an unsent question about Maple's entrance. Drafting it does not obtain an answer or authorise sending it.
+
+You now have a result and the information needed to continue. Recovery remains untested until you actually try it in another session. Likewise, a real booking decision would still require new information and separate authority. The next chapter explains how the files preserve these distinctions.

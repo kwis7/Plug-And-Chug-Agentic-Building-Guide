@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Check skill descriptions for trigger quality and near-duplicate collisions."""
+"""Check portable Skill metadata and description routing without dependencies.
+
+Accept PAS's conservative YAML maps/scalars plus quoted and block strings.
+Unsupported YAML constructs produce diagnostics instead of guessed metadata.
+This is not a general-purpose YAML parser or a behavioral routing evaluation.
+"""
 
 from __future__ import annotations
 
@@ -15,19 +20,111 @@ TRIGGER_RE = re.compile(r"\b(?:use|run|choose)\b.{0,30}\bwhen\b|(?:适用于|当
 BOUNDARY_RE = re.compile(r"\b(?:do not use|not for|exclude)\b|(?:不适用于|不要用于|排除)", re.I)
 
 
-def frontmatter(path: Path) -> dict[str, str]:
-    text = path.read_text(encoding="utf-8")
-    if not text.startswith("---\n"):
-        return {}
-    end = text.find("\n---\n", 4)
-    if end < 0:
-        return {}
-    values = {}
-    for line in text[4:end].splitlines():
-        if ":" in line:
-            key, value = line.split(":", 1)
-            values[key.strip()] = value.strip().strip('"')
-    return values
+def scalar_value(value: str) -> str | None:
+    """Read the documented scalar subset without coercing YAML types to text."""
+    if value.startswith('"'):
+        try:
+            decoded, end = json.JSONDecoder().raw_decode(value)
+        except ValueError as exc:
+            raise ValueError("unsupported double-quoted scalar; use JSON-compatible escapes") from exc
+        if not isinstance(decoded, str) or (value[end:].strip() and not re.fullmatch(r"\s+#.*", value[end:])):
+            raise ValueError("invalid quoted scalar")
+        return decoded
+    if value.startswith("'"):
+        match = re.fullmatch(r"'((?:[^']|'')*)'(?:\s+#.*)?\s*", value)
+        if not match:
+            raise ValueError("invalid single-quoted scalar")
+        return match[1].replace("''", "'")
+    value = re.split(r"\s+#", value, maxsplit=1)[0].rstrip()
+    if value.startswith("#"):
+        return None
+    if value.startswith(("&", "*", "!", "{", "[", "]", "}", "|", ">", "@", "`", "%")) or re.match(r"[-?:](?:\s|$)", value):
+        raise ValueError("unsupported YAML construct; use a quoted scalar or indented map")
+    if re.search(r":(?:\s|$)", value):
+        raise ValueError("plain scalar contains a mapping separator; quote the value")
+    numeric = r"[-+]?(?:0[xX][0-9a-fA-F_]+|0[oO][0-7_]+|0[bB][01_]+|(?:[0-9][0-9_]*(?:\.[0-9_]*)?|\.[0-9_]+)(?:[eE][-+]?[0-9]+)?|\.inf|\.nan)"
+    if value.lower() in {"true", "false", "null", "~"} or re.fullmatch(numeric, value, re.I):
+        return None
+    return value or None
+
+
+def block_value(raw: list[str], style: str, chomp: str, key: str) -> str:
+    """Support implicit indentation, literal/folded strings and YAML chomping."""
+    nonempty = [row for row in raw if row.strip()]
+    if not nonempty:
+        return "\n" * len(raw) if chomp == "+" else ""
+    indent = len(nonempty[0]) - len(nonempty[0].lstrip(" "))
+    if any(len(row) - len(row.lstrip(" ")) < indent for row in nonempty):
+        raise ValueError(f"inconsistent block indentation for {key}")
+    first = next(index for index, row in enumerate(raw) if row.strip())
+    if any(len(row) > indent for row in raw[:first]):
+        raise ValueError(f"leading blank line exceeds block indentation for {key}")
+    rows = [row[indent:] if len(row) >= indent else "" for row in raw]
+    if style == "|":
+        content = "\n".join(rows) + "\n"
+    else:
+        positions = [index for index, row in enumerate(rows) if row]
+        content = "\n" * positions[0] + rows[positions[0]]
+        for previous, current in zip(positions, positions[1:]):
+            gap = current - previous - 1
+            indented = rows[previous].startswith((" ", "\t")) or rows[current].startswith((" ", "\t"))
+            separator = "\n" * (gap + int(indented)) if gap else ("\n" if indented else " ")
+            content += separator + rows[current]
+        content += "\n" * (len(rows) - positions[-1])
+    if chomp == "-":
+        return content.rstrip("\n")
+    return content if chomp == "+" else content.rstrip("\n") + "\n"
+
+
+def frontmatter(path: Path) -> dict[str, object]:
+    lines = path.read_text(encoding="utf-8-sig").splitlines()
+    if not lines or lines[0] != "---":
+        raise ValueError("missing YAML frontmatter opening delimiter")
+    try:
+        end = lines.index("---", 1)
+    except ValueError as exc:
+        raise ValueError("missing YAML frontmatter closing delimiter") from exc
+    root: dict[str, object] = {}
+    stack: list[tuple[int, dict[str, object]]] = [(0, root)]
+    pending: tuple[int, dict[str, object], str] | None = None
+    index = 1
+    while index < end:
+        line = lines[index]
+        index += 1
+        if not line.strip() or line.lstrip().startswith("#"):
+            continue
+        match = re.fullmatch(r"( *)([A-Za-z0-9_-]+):(?: +(.*)| *)", line)
+        if not match:
+            raise ValueError(f"unsupported YAML on line {index}; use indented maps and scalar values")
+        prefix, key, value = match[1], match[2], match[3] or ""
+        indent = len(prefix)
+        if indent > stack[-1][0]:
+            if pending is None or pending[0] != stack[-1][0]:
+                raise ValueError(f"unexpected indentation on line {index}")
+            child: dict[str, object] = {}
+            pending[1][pending[2]] = child
+            stack.append((indent, child))
+        while indent < stack[-1][0]:
+            stack.pop()
+        if indent != stack[-1][0]:
+            raise ValueError(f"inconsistent mapping indentation on line {index}")
+        parent = stack[-1][1]
+        if key in parent:
+            raise ValueError(f"duplicate frontmatter key: {key}")
+        pending = None
+        block = re.fullmatch(r"([>|])([-+]?)(?: +#.*)?", value)
+        if block:
+            raw = []
+            while index < end and (not lines[index].strip() or len(lines[index]) - len(lines[index].lstrip(" ")) > indent):
+                raw.append(lines[index])
+                index += 1
+            parent[key] = block_value(raw, block[1], block[2], key)
+        elif not value or value.startswith("#"):
+            parent[key] = None
+            pending = (indent, parent, key)
+        else:
+            parent[key] = scalar_value(value)
+    return root
 
 
 def tokens(text: str) -> set[str]:
@@ -37,20 +134,36 @@ def tokens(text: str) -> set[str]:
 def check(root: Path) -> dict[str, object]:
     entries = []
     issues = []
+    warnings = []
     for path in sorted(root.glob("**/SKILL.md")):
         relative_parts = path.relative_to(root).parts
         if any(part.startswith(".") for part in relative_parts) or "templates" in relative_parts:
             continue
-        meta = frontmatter(path)
+        try:
+            meta = frontmatter(path)
+        except (OSError, ValueError) as exc:
+            issues.append({"path": str(path), "issue": str(exc)})
+            continue
         name = meta.get("name", "")
         description = meta.get("description", "")
-        entries.append((path, name, description, tokens(description)))
-        if not name or not description:
-            issues.append({"path": str(path), "issue": "missing name or description"})
+        if not isinstance(name, str) or not name or not isinstance(description, str) or not description.strip():
+            issues.append({"path": str(path), "issue": "name and description must be non-empty strings"})
             continue
+        entries.append((path, name, description, tokens(description)))
+        if len(name) > 64 or name != name.lower() or any(not (char.isalnum() or char == "-") for char in name) or name.startswith("-") or name.endswith("-") or "--" in name:
+            issues.append({"path": str(path), "issue": "name must use 1-64 lowercase alphanumeric characters and single hyphens"})
+        if name != path.parent.name:
+            issues.append({"path": str(path), "issue": "name must match its parent directory"})
+        if len(description) > 1024:
+            issues.append({"path": str(path), "issue": "description exceeds 1024 characters"})
+        compatibility = meta.get("compatibility")
+        if "compatibility" in meta and (not isinstance(compatibility, str) or not 1 <= len(compatibility) <= 500):
+            issues.append({"path": str(path), "issue": "compatibility must be a string of 1-500 characters"})
+        metadata = meta.get("metadata")
+        if "metadata" in meta and (not isinstance(metadata, dict) or any(not isinstance(item, str) for item in metadata.values())):
+            issues.append({"path": str(path), "issue": "metadata must be a map of strings"})
         if len(description) < 80:
-            issues.append({"path": str(path), "issue": "description shorter than 80 characters"})
-        lowered = description.lower()
+            warnings.append({"path": str(path), "issue": "short description: review its scope using routing examples"})
         if not TRIGGER_RE.search(description):
             issues.append({"path": str(path), "issue": "description lacks explicit use/when trigger language"})
         if not BOUNDARY_RE.search(description):
@@ -104,7 +217,7 @@ def check(root: Path) -> dict[str, object]:
                         collisions.append({"first": seen_prompts[normalized], "second": agent, "prompt": prompt})
                     else:
                         seen_prompts[normalized] = agent
-    return {"root": str(root), "skills": len(entries), "routing_agents": routing_agents, "valid": not issues and not collisions, "issues": issues, "collisions": collisions}
+    return {"root": str(root), "skills": len(entries), "routing_agents": routing_agents, "valid": not issues and not collisions, "issues": issues, "warnings": warnings, "collisions": collisions, "evidence": "static metadata and routing fixtures; runtime behavior not tested"}
 
 
 def main(argv: list[str] | None = None) -> int:

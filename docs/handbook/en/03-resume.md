@@ -1,12 +1,12 @@
 # 3. Pick up where you left off
 
-Continuity is something you can test. Close the original conversation, start a fresh session, and see whether the saved files support the next step. This is more informative than asking the original model whether it will remember.
+The reviewed comparison leaves a specific job unfinished: finding out whether Maple has a step-free entrance. Another session can prepare that question if it can find the result, understand the gap and see what you have authorised next. You can name the handoff file and ask it to continue from there.
 
-For the venue exercise, the task is already useful as a comparison. The handoff should prevent a later session from treating it as a completed booking or silently converting Maple's unknown into a positive answer.
+Try this by closing the original conversation and starting a fresh one. The saved files should support the next step on their own. Pay particular attention to the status of the work: Cedar is a candidate supported by the supplied notes, Maple's entrance remains unknown, and no venue has been booked. A promise from the original model to remember these details gives you less evidence than watching a new session use the records correctly.
 
 ## Leave a handoff with a next action
 
-A handoff is a short working note, not a transcript. It should tell a newcomer what the task was, what exists, why the result stands, and what would change it. For example:
+Write the handoff while the outcome is still clear to you. Include the requirements, the files containing the result and its sources, the checks you performed, and the unresolved issue. Then specify the next permitted action. A later reader needs enough information to check the decision and continue; you can leave out the discarded wording and other drafting details. For example:
 
 ```text
 Task: compare three fictional venues for 16 people after 18:00;
@@ -26,20 +26,22 @@ and the three named sources. Write only the question and this handoff.
 Recovery: not tested until a fresh session is observed.
 ```
 
-This note preserves a decision and its limits without preserving all the drafting conversation. The reference handoff in [`expected/handoff.md`](../../../examples/first-project/expected/handoff.md) is a model to compare against, not a replacement for recording what your own session actually checked.
+The file paths let the next session inspect the basis for the decision. The limits explain why drafting a question is appropriate while contacting or booking a venue is not authorised. Compare your note with [`expected/handoff.md`](../../../examples/first-project/expected/handoff.md), then make sure your own version describes checks you actually performed. The reference is a teaching example; copying it does not establish that those checks happened in your session.
 
 ## Run the restart exercise
 
-Open a fresh session in the practice copy, or explicitly supply its handoff and named sources. Ask it to read `workspace/handoff.md`, inspect only the permitted files, and state the current result and unresolved issues. Then carry out the recorded next step: save one unsent question about Maple's step-free entrance at `workspace/maple-question.md` and update the handoff. No browsing, contact, or booking is allowed.
+Open a fresh session in the practice copy and ask it to begin with `workspace/handoff.md`. If your interface requires you to supply the files, provide the handoff and its named sources explicitly. Have the session inspect only the permitted files and explain the current result and unresolved issue before continuing. Its next job is to save one unsent question about Maple's step-free entrance at `workspace/maple-question.md` and update the handoff. The exercise allows no browsing, contact or booking.
 
-A successful restart finds the reviewed result, identifies Cedar as the supported candidate, preserves Maple's unknown, and recognises Willow's hours problem. Reopen the new question and updated handoff before recording recovery as tested with the tool, date, and observed outcome. Drafting a question does not answer it. If a named input is absent, the session should report that gap rather than reconstruct missing evidence from memory.
+Check the explanation against the reviewed comparison. Cedar should still be the supported candidate, Willow should still fail the hours requirement, and Maple's entrance should still be unknown. Reopen the question and the updated handoff to see whether the files were saved as intended. Record the tool, date and observed outcome before marking recovery as tested. Saving that draft leaves Maple's entrance status unresolved. Any missing input should be reported as a gap; remembered facts cannot replace evidence the task requires the session to read.
 
-To practise failure handling safely, follow the tutorial's missing-source prompt in another fresh session. Permit only `task-brief.md`, `sources/cedar.md`, and `sources/willow.md`; declare Maple's note unavailable without deleting it. Exclude other exercise files and remembered facts. Save the limited comparison at `workspace/missing-source-check.md`, leaving Maple unassessed and the reviewed result untouched. This tests a declared input boundary; mechanical isolation depends on the tool's permissions.
+You can also rehearse a restart with incomplete inputs. In another fresh session, use the tutorial's missing-source prompt: permit only `task-brief.md`, `sources/cedar.md` and `sources/willow.md`, and declare Maple's note unavailable. Leave the original note in place, exclude the other exercise files and remembered facts, and save the limited comparison at `workspace/missing-source-check.md`. Maple should be unassessed in this result, while the original reviewed comparison remains untouched.
+
+That exercise shows whether the session follows the declared input scope. To establish that it cannot access the excluded files, you would also need evidence from the tool's permissions. Keeping a source out of the prompt does not itself make the file inaccessible.
 
 ## Recover before repeating
 
-Interruptions often leave partial work. Before retrying, inspect the draft, reviewed result, and `workspace/handoff.md` to identify the last successful step. A missing reviewed result sends you back to review; a partial draft is not a checked output. Repeating a read or regenerating a disposable draft is usually straightforward. Repeating an external action can create a duplicate booking, message, or payment.
+After an interruption, inspect the draft, reviewed result and `workspace/handoff.md` before starting over. Suppose the draft exists but the reviewed result is missing. The next step is review, even if the draft looks finished. Finding the last successful step preserves useful work and prevents a partial result from being mistaken for a checked one.
 
-When an external operation has an uncertain result, first check the external record. A timeout means the response was not received; it does not prove that nothing happened. The fictional exercise has no external actions, but practising the distinction makes later workflows safer.
+Repeating a read or recreating a disposable draft is usually straightforward. External actions need more care. If a booking request times out, the response may have failed to reach you after the service accepted the booking. Check the external record before repeating the action; otherwise a retry could produce a duplicate booking, message or payment. Any new booking, message or payment also needs the appropriate authorisation. Our fictional exercise performs none of them, but its handoff gives you a place to learn how to record action status accurately.
 
-For larger work, the toolkit records state in `tasks/<task-id>/task.yaml` and generates `STATUS.md` from it. That adds explicit scope, verification, and lifecycle fields. The underlying habit remains the same: record current truth once, preserve useful partial work, and leave the next action precise enough that another session can continue without guessing.
+For larger projects, the toolkit stores state in `tasks/<task-id>/task.yaml` and generates `STATUS.md` from it. The additional fields make scope, verification and lifecycle explicit. A small handoff can serve the first exercise: keep the current state in one place, preserve usable partial results, and identify the files and permitted action needed to continue.

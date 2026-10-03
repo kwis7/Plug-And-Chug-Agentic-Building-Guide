@@ -28,8 +28,23 @@ Borrow methods, not private worlds.
 | One task needs another agent's checklist | Borrow it once and write a source note |
 | The same checklist is reused several times | Run `pas-distill` and create a local skill |
 | A stable concept is useful across domains | Add a neutral note to root `knowledge/` |
-| The borrowed method depends on private data | Do not borrow; ask for a privacy-safe summary or create a separate subagent |
+| The borrowed method depends on private data | Keep the data with its owner; use an authorised minimal summary, or delegate inside that owner's verified access boundary |
 | Two agents now do the same job | Review responsibilities before merging anything |
+
+## Delegation does not establish isolation
+
+A separate worker or folder does not automatically restrict files, tools, network access, or inherited instructions. A conversation fork can inherit the parent's full history. A fresh worker can still receive project instructions and use tools with broad access. Do not transfer private material merely because execution has a different agent name.
+
+When delegation is justified, agree on a bounded contract and record the context and permission projection in the receiving task:
+
+- owner, objective, minimal authorised inputs, allowed writes, and prohibited actions;
+- fresh, resumed, or forked context and which instructions, skills, and memory enter it;
+- effective native tools, sandbox/access restrictions, approval mode, and any limits that remain advisory;
+- expected evidence, stop condition, verification responsibility, and observed boundary tests.
+
+Use the [skill matrix](skill-matrix.md#context-and-permission-projection) and exactly one [runtime adapter](adapters.md) for detail. Keep private-data work inside its owning scope unless the user explicitly authorises the destination and transfer. If the runtime boundary cannot be verified, return a privacy-safe method summary or a gap instead of claiming isolation.
+
+As reviewed on 2026-10-02, Claude Code's [official subagent documentation](https://code.claude.com/docs/en/sub-agents#manage-subagent-context) distinguishes non-fork context from conversation forks. This is documented product behavior, not a runtime verification of this package.
 
 ## Boundaries
 

@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "records": [
+    {
+      "schema_version": 1,
+      "kind": "preference",
+      "id": "venue-source-comparison-opening",
+      "owner": "example-owner",
+      "version": 1,
+      "state": "active",
+      "scope": {
+        "include_task_types": ["source-comparison"],
+        "exclude_task_types": ["creative-writing", "debugging"]
+      },
+      "behavior": "For source comparisons, begin with exactly two short recommendation sentences, then explain the evidence and unknowns.",
+      "source": {
+        "kind": "explicit_future_instruction",
+        "reference": "authored-case-step-2-retention-instruction",
+        "recorded_at": "2026-10-02"
+      },
+      "retention_authorized": true,
+      "conflict_review": "passed",
+      "supersedes_version": null,
+      "retirement_reason": null,
+      "evidence": {
+        "mode": "illustrative",
+        "receipt_refs": ["E-venue-baseline-v1", "E-venue-candidate-v1"]
+      },
+      "rollback": {
+        "restore_version": null,
+        "reason": null
+      }
+    },
+    {
+      "schema_version": 1,
+      "kind": "model_combination",
+      "id": "venue-baseline",
+      "owner": "example-owner",
+      "evidence": {"mode": "illustrative"},
+      "client": {"name": "selected-existing-assistant", "version": "record-before-use"},
+      "runtime": {"name": "selected-native-agent-runtime", "version": "record-before-use"},
+      "provider": {"name": "current-provider-to-record", "endpoint_type": "runtime-managed", "region": "unknown"},
+      "model": {"requested_id": "baseline-model-to-record", "resolved_id": null, "verification_date": null},
+      "overlay": {"id": "local-workspace", "version": 1},
+      "capabilities": {
+        "required": ["named_local_file_reads", "local_draft_writes"],
+        "observations": {
+          "named_local_file_reads": {"status": "unknown", "source_ref": null},
+          "local_draft_writes": {"status": "unknown", "source_ref": null}
+        }
+      },
+      "context": {"documented_limit_tokens": null, "observed_compaction": null},
+      "parameters": {"supported": [], "ignored": [], "unsupported": []},
+      "acceptance": {"status": "not_run", "receipt_refs": ["E-venue-baseline-v1"]},
+      "fallback_combination_id": null,
+      "rollback": {"previous_combination_id": null, "trigger": "Retain the current working setup while its synthetic acceptance remains untested."}
+    },
+    {
+      "schema_version": 1,
+      "kind": "model_combination",
+      "id": "venue-candidate",
+      "owner": "example-owner",
+      "evidence": {"mode": "illustrative"},
+      "client": {"name": "selected-existing-assistant", "version": "record-before-use"},
+      "runtime": {"name": "selected-native-agent-runtime", "version": "record-before-use"},
+      "provider": {"name": "candidate-provider-to-record", "endpoint_type": "runtime-managed", "region": "unknown"},
+      "model": {"requested_id": "candidate-model-to-record", "resolved_id": null, "verification_date": null},
+      "overlay": {"id": "local-workspace", "version": 1},
+      "capabilities": {
+        "required": ["named_local_file_reads", "local_draft_writes"],
+        "observations": {
+          "named_local_file_reads": {"status": "unknown", "source_ref": null},
+          "local_draft_writes": {"status": "unknown", "source_ref": null}
+        }
+      },
+      "context": {"documented_limit_tokens": null, "observed_compaction": null},
+      "parameters": {"supported": [], "ignored": [], "unsupported": []},
+      "acceptance": {"status": "not_run", "receipt_refs": ["E-venue-candidate-v1"]},
+      "fallback_combination_id": "venue-baseline",
+      "rollback": {"previous_combination_id": "venue-baseline", "trigger": "Required local tools, instruction loading, uncertainty handling or recovery fail; model identity or access boundary remains unknown."}
+    },
+    {
+      "schema_version": 1,
+      "kind": "evaluation_receipt",
+      "id": "E-venue-baseline-v1",
+      "mode": "illustrative",
+      "recorded_at": "2026-10-02",
+      "fixture_id": "local-venue-comparison-v1",
+      "preference": {"id": "venue-source-comparison-opening", "version": 1},
+      "combination_id": "venue-baseline",
+      "checks": [
+        {"id": "instruction_loading", "status": "not_run", "evidence_ref": null},
+        {"id": "tool_round_trip", "status": "not_run", "evidence_ref": null},
+        {"id": "uncertainty", "status": "not_run", "evidence_ref": null},
+        {"id": "recovery", "status": "not_run", "evidence_ref": null},
+        {"id": "named_local_file_reads", "status": "not_run", "evidence_ref": null},
+        {"id": "local_draft_writes", "status": "not_run", "evidence_ref": null}
+      ],
+      "metrics": {"latency_ms": null, "input_tokens": null, "output_tokens": null, "estimated_cost": null, "pricing_date": null},
+      "limitations": [
+        "Authored synthetic example; no actual model or runtime was invoked.",
+        "Preference is declared active in the fictional case, not observed as loaded.",
+        "No fresh-session recovery, access denial, quality comparison or cost measurement was performed."
+      ]
+    },
+    {
+      "schema_version": 1,
+      "kind": "evaluation_receipt",
+      "id": "E-venue-candidate-v1",
+      "mode": "illustrative",
+      "recorded_at": "2026-10-02",
+      "fixture_id": "local-venue-comparison-v1",
+      "preference": {"id": "venue-source-comparison-opening", "version": 1},
+      "combination_id": "venue-candidate",
+      "checks": [
+        {"id": "instruction_loading", "status": "not_run", "evidence_ref": null},
+        {"id": "tool_round_trip", "status": "not_run", "evidence_ref": null},
+        {"id": "uncertainty", "status": "not_run", "evidence_ref": null},
+        {"id": "recovery", "status": "not_run", "evidence_ref": null},
+        {"id": "named_local_file_reads", "status": "not_run", "evidence_ref": null},
+        {"id": "local_draft_writes", "status": "not_run", "evidence_ref": null}
+      ],
+      "metrics": {"latency_ms": null, "input_tokens": null, "output_tokens": null, "estimated_cost": null, "pricing_date": null},
+      "limitations": [
+        "Candidate model/provider names and versions are placeholders awaiting an authorised real test.",
+        "All checks remain not_run; the expected comparison does not establish acceptance.",
+        "Rollback is a proposed local decision, not an executed settings change."
+      ]
+    }
+  ]
+}

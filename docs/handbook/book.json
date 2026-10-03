@@ -1,11 +1,11 @@
 {
-  "edition": "Reader edition 3",
-  "date": "2026-09-22",
+  "edition": "Reader edition 4",
+  "date": "2026-10-03",
   "repository": "https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide",
   "languages": {
     "en": {
       "title": "AI Agents, Explained",
-      "subtitle": "Why build your own local agentic system when you already have fancy apps like Codex, Claude Code, or WorkBuddy?",
+      "subtitle": "If your AI assistant can already do the work, what is a local workspace for?",
       "contents": "In this guide",
       "links": "Further reading",
       "pdf": "Agentic-System-Building-Guide.pdf"

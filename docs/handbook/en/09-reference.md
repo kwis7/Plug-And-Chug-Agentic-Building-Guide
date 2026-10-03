@@ -1,14 +1,14 @@
 # 9. Reference: the standard toolkit
 
-The first-project folder teaches a small working method. The Portable Agentic System toolkit implements a broader standard scaffold with domain folders, task contracts, generated status, budgets, locks, and adapter configuration. It is an alternative setup route when those features are useful; completing the learning exercise does not require generating it.
+The earlier exercise needs only a few files to compare sources and resume the work. A larger project may need task contracts, generated status, budgets or locks, especially when it has several responsibilities to coordinate. The Portable Agentic System toolkit creates a standard scaffold with those features, domain folders and adapter configuration. Use that setup route when its features serve the work. Completing the exercise does not require it, and the small teaching workspace is not a special generator mode.
 
-The command examples below run from this repository's root. They use local Python scripts and assume `python3` is installed and compatible with the source. Inspect the scripts, their `--help`, the proposed target, and your environment before execution. Use a new disposable directory for a first scaffold. These instructions do not claim that the commands have run on your machine.
+This chapter explains the commands and what their results establish. Run the examples from this repository's root with an installed `python3` compatible with the source. First inspect the scripts and their `--help`, your environment and the proposed target. For an initial trial, choose a new disposable directory so that the generated files stay separate from existing work. The examples describe operations you can perform; they are not a record of execution on your computer.
 
 ## Preview and create a scaffold
 
-Read the [starter configuration](../../../skills/portable-agentic-system/pas/examples/starter-config.json) and copy it to a working file if you want to change its sample domains. The bundled file contains two illustrative owners; it is not a universal recommendation. Each configured agent needs a purpose, routing description, exclusions, and examples that distinguish it from adjacent work.
+Begin with the [starter configuration](../../../skills/portable-agentic-system/pas/examples/starter-config.json). Its two owners illustrate how to describe responsibilities; they are not a recommendation to organise every project that way. For each Agent, the purpose, routing description, exclusions and examples should make it clear when work belongs there and when it belongs elsewhere. Copy the configuration to a working file before changing its sample domains.
 
-Choose an unused target path and run a preview:
+Choose an unused target path. The first command previews where the scaffold and Agent folders would go:
 
 ```bash
 python3 skills/portable-agentic-system/scripts/create_agentic_system.py \
@@ -17,13 +17,15 @@ python3 skills/portable-agentic-system/scripts/create_agentic_system.py \
   --dry-run
 ```
 
-The preview reports the target root and agent paths as JSON; it does not enumerate every file to be written. Review those paths, the templates, and the generator's scaffold behavior before creation. To create the reviewed scaffold, run the same command without `--dry-run`. The generator refuses existing-file collisions by default. Do not reach for `--force` as a routine error fix; inspect the collision and preserve existing work.
+With `--dry-run`, the generator returns JSON containing the target root and Agent paths. It does not list every file it would write. Review the reported locations together with the templates and the generator's scaffold behavior. Once you have reviewed and authorised creation, run the same command without `--dry-run`.
 
-The generated system includes runtime configuration and local operational scripts under `.pas/bin/`. Review hooks before trusting or enabling them in your chosen tool. The generator does not itself prove that a runtime has discovered or executed the configuration.
+By default, an existing target file causes the generator to refuse that write. Inspect a collision before deciding what to do; earlier writes may already have occurred. The `--force` option bypasses the refusal and permits overwriting, so it requires a deliberate decision about the existing work. It is not a routine way to make an error disappear.
+
+The generated files include runtime configuration and operational scripts under `.pas/bin/`. Examine the hooks before trusting or enabling them in your chosen tool. At this stage you have created configuration files. Establishing that the runtime discovers and executes them requires a separate test.
 
 ## Run static checks
 
-After generation, these commands inspect the scaffold. Replace the target consistently if you chose a different path.
+Once the files exist, run the static checks below against the generated root. If you selected another target, substitute it consistently in each command.
 
 ```bash
 python3 skills/portable-agentic-system/scripts/validate_agentic_system.py \
@@ -38,30 +40,32 @@ python3 skills/portable-agentic-system/scripts/harness_health_check.py \
   /tmp/pas-learning-demo --json
 ```
 
-Read every failure before continuing. If task records changed and status is stale, run `generate_status.py` with the same root but without `--check`, then check again. That regeneration writes `STATUS.md`; check mode only verifies consistency.
+A failure identifies something to investigate before continuing. For example, changing a task record can leave `STATUS.md` out of date. The `--check` invocation compares the page with the task records without rewriting it. Run `generate_status.py` against the same root without `--check` to regenerate the page, then check again. This keeps the task record as the source of current state.
 
-The adapter probe is also available:
+You can also inspect the selected adapter's configuration:
 
 ```bash
 python3 skills/portable-agentic-system/scripts/adapter_smoke.py \
   /tmp/pas-learning-demo --runtime codex
 ```
 
-This is a **static** probe despite its name. Its reported `verification_level` is `static`. Select a runtime matching your intended integration and follow its adapter for fresh-session tests. Do not upgrade the claim based on a passing configuration inspection.
+The filename `adapter_smoke.py` can suggest a live test, but this probe inspects generated configuration. It reports `verification_level` as `static`. A passing result supports that inspection, without showing that an installed runtime loaded the instructions or enforced a hook. Choose the runtime you intend to use and follow its adapter's fresh-session procedure to obtain evidence for those behaviors.
 
 ## Understand task authority
 
-A standard `tasks/<task-id>/task.yaml` records identity and ownership; objective and scope; allowed inputs, writes, tools, and prohibited actions; outputs and completion conditions; verification and receipts; execution resources; and handoff. The generator writes JSON syntax inside the YAML-named file, which its standard-library parser can read. The parser also accepts a conservative YAML subset; it is not a promise of full YAML support.
+A standard `tasks/<task-id>/task.yaml` makes the task's agreement explicit. It identifies the task and owner, objective and scope, permitted inputs and writes, available tools and prohibited actions. It also records outputs, completion conditions, verification and receipts, execution resources and the handoff. These fields let the local checks examine the recorded state rather than infer completion from a conversational claim.
 
-Use the generated task as a schema example and consult the [governance reference](../../../docs/reference/task-lifecycle.md) before constructing one manually. A teaching handoff from chapter 3 is not a complete valid task manifest.
+The generator saves JSON syntax inside this YAML-named file. Its standard-library parser reads that syntax and also accepts a conservative YAML subset. The `.yaml` extension therefore does not mean every YAML feature is supported. Use the generated task as a format example, and consult the [governance reference](../../../docs/reference/task-lifecycle.md) before writing one manually. The short teaching handoff in chapter 3 serves recovery; it lacks the complete schema of a valid standard task manifest.
 
-For a real task already recorded in the generated system, invoke its bundled gate from that system's root:
+For an existing task in the generated system, run its bundled closeout gate from that system's root:
 
 ```bash
 python3 .pas/bin/closeout_gate.py . tasks/T-123/task.yaml
 ```
 
-Replace `T-123` with an existing task. A successful terminal closeout requires the declared outputs, verification state and receipt paths, current generated status, budget compliance, released task locks, and handoff. Failed and cancelled tasks use honest unsuccessful outcomes. The gate's structural checks do not replace a substantive review of the deliverable or verification of the host's blocking behavior.
+Replace `T-123` with the actual task ID. To accept a successful terminal closeout, the gate requires declared outputs, the required verification state and receipt paths, current generated status, compliance with budgets, released task locks and a handoff. A failed or cancelled task should retain its honest unsuccessful outcome. Closing its record does not turn it into a success.
+
+These checks can identify a missing output or receipt, but the existence of a file does not establish its quality. Review the deliverable and the evidence substantively. Likewise, calling the gate directly does not show that the host invokes it or blocks an attempted completion. That behavior needs its own runtime evidence.
 
 ## Find deeper implementation detail
 
@@ -75,4 +79,4 @@ Replace `T-123` with an existing task. A successful terminal closeout requires t
 | Tasks, gates, and concurrent work | [Reliability reference](../../../skills/portable-agentic-system/pas/references/textbook-reliability.md) |
 | Full design interview | [Build workbook](../../../skills/portable-agentic-system/pas/references/textbook-build-workbook.md) |
 
-The repository's Python test suite runs with `python3 -m unittest discover -s tests -v`. Passing it supports the tested local behavior. It does not establish fresh-session compatibility, publication, delivery, or any external transaction. Report each of those only at the level of evidence actually obtained.
+For repository development, run the Python suite with `python3 -m unittest discover -s tests -v`. Report a passing result as evidence for the local behavior covered by those tests. Fresh-session compatibility, publication, delivery and external transactions are separate outcomes, each requiring evidence from the relevant operation.

@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "kind": "model_combination",
+  "id": "illustrative-combination",
+  "owner": "example-owner",
+  "evidence": {
+    "mode": "illustrative"
+  },
+  "client": {
+    "name": "your-ai-app",
+    "version": "not-recorded"
+  },
+  "runtime": {
+    "name": "your-ai-runtime",
+    "version": "not-recorded"
+  },
+  "provider": {
+    "name": "your-provider",
+    "endpoint_type": "not-recorded",
+    "region": "not-recorded"
+  },
+  "model": {
+    "requested_id": "your-model-id",
+    "resolved_id": null,
+    "verification_date": null
+  },
+  "overlay": {
+    "id": "shared-guidance-only",
+    "version": 1
+  },
+  "capabilities": {
+    "required": [
+      "instruction_loading",
+      "tool_round_trip",
+      "uncertainty",
+      "recovery"
+    ],
+    "observations": {
+      "instruction_loading": {
+        "status": "unknown",
+        "source_ref": null
+      },
+      "tool_round_trip": {
+        "status": "unknown",
+        "source_ref": null
+      },
+      "uncertainty": {
+        "status": "unknown",
+        "source_ref": null
+      },
+      "recovery": {
+        "status": "unknown",
+        "source_ref": null
+      }
+    }
+  },
+  "context": {
+    "documented_limit_tokens": null,
+    "observed_compaction": null
+  },
+  "parameters": {
+    "supported": [],
+    "ignored": [],
+    "unsupported": []
+  },
+  "acceptance": {
+    "status": "not_run",
+    "receipt_refs": []
+  },
+  "fallback_combination_id": null,
+  "rollback": {
+    "previous_combination_id": null,
+    "trigger": "Return to a previous accepted combination if a required check fails; preserve the same authority and permissions."
+  }
+}

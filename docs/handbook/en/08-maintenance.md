@@ -1,35 +1,35 @@
 # 8. Maintain what you use
 
-A workspace should become easier to resume as it accumulates useful work. That does not happen by saving everything. Unreviewed transcripts, duplicate procedures, stale dashboards, and obsolete instructions can make the next session slower and less reliable.
+After several weeks of use, you may have two versions of a useful procedure, a status page that still lists a finished task, and a memory file full of details from old conversations. The files were saved for good reasons, yet they now make it harder to determine what is current. Maintenance resolves this accumulated ambiguity.
 
-Maintenance begins with a practical question: which retained information helps a future task, and where should that information live? Preserve decisions, provenance, useful methods, and recovery pointers. Move or retire material when its current location no longer serves that purpose.
+Begin with something you had difficulty doing. Perhaps you could not find the source behind a conclusion, or a new session followed an obsolete instruction. Identify which record should have helped and why it failed. Decisions, provenance, reusable methods and recovery pointers are worth retaining when their purpose is clear. Material that no longer serves its current purpose may need to move, be archived or be retired.
 
 ## Close the task cleanly
 
-After the venue comparison, retain the named sources, reviewed answer, relevant verification note, and handoff. There is little reason to place every drafting attempt in compact memory. If a correction revealed a reusable lesson, consider whether an existing skill or knowledge note should capture it.
+The venue exercise leaves a reviewed answer, named sources, a verification note and a handoff. Together they explain the outcome and what remains unknown. Keep those records distinguishable from the drafting attempts. If reviewing Maple's accessibility led to a useful general lesson, consider adding it to an existing Skill or knowledge note, where another comparison can retrieve it.
 
-Not every task requires a memory edit. Memory is a short recovery aid. It is useful when a durable decision or pointer would otherwise be hard to rediscover. Task-specific progress belongs with the task, and extensive explanation belongs in knowledge or a referenced artifact.
+The memory file need not change after every task. Its purpose is to provide a short recovery aid: a durable decision or a pointer that would otherwise be difficult to find. Putting every draft and correction there makes that aid harder to use. Current progress belongs with its task; a substantial explanation belongs in knowledge or a referenced artifact.
 
-In the standard scaffold, update the task record and regenerate `STATUS.md`. Do not rewrite status independently in several places. When the work is closed, make the final outcome and remaining limits clear enough that a later reader will not mistake an old draft for an active assignment.
+In the standard scaffold, the task record is also the source for generated `STATUS.md`. Update the record and regenerate the page so that both describe the same state. Independently rewriting status in several places creates competing accounts of progress. At closeout, state the final outcome and its limits, and make clear which result was reviewed. A later reader should be able to distinguish completed work from an assignment still in progress.
 
 ## Review friction, not appearances
 
-Choose a review interval that reflects actual use. A frequently used system may benefit from a brief weekly check; a quiet project may need attention only when reopened. A schedule written in a document is a suggestion until an actual scheduler is configured and tested.
+Review often enough to notice problems while you can still understand their cause. A frequently used system might benefit from a brief weekly review. A quiet project may need review when you reopen it. Writing an interval in a document does not start a scheduled job; an automation must be configured and tested before you describe it as enabled.
 
-Look for evidence of recurring friction: repeated explanations, lost sources, ambiguous routing, oversized startup files, skipped verification, or contradictory copies. Fix the smallest cause. A confusing skill description may need one sentence; it does not necessarily require another agent or a new framework.
+Use repeated friction as evidence for a change. If you keep explaining the same background, examine the recovery pointers. If the wrong Skill keeps being chosen, examine its description and its overlap with other procedures. Lost sources, oversized startup files, skipped verification and contradictory copies each suggest a different repair. A confusing description may need one clearer sentence rather than another Agent or framework.
 
-Keep a short before-and-after record for substantial changes. For example: “New sessions were reading the entire archive; the entrypoint now points only to the active task and retrieves older notes when relevant.” Test that behavior in a fresh session. Editing the instruction alone establishes only that the text changed.
+For a substantial change, record the problem and the intended effect. For example, new sessions may have been reading the entire archive even when only the active task was relevant. You could change the entrypoint to identify that task and retrieve older notes as needed. Then try a fresh session and observe what it reads. The edited text establishes the instruction change; the new session provides evidence about its effect.
 
 ## Keep startup context bounded
 
-The toolkit defines budgets for instruction files, memory, task records, and large-file indexing. These limits encourage selective loading. They do not imply that filling every file to its limit improves performance.
+The toolkit checks budgets for instruction files, memory, task records and large-file indexing. These limits encourage selecting what is useful at startup. A file below its limit can still contain irrelevant material, and filling the available space is not a performance goal.
 
-When a file becomes too large, preserve meaning before shortening it. Move stable explanations to knowledge, task details to their task, and closed history to an archive. Keep concise pointers at startup. Never remove the only record of an unresolved decision merely to make a size check pass.
+When a size check fails, first ask what each section does. A stable explanation may belong in knowledge; detailed progress belongs with the task; closed history may belong in an archive. Leave concise pointers where the next session begins. Shortening must preserve the information needed to understand the work, especially the only record of an unresolved decision. Passing a size check by losing that record would make recovery worse.
 
-Large inputs should have a manifest that records their path, size, purpose, and loading policy. The model can inspect that index and request the relevant portion instead of reading an entire warehouse of data. Actual access controls must still protect restricted material; an index is not a permission system.
+For large inputs, a manifest can record paths, sizes, purposes and loading policies. This lets the model inspect an index and request the relevant portion instead of loading all the material at once. The manifest describes the intended use; actual access controls must still protect restricted material. Listing a path never grants permission to read it.
 
 ## Change structure reversibly
 
-Before merging agents, retiring a skill, or moving authoritative files, identify the owner, references, active tasks, and recovery path. Preserve a recoverable version where appropriate and obtain the required authority for destructive or external actions. A clean directory tree is less valuable than understandable history.
+A structural change can affect work beyond the file you are editing. Before merging Agents, retiring a Skill or moving an authoritative record, identify its owner, the references that point to it, active tasks that depend on it and the way to recover if the change fails. Preserve a recoverable version where appropriate. Obtain the required authority for destructive or external actions; a maintenance review does not grant it.
 
-The [review and renewal guide](../../../skills/portable-agentic-system/pas/references/system-review-and-renewal.md) offers a deeper routine. Use it when you have enough real work to evaluate. The best maintenance outcome is often a smaller system whose remaining parts have clear jobs and demonstrated value.
+The [review and renewal guide](../../../skills/portable-agentic-system/pas/references/system-review-and-renewal.md) develops this review for systems with enough real use to evaluate. Judge a change by whether the next task can find the right records, follow the right method and continue accurately. A smaller arrangement may serve those needs better than a tidy but needlessly elaborate one.

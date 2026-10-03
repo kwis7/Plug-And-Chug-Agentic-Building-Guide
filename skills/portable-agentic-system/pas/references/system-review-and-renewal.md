@@ -54,7 +54,8 @@ Ask:
 | Always-on safety or behaviour | `RULES.md` |
 | Resume note for future sessions | `MEMORY.md` |
 | Finished or abandoned task | `archive/` |
-| Sensitive raw material | `raw_data/`, `private/`, or outside Git |
+| User-controlled personal originals | Preserve in the user's chosen private storage; do not open or relocate them automatically |
+| Authorised agent-readable derivatives or minimum fields | Named owner paths such as `raw_data/` or `workspace/`, only within the approved scope |
 
 ## Output Rules
 
@@ -63,5 +64,13 @@ Ask:
 - Mark each proposed change as `safe_to_apply`, `needs_human_review`, or `do_not_apply_yet`.
 - If asked to apply changes, do small batches and rerun validation plus health check.
 - Keep `MEMORY.md` compact. It should say what future sessions need, not retell every chat.
+
+## Scoped Preferences After Repeated Use
+
+Keep one-off corrections with their task. Repeated feedback can suggest a candidate; it does not authorise retention or prove a stable preference. An explicit future-use instruction can authorise retaining the requested behaviour for its stated scope.
+
+For a retained preference, capture the owner, scope, exclusions, minimal authorised source, and version; review conflicts; try harmless material when needed; then activate only with retention authority and a passed conflict review. Preserve the earlier version for rollback, and record a reason when retiring it. Do not mine private transcripts, change permission boundaries, or claim model training.
+
+The [preference record template](../templates/preference-record.json) is a proposed, illustrative record, not a live preference. `active` records intended use; actual loading and output quality require separate observations. The repository reader guides are `docs/reference/personalization-and-evolution.md` and `docs/reference/personalization-and-evolution.zh-CN.md`.
 
 Use `pas/templates/review-report.md` for the report shape.

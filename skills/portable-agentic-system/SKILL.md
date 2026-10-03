@@ -1,6 +1,6 @@
 ---
 name: portable-agentic-system
-description: Build, audit, migrate, explain, or harden a local-first AI agent harness whose active models are replaceable. Use when the request concerns agent folders, control centers, multi-agent routing, AGENTS.md/CLAUDE.md/GEMINI.md adapters, task manifests, generated status, completion gates, memory or context budgets, knowledge archives, skills, tools, raw data, outputs, locks, worktrees, provider switching, runtime compatibility, or questions such as “what is a harness?” and “how do I build my own agent system?”. Also trigger for pas-start, pas-audit, pas-add-agent, pas-adapt, pas-review, pas-create-skill, pas-distill, pas-borrow, and pas-explain. Do not use for a one-off prompt that needs no durable files, state, or workflow.
+description: Build, audit, adapt, or teach a local-first AI agent harness with replaceable models. Use when the user asks to organise agent ownership, runtime instruction adapters, reusable Skills, task recovery, context budgets, or completion controls as a durable system, or invokes a pas-* mode. Do not use for ordinary domain work, isolated content edits, or a one-off prompt that needs no persistent workflow.
 ---
 
 # Portable Agentic System
@@ -26,10 +26,10 @@ Read `pas/references/mental-model.md` when the user needs the concepts explained
 
 The runtime normally sees only this skill's `name` and `description` before activation. After activation it loads this file. Do not preload every reference, adapter, template, or script.
 
-1. Identify the request mode.
-2. Read only the references named for that mode.
+1. Identify the request mode and setup depth.
+2. Read only the references named for that mode under `pas/references/`.
 3. Read one runtime adapter after the runtime is known.
-4. Run scripts directly when their implementation does not need to enter context.
+4. Inspect unfamiliar scripts before execution; run trusted helpers without loading their entire implementation into context.
 5. Open the standalone playbook only for a full teaching handoff or a deep audit.
 
 This division keeps the trigger description precise, the operating instructions complete, and the large textbook out of routine context.
@@ -82,71 +82,19 @@ For public examples, use generic first- and second-level folder patterns only. P
 
 Read `pas/references/privacy-boundaries.md` before scanning a private multi-agent system or producing public artifacts from it.
 
-## Run discovery in stages
+## Discover only what changes the setup
 
-Do not send the entire questionnaire at once. Ask one short stage, summarise the answer, propose sensible defaults, and continue.
+Ask a short stage, summarise the answer, recommend a default, and carry forward existing answers. Use `pas/references/facilitation-protocol.md` for a beginner; use `pas/references/intake-questions.md` for standard-scaffold detail.
 
-### Stage A — outcome
+| Decision | Establish |
+|---|---|
+| Outcome | One recurring job, current friction, useful result, and success criteria |
+| Runtime | Actual host and file access; provider/model and switchboard separately; required machines |
+| Ownership | Mission, inputs/outputs, sources, sensitivity, tools, approvals, and adjacent domains |
+| Persistence | Task state, stable decisions, knowledge, procedures, receipts, and recovery pointers in their proper homes |
+| Risk | External actions, shared resources, writers/worktrees, checks, and budgets |
 
-Determine:
-
-- recurring work the system should handle;
-- failure or friction in the current workflow;
-- expected deliverables;
-- success criteria after 30 days;
-- whether the request is explanation, build, audit, migration, or hardening.
-
-### Stage B — runtime stack
-
-Name separately:
-
-- the runtime or host actually executing the model;
-- the provider and active model;
-- any provider switchboard;
-- local folders, connectors, MCP servers, plugins, or cloud workspaces;
-- operating systems and machines that must work.
-
-Never infer runtime behavior from the model name. “DeepSeek”, “Qwen”, or “GLM” may be providers inside Codex, Claude Code, a custom loop, or another runtime.
-
-### Stage C — recurring domains
-
-List recurring work domains. For each domain record:
-
-- mission;
-- primary inputs and outputs;
-- data sensitivity;
-- authoritative sources;
-- tools and connectors;
-- approval boundaries;
-- overlap with other domains;
-- positive and negative routing examples.
-
-### Stage D — persistence
-
-Decide what must persist across sessions:
-
-- current task state;
-- stable decisions;
-- knowledge and source material;
-- reusable procedures;
-- reviewed deliverables;
-- evidence receipts;
-- unresolved questions.
-
-Do not put all of these into memory.
-
-### Stage E — risk and concurrency
-
-Identify:
-
-- external or irreversible actions;
-- shared files and scarce resources;
-- parallel writers;
-- tasks that need separate worktrees;
-- verification required before closeout;
-- acceptable storage and context budgets.
-
-Use the complete staged prompts in `pas/references/intake-questions.md` when more detail is needed.
+Never infer runtime behavior from a model name. Do not put every persistent item into memory or ask for technical configuration decisions a beginner's work does not require.
 
 ## Produce a Design Contract before writing
 
@@ -211,27 +159,11 @@ For those routing changes, read `pas/references/description-routing-evals.md`. R
 
 ## Apply the filesystem contract
 
-Use one purpose per durable location:
+Use one authority per fact. Runtime entrypoints hold compact instructions; identity and rules hold stable ownership and policy; `SYSTEM_MAP.md` holds the registry; `task.yaml` holds current operational state; `STATUS.md` is its generated view. Memory holds bounded recovery pointers and knowledge holds retrieved reference material.
 
-| Location | Purpose | Default loading policy |
-|---|---|---|
-| `AGENTS.md` / runtime entrypoint | Compact always-on operating contract | automatically discovered by that runtime only |
-| `IDENTITY.md` | Mission, audience, ownership, routing boundary | load during domain entry |
-| `RULES.md` | Stable behavioral and safety rules | load for substantive work |
-| `SYSTEM_MAP.md` | Stable registry and ownership topology | load for routing or architecture work |
-| `task.yaml` | Authoritative task contract and lifecycle | load for that task |
-| `STATUS.md` | Generated cross-task view | regenerate; never hand-edit |
-| `MEMORY.md` | Bounded handover and recovery index | load only when continuity is needed |
-| `knowledge/` | Stable long-term archive/library | retrieve named items only |
-| `skills/` | Reusable procedures and capability packages | discover metadata, load full skill on trigger |
-| `raw_data/` | Original inputs | never recursively auto-load |
-| `workspace/` | Current desk, drafts, and active reasoning artifacts | load named current files |
-| `artifacts/` | Generated intermediates, caches, calculations | summary-only by default |
-| `logs/` | Execution traces | rotate and summarise; never full-context by default |
-| `outputs/` | Reviewed deliverables | load named output only |
-| `archive/` | Closed or superseded material | retrieval only |
+Keep originals in `raw_data/`, active drafts in `workspace/`, generated intermediates in `artifacts/`, rotated traces in `logs/`, reviewed deliverables in `outputs/`, and closed material in `archive/`. Load named current files, never whole archives or raw-data trees. A result's location does not authorise external delivery.
 
-For the standard scaffold, read `pas/references/filesystem-contract.md` for its full ownership and movement rules. Consult it for a teaching workspace only when a specific file-role question needs that detail.
+For the standard scaffold, read `pas/references/filesystem-contract.md` for full ownership, movement, and loading policies. Consult it for a teaching workspace only when a specific file-role question needs that detail.
 
 ## Bound context and storage
 

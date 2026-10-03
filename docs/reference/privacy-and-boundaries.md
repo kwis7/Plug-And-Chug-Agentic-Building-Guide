@@ -29,7 +29,8 @@ Use environment variables, an approved secret store, or local ignored `.env` fil
 
 | Material | Location |
 |---|---|
-| Original source files | `raw_data/` with named-only loading and manifest policy |
+| Public, synthetic, or explicitly authorised nonprivate source files | `raw_data/` with named-only loading and manifest policy |
+| Personal-information originals | User-controlled archive outside the Agent's read scope |
 | Drafts and active working context | `workspace/` |
 | Generated technical intermediates | `artifacts/` |
 | Rotated execution traces | `logs/` |
@@ -38,12 +39,14 @@ Use environment variables, an approved secret store, or local ignored `.env` fil
 | Compact recovery state | `MEMORY.md` |
 | Authoritative task state and receipts | `tasks/**/task.yaml` plus referenced artifacts |
 
+Personal-information originals remain under the user's control. The Agent may use only the minimum fields provided for the task, an explicitly agent-readable redacted derivative, or a controlled mediator output. A manifest or folder location does not authorise opening or copying private originals. The [local workspace guide](local-workspace.md) explains how to organise authorised working material alongside these boundaries.
+
 `outputs/` contains delivery candidates. Folder location never grants permission to send, publish, submit, deploy, trade, or otherwise change external state; current user approval and a release check still govern those actions.
 
 ## Recovery
 
 - Put rules, templates, scripts, and docs in Git.
 - Keep sensitive data in local backup, not Git.
-- Copy originals into `workspace/` before editing.
+- For public, synthetic, or explicitly authorised nonprivate sources, edit a working copy in `workspace/` and preserve the source. For personal information, work only from the authorised minimum fields or agent-readable derivative; do not open or copy the originals.
 - Prefer archive/trash over permanent deletion.
 - Batch scripts should support `--dry-run`.

@@ -49,7 +49,7 @@ def resolve_task(root: Path, payload: dict[str, object]) -> tuple[Path | None, s
                 if not within(candidate, root) or candidate.name != "task.yaml":
                     return None, f"task binding escapes the harness root: {binding}"
                 return candidate, None
-            except (OSError, KeyError, json.JSONDecodeError):
+            except (OSError, KeyError, TypeError, ValueError):
                 return None, f"invalid task binding: {binding}"
     active = []
     terminal = []
@@ -73,31 +73,42 @@ def resolve_task(root: Path, payload: dict[str, object]) -> tuple[Path | None, s
     return None, "multiple terminal tasks are available; bind this session to the task being reported"
 
 
-def block(runtime: str, reason: str) -> dict[str, object]:
+def block(runtime: str, reason: str, payload: dict[str, object] | None = None) -> dict[str, object]:
     if runtime == "gemini-cli":
         return {"decision": "deny", "reason": reason}
-    return {"decision": "block", "reason": reason}
+    result: dict[str, object] = {"decision": "block", "reason": reason}
+    if payload and payload.get("stop_hook_active") is True:
+        # Stop the failed repair loop without erasing its gate rejection.
+        failure = f"Portable closeout remains rejected after a Stop continuation. {reason}"
+        result.update({"continue": False, "stopReason": failure, "systemMessage": failure})
+    return result
 
 
 def evaluate(root: Path, runtime: str, payload: dict[str, object]) -> dict[str, object]:
+    if "stop_hook_active" in payload and not isinstance(payload["stop_hook_active"], bool):
+        return block(runtime, "stop_hook_active must be a boolean")
     message = hook_message(payload)
+    continued_stop = runtime in {"codex", "claude-code"} and payload.get("stop_hook_active") is True
     task_path, resolution_error = resolve_task(root, payload)
     if task_path is None:
-        if TERMINAL_CLAIM_RE.search(message):
-            return block(runtime, resolution_error or "cannot resolve active task")
+        if continued_stop or TERMINAL_CLAIM_RE.search(message):
+            return block(runtime, resolution_error or "cannot resolve active task", payload)
         return {}
     try:
         task = load_manifest(task_path)
     except (OSError, ValueError) as exc:
-        return block(runtime, f"cannot parse active task: {exc}")
+        return block(runtime, f"cannot parse active task: {exc}", payload)
     status = str(task.get("status") or "").lower()
-    if status not in TERMINAL_STATUSES and not TERMINAL_CLAIM_RE.search(message):
+    if status not in TERMINAL_STATUSES and not continued_stop and not TERMINAL_CLAIM_RE.search(message):
         return {}
-    report = gate(root, task_path)
+    try:
+        report = gate(root, task_path)
+    except (OSError, ValueError, TypeError, AttributeError) as exc:
+        return block(runtime, f"cannot evaluate portable closeout gate: {exc}", payload)
     if report["passed"]:
         return {}
     details = "; ".join(str(item) for item in report["errors"])
-    return block(runtime, f"Portable closeout gate failed for {task.get('id')}: {details}")
+    return block(runtime, f"Portable closeout gate failed for {task.get('id')}: {details}", payload)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -108,10 +119,12 @@ def main(argv: list[str] | None = None) -> int:
     try:
         payload = json.load(sys.stdin)
     except json.JSONDecodeError:
-        payload = {}
-    if not isinstance(payload, dict):
-        payload = {}
-    result = evaluate(args.root.resolve(), args.runtime, payload)
+        result = block(args.runtime, "hook input must be valid JSON")
+    else:
+        if not isinstance(payload, dict):
+            result = block(args.runtime, "hook input must be a JSON object")
+        else:
+            result = evaluate(args.root.resolve(), args.runtime, payload)
     print(json.dumps(result, ensure_ascii=False))
     return 0
 

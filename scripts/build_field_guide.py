@@ -65,7 +65,8 @@ def register_fonts():
 
 def styles(language):
     base=ParagraphStyle('Body',fontName='Text',textColor=INK,fontSize=10.5,leading=16.4,
-                        wordWrap='CJK' if language=='zh-CN' else None,splitLongWords=True,spaceAfter=8)
+                        wordWrap='CJK' if language=='zh-CN' else None,splitLongWords=True,spaceAfter=8,
+                        allowWidows=0,allowOrphans=0)
     return {
       'body':base,
       'h1':ParagraphStyle('Chapter',parent=base,fontName='Strong',fontSize=24,leading=31,spaceAfter=20,keepWithNext=True),
@@ -123,8 +124,8 @@ class WorkFlow(Flowable):
         self.language=language
         self.width,self.height=WIDTH,108
     def draw(self):
-        labels=['A real task','Working files','Checked result','A next step']
-        if self.language=='zh-CN': labels=['一项真实任务','整理工作材料','检查形成成果','留下下一步']
+        labels=['Choose a task','Read the sources','Check the result','Resume the work']
+        if self.language=='zh-CN': labels=['选一个任务','准备资料','检查结果','下次继续']
         c=self.canv;w=(self.width-42)/4
         for i,label in enumerate(labels):
             x=i*(w+14)
@@ -173,7 +174,7 @@ def markdown(text,source,chapter_map,sty,refs):
     fmt=lambda t:inline(t,source,chapter_map,refs)
     while i<len(lines):
         line=lines[i].strip()
-        if not line or line=='---' or line.startswith('<!--'):i+=1;continue
+        if not line or line=='---' or line.startswith('<!--') or re.fullmatch(r'<a id="[^"]+"></a>',line):i+=1;continue
         if line.startswith('!['):
             match=re.fullmatch(r'!\[([^\]]*)\]\(([^)]+)\)',line)
             if not match:raise ValueError(f'Unsupported image block: {source}')
@@ -211,8 +212,11 @@ def markdown(text,source,chapter_map,sty,refs):
               ('VALIGN',(0,0),(-1,-1),'TOP'),('LEFTPADDING',(0,0),(-1,-1),8),('RIGHTPADDING',(0,0),(-1,-1),8),
               ('TOPPADDING',(0,0),(-1,-1),8),('BOTTOMPADDING',(0,0),(-1,-1),8),('LINEBELOW',(0,0),(-1,0),0.7,TEAL),
               ('LINEBELOW',(0,1),(-1,-1),0.35,LINE)]))
-            if story and isinstance(story[-1],Paragraph):story[-1].keepWithNext=True
-            story.append(KeepTogether([table]) if table.wrap(WIDTH,PAGE_H)[1]<350 else table);continue
+            prefix=[]
+            if story and isinstance(story[-1],Paragraph):
+                story[-1].keepWithNext=True
+                if table.wrap(WIDTH,PAGE_H)[1]<350:prefix=[story.pop()]
+            story.append(KeepTogether(prefix+[table]) if table.wrap(WIDTH,PAGE_H)[1]<350 else table);continue
         bullet=re.match(r'^(?:[-*] |(\d+)\. )(.*)$',line)
         if bullet:
             label=(bullet[1]+'.') if bullet[1] else '•'
@@ -256,14 +260,16 @@ def build_pdf(language,output):
     register_fonts();config=settings();meta=config['languages'][language];sty=styles(language)
     sources=chapters(language);chapter_map={p.resolve():f'chapter-{i}' for i,p in enumerate(sources)}
     cover_title=html.escape(meta['title'])
+    cover_subtitle=html.escape(meta['subtitle'])
+    if language=='en':cover_subtitle=cover_subtitle.replace(', what',',<br/>what',1)
     if language=='zh-CN':cover_title=cover_title.replace('，','，<br/>',1)
     story=[Spacer(1,66),Paragraph('PLUG &amp; CHUG',sty['eyebrow']),Paragraph(cover_title,sty['title']),
-      Paragraph(meta['subtitle'],sty['subtitle']),Spacer(1,19),WorkFlow(language),Spacer(1,32),
+      Paragraph(cover_subtitle,sty['subtitle']),Spacer(1,19),WorkFlow(language),Spacer(1,32),
       Paragraph('@kwis7',sty['h3']),Paragraph(config['edition']+' / '+config['date'],sty['small']),
       Paragraph(f'<a href="{config["repository"]}" color="#12665F">github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide</a>',sty['small']),
       PageBreak(),Paragraph(meta['contents'],sty['h1'])]
-    intro='Start with your own AI assistant. Use this book to understand each step, and try the worked example when it helps.'
-    if language=='zh-CN':intro='让你正在使用的 AI 带着搭建；用本书理解每一步，需要练手时再使用贯穿全书的案例。'
+    intro='Start with a task you know well. These chapters explain the decisions involved in setting up a workspace, with a fictional venue comparison you can use for practice.'
+    if language=='zh-CN':intro='先从你熟悉的一项工作开始。本书解释各个搭建步骤的理由，场地比较案例供你练习；也可以直接用自己的任务来试。'
     story.extend([Paragraph(intro,sty['body']),Spacer(1,10)])
     toc=TableOfContents();toc.levelStyles=[sty['toc']];toc.dotsMinLevel=0;story.append(toc)
     refs=[]
@@ -275,8 +281,8 @@ def build_pdf(language,output):
         heading.bookmark=chapter_map[source.resolve()];story.append(heading)
         story.extend(markdown(text,source,chapter_map,sty,refs))
     story.append(CondPageBreak(320));title=Paragraph(meta['links'],sty['chapter']);title.bookmark='further-reading';story.append(title)
-    explanation='Links lead to this repository and its technical references. Product guidance carries its own evidence date; a link does not establish a new runtime verification.'
-    if language=='zh-CN':explanation='本版链接指向仓库及相关技术参考。产品接入说明有各自的证据日期；保留链接不代表本次已重新验证运行行为。'
+    explanation='These links open the source material and technical references cited in the book. Compatibility records describe the checks performed on their stated dates; check the current product documentation before setting up an integration.'
+    if language=='zh-CN':explanation='以下是书中引用的资料和技术说明。兼容性记录只说明其标注日期实际做过的检查；安装或更换接入方式时，还需要查阅产品当前的官方文档。'
     story.append(Paragraph(explanation,sty['body']));seen=set()
     for label,url in refs:
         if url in seen:continue

@@ -2,67 +2,69 @@
 
 # AI Agents, Explained
 
-Why build your own local agentic system when you already have fancy apps like Codex, Claude Code, or WorkBuddy?
+If your AI assistant can already do the work, what is a local workspace for?
 
-@kwis7 | Reader edition 3 | 2026-09-22
+@kwis7 | Reader edition 4 | 2026-10-03
 
 # Build an AI workspace you can return to
 
-You do not need to learn programming before using this guide. Begin with work you understand: reading, writing, studying, research, or a recurring task you would like help with. The aim is to build an AI working system that you understand and can use again tomorrow.
+Suppose you are preparing a report over several weeks. An AI assistant helps you compare sources and revise a draft. By the second week, you have more than a collection of answers: you have selected evidence, rejected a few claims, settled on a format and left questions for later. To continue well, you need to recover those decisions along with the draft. Otherwise, you may repeat work or quietly lose the reasons behind it.
 
-Good work should survive the end of a chat. Your sources, choices, useful methods, checked results and unfinished tasks need a home that the next session can find. Your existing AI app can help create that home and explain it as you go.
+This guide grew out of Computational Social Science research, where the relationship between sources, methods and conclusions matters. The same problem appears in studying, writing, teaching and many other recurring tasks. A personal AI system gives that work a structure you can inspect and revise. You decide what to keep, what the assistant may use and which methods are worth repeating.
+
+You can build it with the AI application you already use. The guided setup assumes no programming background. As you work through the book, the assistant can handle the technical steps its tools permit and explain the choices involved. The purpose is to make your work easier to continue without requiring you to organise your life around the software.
 
 ## Start with your own assistant
 
-Open the [beginner guide](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/docs/start-here.md) and give its starting prompt to the AI app you already use. It includes the repository link. The assistant begins with a few questions about your work, app and computer, then proposes a small setup suited to you. You review where it will create files before it performs the technical steps its tools allow.
+The [beginner guide](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/docs/start-here.md) contains a starting prompt with the repository link. Give it to your usual assistant. It will ask about your work, app and computer, then propose a small setup. Review the proposed folder and its contents before agreeing to file creation. The proposal should account for the tools actually available: a chat-only assistant can explain a step for you to perform, while an assistant with appropriate file access may perform it directly.
 
-The first useful milestone is concrete: a local workspace, one checked result, a handoff, and a short card saying what to open and ask next time. Try that card in a new conversation. A proposed design, a created folder and a successful restart are different milestones; the assistant should show which ones actually happened.
+Choose a task small enough to finish and check. At the end, you should have the result, a record of unfinished work and a short card telling you which files to open next time. Try that card in a new conversation and check that the assistant reads the named files, identifies the unfinished work and resumes at the agreed next step.
 
-This book explains the choices along that route. If a term is unfamiliar, ask the assistant to explain it using your own task. Terminal commands are an optional implementation route, collected in the final reference chapter and the [quick start](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/QUICKSTART.md).
+The chapters explain why each part is useful. When a term is unfamiliar, ask the assistant to explain it through your task. You can also use terminal commands directly; that optional route is collected in the final reference chapter and the [quick start](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/QUICKSTART.md).
 
 ## Keep the work, change the model
 
-The active model can change while the work remains yours. Your sources, decisions, procedures, task records and reviewed results should live in forms you can inspect and carry elsewhere. A change of interface or provider may require adaptation, but it need not erase what you have learned.
+The report example also explains why ownership matters. You should be able to inspect the sources and decisions, correct a procedure or try another model without surrendering the work you have already done. Keeping records in accessible formats makes those choices possible. Moving to another interface or provider still requires adaptation and checks; saving the files does not establish compatibility by itself.
 
-We call the configured environment around model execution a **harness**. It includes instructions, files, tools, task state and checks. Some parts are ordinary text; others are software that grants access or checks actions. We will distinguish them throughout the book.
+The book uses **harness** for the configured environment around model execution: instructions, files, tools, task state and checks. Some of these are text that guides the model. Others are software that controls access or checks an action. Their effects differ, so we will be careful about what each one can establish.
 
-The company metaphor helps: a model is the worker currently doing the reasoning, while the harness holds the working arrangements, records and tools. You remain the owner. It is a way to explain roles, not a claim that a model has human loyalty, awareness or automatic access to every file.
+The company diagram in the next chapter separates these responsibilities. You are the owner who sets the purpose and authorises consequential actions. The model does the reasoning within the working arrangements you have chosen. This analogy describes roles; it does not imply human awareness, loyalty or automatic access to the company's records.
 
 ## Learn through one example, then apply it to your work
 
-Chapters 1–4 follow a small comparison of three fictional venues. The supplied notes let you see how to check a result, save it and recover the next step without introducing personal information. You may do this optional exercise, or use the same ideas with the task you chose during guided setup. You do not need a venue-comparison Agent to build a personal system.
+Chapters 1-4 use three fictional venue notes to compare options, check a conclusion and leave the next step for another session. Because the inputs are supplied and contain no personal information, you can concentrate on the method. The exercise is optional. If you have already chosen a task during setup, apply the explanations to that task; there is no need to build a dedicated venue-comparison Agent.
 
-Chapters 5–8 explain when more roles, a different tool, stronger checks or maintenance become useful. The reference chapter connects those ideas to the standard toolkit. Each part should answer a practical question that arises as your work grows.
+Chapters 5-8 consider the decisions that follow: when to separate responsibilities, how to change tools, what to verify and how to maintain the system. The reference chapter then points to the standard toolkit. Read those sections when the corresponding question arises in your work.
 
-The teaching workspace is deliberately small. The standard generator offers a fuller structure with task manifests and local checks. Your assistant should explain which approach fits your needs; a smaller teaching workspace is not an undocumented generator option.
+The exercise needs only a few files. The guided route can create those teaching files directly; the standard generator creates a fuller scaffold with task manifests and local checks. Ask your assistant which arrangement suits the task and how it will be created.
 
 ## Read evidence at its stated level
 
-The example data is synthetic. Repository commands and compatibility records describe the included implementation; they do not certify an app installed on your computer. Instructions, static checks, fresh-session behavior and external delivery each need their own evidence.
+Throughout the example, we will distinguish what a source says, what the assistant concludes and what has actually been tested. The data is synthetic. Commands and compatibility records describe the repository's implementation, with their stated limits; they do not certify the app on your computer. Reading an instruction, passing a static check, resuming in a fresh session and delivering something externally each require their own evidence.
 
-Continue with [how an agent works](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/docs/handbook/en/00-foundations.md) for the company diagram and core concepts. Keep your own task in mind while reading the example: what would make your next session easier to begin?
+Continue with [how an agent works](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/docs/handbook/en/00-foundations.md) for the company diagram and the concepts behind it. As you read, consider which records your own task would need for someone to resume it accurately.
 
 # Before the first task: how an agent works
 
-You ask an AI assistant to compare three sources. It reads files, writes a table, checks a missing detail, and saves a note for next time. Which part did the work: the model, the Agent, the prompt, or a Skill?
+In the venue exercise, an assistant must read three notes, compare the requirements, write a result and leave enough information to continue later. The model interprets the notes and proposes what to do. Other parts of the system make the notes available, perform file operations and retain the result. Understanding these contributions helps you decide which part needs attention when the work goes wrong.
 
-Each contributed something different. Understanding those contributions helps you build a useful system without mistaking a folder for a capability or a good prompt for a guarantee. Here, an **agent** means a role carried out through a model, instructions, working state, available tools, and an execution loop. The exact implementation varies. An agent can operate in one session without local files, and it does not require other agents.
+This book uses **agent** for a role carried out through a model, instructions, working state, available tools and an execution loop. Implementations vary. An agent may work entirely within one session, without local files or other agents. We introduce files because they help preserve the work in this example, not because every agent must have a folder structure.
 
 ## Read the diagram as a working company
 
-The diagram below presents the repository's complete design. It is a map of possible responsibilities, not a requirement to build every box before starting.
+The company diagram separates responsibilities that can otherwise become confused. It shows the repository's complete design, including arrangements you may need only as the work grows. Begin by understanding the roles; you do not need to implement every box.
 
 ![The active model inside the user's configured harness.](https://raw.githubusercontent.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/main/docs/assets/harness-concept-map.png)
 
-At the top, **you are the owner**: you choose goals, control your materials, and authorise consequential actions. In the middle, the **model is the active employee**: it interprets the material supplied to it, reasons about the request, and proposes a response or tool call. The model is not the company, its records, or its permissions.
+At the top, **you are the owner**. You choose the goal, control the materials and authorise consequential actions. For the venue task, that means specifying the workshop requirements and deciding whether anyone may contact a business. The **model**, shown as the active employee, interprets the supplied material and proposes responses or tool calls. Records, permissions and the model itself have separate roles in the design.
 
-An **Agent is a working role**, such as a research assistant responsible for comparing sources. Its instructions describe the assignment and boundaries; its state records progress; its tools provide available operations. The same model can fill several roles in separate sessions with different context and permissions. Different models can also fill the same role over time. A name such as “Research Agent” does not create a separately trained model.
+An **Agent is a working role**, such as a research assistant assigned to compare sources. Instructions define its assignment and boundaries, state records its progress, and tools supply the operations it can use. The same model can serve different roles in separate sessions with different context and permissions. A role can also be carried out by different models over time. Naming a role "Research Agent" does not train a separate model for it.
 
-The surrounding **harness** is the configured environment that makes this work possible: rules, files, procedures, tools, state, and checks. In the diagram, these arrangements and the active model occupy one system boundary. Replacing the model can preserve the surrounding work, although a new runtime may need different adapters and verification.
+The **harness** is the configured working environment: rules, files, procedures, tools, state and checks. In the diagram, it and the active model form one system. If you replace the model, you can retain the records and methods around it. A change of runtime may nevertheless require different adapters and fresh verification. The persistent work gives you something to transfer; it does not make every tool interchangeable.
 
-The company analogy helps distinguish responsibilities. Skills resemble playbooks, tools resemble equipment, memory resembles a short handover, and knowledge resembles a reference library. A coordinating model is a manager only when several roles need routing or integration. It is still a model in a bounded role, not a necessary extra layer or a higher source of authority.
+Other parts of the analogy help explain what to retain. A Skill resembles a playbook, a tool provides equipment, memory gives a short handover, and knowledge supplies reference material. A coordinating model has a management role when several responsibilities need routing or integration. That role has its own limits; it is neither required for a single task nor a higher source of authority.
 
-None of this implies consciousness, loyalty, permanent memory, or automatic access. The diagram's quality controls are effective only where the corresponding software is implemented and verified. A written policy and a mechanically blocked action are different things.
+The analogy describes responsibilities, without implying consciousness, loyalty, permanent memory or automatic access. Its quality controls also depend on implementation. A rule that says "do not send" guides behavior when read; software that blocks an unauthorised send enforces a boundary. The latter claim requires evidence that the corresponding control is implemented and works.
 
 ## Keep the core terms separate
 
@@ -78,47 +80,43 @@ None of this implies consciousness, loyalty, permanent memory, or automatic acce
 | File | Stores information that can persist beyond a session |
 | Context | The material actually available to the model for the current response |
 
-These are design roles, not necessarily separate products. One application may provide execution, tools, storage, and an interface together.
+One application may provide several of these functions, including execution, tools, storage and the interface. The terms help us describe what happens; they do not prescribe a separate product for every row.
 
-A fixed workflow follows a predefined sequence. In an agentic loop, the model can choose subsequent steps in response to observations, within the system's limits. A practical system may combine both. This distinction follows [Anthropic's explanation of workflows and agents](https://www.anthropic.com/engineering/building-effective-agents); it does not certify any particular product's implementation.
+The execution loop also differs from a fixed workflow. A fixed workflow follows a predefined sequence. In an agentic loop, the model can choose a subsequent step after receiving an observation, within the system's limits. A practical system may combine the two: a fixed review process can surround work in which the model chooses which file to read next. This distinction follows [Anthropic's explanation of workflows and agents](https://www.anthropic.com/engineering/building-effective-agents), without certifying any particular product's implementation.
 
 ## A prompt sets the task; a Skill carries a method
 
-A task prompt might say: “Compare the supplied venues for 16 people after 18:00, with step-free entry required.” It tells the agent what you want now. Durable rules express instructions that should apply across a defined set of tasks, such as preserving original sources or keeping unsupported facts unknown. Both can influence the model when loaded, but they have different scope and expected lifetimes.
+A task prompt might say, "Compare the supplied venues for 16 people after 18:00, with step-free entry required." It defines the immediate request. A durable rule such as "keep unsupported facts unknown" applies across a defined set of tasks. Both can influence the model when loaded, but one describes today's assignment and the other expresses a continuing instruction.
 
-The model's input is not limited to your latest chat message. The runtime can assemble relevant instructions, loaded Skill contents, and tool observations into the current context as well.
+A **Skill** records a procedure you want to reuse. In this repository, its instructions are saved in `SKILL.md`, sometimes with examples, references or scripts alongside them. A source-comparison Skill could explain how to extract requirements, cite the relevant notes and handle missing fields. The next comparison can then use the same method without your having to write it again.
 
-At its core, a Skill in this repository is a reusable instruction document saved as `SKILL.md`. When loaded, its text becomes part of the model's current context. Think of it as **pinning a useful prompt or method** in a stable, discoverable place so you can reliably find and reuse it.
+This is the sense in which a Skill **pins a useful prompt or method**: it gives the procedure a stable place where it can be discovered. The [Agent Skills specification](https://agentskills.io/specification) uses the name and description for initial discovery, with full instructions loaded when needed. Discovery and loading depend on the host. The document is not permanently active in every turn, and its filename does not make it a higher-priority system message.
 
-Pinning is an analogy for discovery, not permanent activation. In the [Agent Skills specification](https://agentskills.io/specification), the name and description support discovery first; the full instructions are loaded when needed. This does not mean the whole document appears in every turn or becomes a higher-priority system message. Actual discovery and loading depend on the host.
+When loaded, Skill instructions join the current context along with relevant rules, conversation and tool observations assembled by the runtime. Supplying this material changes the model's input, not its learned weights. It also leaves permissions unchanged. A script included with a Skill needs an actual execution tool and the relevant access; a procedure that mentions email neither connects an account nor authorises a send.
 
-The document might teach requirement checks and source citation, with optional examples, references, or scripts alongside it. These materials supply a method, not new neural training or changed model weights. They do not grant tool permissions. An included script runs only through actual execution tools and their access rules; mentioning email does not connect an account or authorise sending.
-
-The same model therefore has a clearer basis for comparison when it receives the task, source notes, and procedure than when it receives “pick a venue” alone. Better context helps shape its behavior, but the result still needs checking.
+The difference is visible in the example. "Pick a venue" gives the model little basis for a judgment. The requirements, three source notes and comparison procedure give it evidence and a method to apply. That makes the work easier to evaluate, although the resulting comparison still needs review.
 
 ## Follow one execution loop
 
-The first exercise uses synthetic notes, not real venue information. Its request is a comparison, not a booking. A typical tool-using loop looks like this:
+The first exercise requests a comparison of synthetic venue notes. It authorises no booking. The runtime supplies that task and relevant instructions; the model identifies the requirements and the evidence it needs. If the notes have not yet entered context, their filenames provide locations to read, not facts about the venues.
 
-1. **Observe the request.** The runtime supplies the task and relevant instructions. The model identifies the requirements and which source files it needs.
-2. **Reason about the next step.** If it cannot yet see the notes, the model proposes a file-read operation rather than treating the filenames as evidence.
-3. **Request a tool.** The proposed call names an available operation and its arguments. A sentence saying “I read the file” is not a tool execution.
-4. **Execute through the runtime.** The host applies its configured access policy and dispatches the allowed operation. It may return file contents, deny access, or report an error.
-5. **Use the result.** Returned material enters the subsequent working context. The model compares the notes and may request another operation if more permitted evidence is needed.
-6. **Review and save.** It drafts `workspace/comparison.md`. After source review and corrections, the checked result belongs at `outputs/comparison.md`, with actual progress recorded in `workspace/handoff.md`.
-7. **Stop or hand off.** It reports the achieved result and remaining limits. Missing information or authority can require a pause instead of another action.
+The model can request a file-read tool by naming an available operation and its arguments. The runtime applies its configured access policy and dispatches the allowed operation. The result may contain the file, a denial or an error. Saying "I read the file" is merely text; evidence of execution comes from the actual operation and its result.
 
-Cedar Hall's supplied note supports the recorded requirements. Willow Room's hours do not fit. Maple Studio's step-free entry is unspecified. The loop should preserve that unknown; reasoning cannot manufacture an entrance statement that the source lacks. Writing an unsent question is a possible next task, but it does not obtain the answer.
+Returned content enters the subsequent working context. The model can now compare the notes or request another permitted operation. This cycle of proposing an action, receiving an observation and using it in the next step is the execution loop. A wrong path, unavailable tool, denied permission or incomplete result can interrupt it. A successful operation can still be interpreted incorrectly.
 
-Failures can occur at every stage: a wrong path, unavailable tool, denied permission, incomplete tool result, or mistaken interpretation. Even a successful file write does not prove the file is correct. Without file tools, a chat interface can return text for you to save, but it must not claim automatic writeback. Chapter 1 turns this outline into a concrete exercise.
+Once the notes are available, Cedar Hall's recorded facts support the requirements, Willow Room's hours fail the evening condition, and Maple Studio's step-free entry remains unspecified. Further reasoning cannot produce the missing entrance statement. The assistant can draft an unsent clarification question as a later task; it has neither obtained the answer nor received permission to contact anyone.
+
+The draft goes to `workspace/comparison.md`. After source review and any corrections, the checked result goes to `outputs/comparison.md`, and `workspace/handoff.md` records actual progress and remaining limits. A successful file write establishes that content was saved, not that it was correct. With a chat-only interface, the assistant can return text for you to save and must leave automatic writeback unclaimed.
+
+Finally, the assistant reports what was achieved and what remains. When it lacks necessary information or authority, stopping with a clear handoff may be the correct outcome. Chapter 1 lets you observe this process in a task small enough to check yourself.
 
 ## What Markdown files actually do
 
-`.md` is a filename extension commonly used for **Markdown**, an editable plain-text format. A heading can begin with `#`; a list can use hyphens; links can point to other files. A person can read the underlying text without special software. Markdown is useful here because instructions, notes, and handoffs remain inspectable and easy to revise.
+The `.md` extension commonly denotes **Markdown**, a plain-text format you can edit in an ordinary text editor. A heading can begin with `#`, a list can use hyphens, and links can point to other files. This makes instructions and records accessible to you as well as to the assistant. You can inspect or revise the underlying text without depending on a particular AI application.
 
-Some names have meaning only through a host's conventions. `AGENTS.md` or `SKILL.md` can serve as instruction or skill entrypoints when the selected environment discovers and loads them in the expected location. They are not universally executable files. Names such as `RULES.md` and `workspace/handoff.md` express project conventions; the workflow must arrange for the relevant content to be read.
+Filenames have effects only through the environment that uses them. A host may discover `AGENTS.md` as an instruction entrypoint or `SKILL.md` as a Skill entrypoint in an expected location. These conventions do not make the files universally executable. The project also uses names such as `RULES.md` and `workspace/handoff.md`; its workflow must arrange for the relevant contents to be read.
 
-These tiny excerpts illustrate different responsibilities. They are not additional required files for the first exercise or a complete installable Skill:
+The following excerpts show how the same plain-text format can hold a request, a continuing rule, a procedure or current state. They are illustrations, not extra required files for the exercise or a complete installable Skill:
 
 ```text
 task-brief.md
@@ -135,55 +133,57 @@ workspace/handoff.md (example state, only if actually true)
 Draft saved at workspace/comparison.md; source review remains.
 ```
 
-Three separate things now exist: **stored files**, **current context**, and **model weights**. Files retain text. Context contains the selected instructions, conversation, and tool results supplied for the current work. Weights are the model's learned parameters. Saving or loading these files does not by itself update those parameters. A future session resumes by retrieving relevant records, not because every saved fact has become part of the model.
+Consider the handoff in that example. Saving it preserves text in a **file**. Reading it into the next session supplies that text as **context**. Neither operation changes the **model weights**, the learned parameters used to generate responses. These are three different forms of state. A future session can resume because the relevant records are retrieved, not because the saved facts have permanently become part of the model.
 
 ## Personalise the work explicitly
 
-A personal system should fit recurring work you actually do. You can specify language, detail level, evidence standards, review points, and preferred deliverables. These choices become useful when their scope is clear and you can revise them.
+Personalisation starts with a choice about your work. You may want a particular language, level of detail, evidence standard or form of review. Retaining a choice can save repeated prompting, provided you can see where it applies and change it later.
 
-Suppose you correct a comparison: “For future source comparisons, lead with a short recommendation, then explain the evidence and unknowns.” That explicit preference can become a rule for comparison work. It need not apply to a poem, a debugging log, or every future conversation. Record what you requested, not an inferred personality profile.
+Suppose you tell the assistant, "For future source comparisons, lead with a short recommendation, then explain the evidence and unknowns." You have explicitly requested a continuing preference for comparison work. Its scope matters: that format may suit a research note and be unsuitable for a poem or debugging log. Record the request and its scope rather than inferring a general personality profile from the correction.
 
-Other lessons belong elsewhere. “Maple's access remains unknown” is current task state. The repeated sequence of extracting, comparing, citing, and reviewing can become a Skill. An explanation of why a missing field is not a negative answer can become a knowledge note. The distinction prevents one oversized memory file from collecting preferences, unfinished tasks, procedures, and reference material indiscriminately.
+The exercise produces other information with different uses. "Maple's access remains unknown" belongs to current task state. A repeatable method for extracting, comparing, citing and reviewing can become a Skill. An explanation of how missing evidence differs from a negative answer can become a knowledge note. Keeping these uses separate makes it easier to retrieve what a task needs and retire what has become stale.
 
-Personalisation changes the information and procedures available to the model. It is not automatic training, and repeated use does not prove a guessed preference. Sensitive traits should not be inferred from ordinary corrections. Retain only appropriate, authorised material, and review whether older preferences still apply.
+Personalisation therefore changes the information and procedures supplied to the model. It does not train the model automatically. Repeated use alone cannot establish a guessed preference, and ordinary corrections should not be used to infer sensitive traits. Retain appropriate, authorised material and periodically check that earlier choices still suit the work.
 
 ## Why build this alongside existing AI software?
 
-If you already use Codex, Claude Code, or WorkBuddy, the point is to organise your work within the software you choose. This guide does not assume those products lack memory, Skills, or workspace features. Reuse the runtime, tools, instruction loading, and storage features available in your chosen product. You do not need to write a new orchestration engine or custom application.
+If you use Codex, Claude Code or WorkBuddy, begin with the capabilities actually available there. The guide does not assume those products lack memory, Skills or workspace features. Use your chosen application's runtime, tools, instruction loading and storage. Building a personal system does not require writing another orchestration engine or custom application.
 
-Your personal system is the deliberate combination of a stable role, your own authorised sources, scoped preferences, repeatable methods, and current state with evidence. Software supplies capabilities; you decide how they support your work. Some people will find the built-in arrangements sufficient as they are.
+Your contribution is deciding how those capabilities serve your work: which role the assistant has, which authorised sources it uses, which preferences and methods apply, and which records explain the current result. The built-in arrangements may already be sufficient. Where they need supplementing, add something that solves an identifiable problem, such as recovering the evidence behind a report revision.
 
-Here, **local** means keeping a durable workspace under your control. Files can be inspected, backed up, and, where appropriate, versioned to show what changed. Sources stay connected to conclusions. Another session can recover the next step, and another compatible tool can reuse the authorised materials.
+In this guide, **local** describes a durable workspace under your control. You can inspect its files, back them up and, where appropriate, keep versions that show what changed. Source attribution preserves the reasons for a conclusion, and a handoff helps another session recover the next step. A compatible tool can reuse the authorised material after its loading and saving behavior has been checked.
 
-Local files do not mean the model runs locally or that the workflow is offline. A hosted model or connector may receive content when used. Privacy depends on actual data flows, access permissions, service settings, and what you provide—not on the `.md` extension or folder name. Portability likewise requires checking how the next tool loads instructions and saves results; tools are not universally interchangeable.
+The location of these files does not determine where the model runs. A hosted model or connector may receive their contents during use, so privacy still depends on data flows, permissions, service settings and what you provide. A `.md` extension or folder name offers no privacy guarantee. Changing tools likewise requires testing how the new environment loads instructions and saves results.
 
-This approach pays off when work repeats, spans sessions, or needs a traceable result. For a one-off explanation, normal chat may be enough. A durable system also costs effort: instructions can become stale, copies can diverge, and procedures need review. Start with one useful task and retain what makes its next occurrence easier. The [first-task chapter](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/docs/handbook/en/01-first-task.md) shows that smallest working step.
+This effort is most useful for recurring work, tasks that span sessions or results that need an inspectable evidence trail. Normal chat may be sufficient for a one-off explanation. A persistent workspace also needs care: instructions grow stale, copies diverge and procedures change. Begin with a useful task, then keep the parts that make its next occurrence easier. The [first-task chapter](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/docs/handbook/en/01-first-task.md) gives you a small example to try.
 
 # 1. Finish one small task
 
-This chapter uses the optional fictional exercise to make the method visible. If you have already chosen your own task in the [beginner guide](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/docs/start-here.md), use the same sequence—agree on the result, work from named inputs, check, save and leave a handoff—with that task.
+You are planning a workshop for 16 people after 18:00, and everyone must be able to enter without steps. Before contacting a venue, you want to know which options meet those requirements and which need more information. A short comparison is enough for this decision. A booking would require additional facts and separate permission.
 
-Suppose you are planning a workshop for 16 people after 18:00. Everyone must be able to enter without steps. Before anyone contacts a venue, you want a short comparison that distinguishes a suitable candidate from an unsuitable or uncertain one.
+The [first-project exercise](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/examples/first-project/README.md) supplies three synthetic venue notes. These are fictional examples, not real businesses or verified live information. Use them to practise working from sources without browsing, sending messages, booking or making payments. None of those actions is authorised by the exercise.
 
-The [first-project exercise](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/examples/first-project/README.md) contains three synthetic source notes. They represent fictional venues, not real businesses or verified live information. The assignment is a source-comparison exercise; it grants no permission to book, send messages, or make payments.
+If you have chosen your own task in the [beginner guide](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/docs/start-here.md), follow the same method with its agreed inputs and result. The venue example shows the reasoning in a form you can inspect; it is optional practice.
 
 ## Know the result you want
 
-A useful answer is more than a ranking. It should show the recorded facts, apply each requirement consistently, explain the resulting judgment, and preserve what remains unknown.
+A ranking alone would conceal a crucial difference: one venue fails a requirement, while another has an unanswered question. Ask for a comparison that shows the source facts before explaining the judgment. Applying the same requirements to each candidate makes the conclusion easier to inspect.
 
 | Venue | Capacity | Recorded hours | Step-free entry | Judgment |
 |---|---|---|---|---|
-| Cedar Hall | 18 | 18:00–21:00 | Yes | Meets the recorded requirements |
-| Willow Room | 24 | 09:00–17:00 | Yes | Fails the evening-hours requirement |
-| Maple Studio | 20 | 18:00–22:00 | Unspecified | Cannot confirm accessibility |
+| Cedar Hall | 18 | 18:00-21:00 | Yes | Meets the recorded requirements |
+| Willow Room | 24 | 09:00-17:00 | Yes | Fails the evening-hours requirement |
+| Maple Studio | 20 | 18:00-22:00 | Unspecified | Cannot confirm accessibility |
 
-Cedar Hall is the suitable candidate on the supplied facts. That is a bounded conclusion. It does not establish availability on a particular date, the duration of a workshop, price, or booking terms. Maple Studio's missing accessibility statement is an unknown; it is not evidence that the venue is inaccessible. Willow Room's larger capacity does not compensate for its hours.
+Cedar Hall meets all three requirements on the supplied facts. Willow Room has enough space, but its recorded hours end before the workshop begins. Maple Studio has enough space and evening hours; the note gives no accessibility information, so its suitability remains uncertain. Missing evidence of step-free entry does not establish that an entrance has steps.
+
+These notes also leave other questions open. They do not establish availability on a particular date, the workshop's duration, price or booking terms. The comparison can identify a suitable candidate for further investigation. It cannot supply the missing facts needed for a booking.
 
 ## Choose an available working route
 
-Use an AI tool you already have. For direct file work, it must be able to read the exercise files and write inside your chosen working copy. Check its actual permissions before starting. If your interface only accepts pasted text or uploads, provide the three notes explicitly and save the returned Markdown yourself. That route still teaches the method, although filesystem loading and writeback remain manual. Your existing model or API usage may carry its normal costs; the exercise itself needs no paid data service.
+Use an AI tool you already have and check what it can access. Direct file work requires permission to read the exercise files and write inside the working copy you choose. If your interface accepts only pasted text or uploads, supply the three notes and save the returned Markdown yourself. You can still examine the comparison, but filesystem loading and writeback remain manual and untested. Normal model or API usage costs may apply; the exercise needs no paid data service.
 
-Copy the exercise into a local practice folder if you want to preserve the bundled reference files. Tell the agent exactly which copy it may change. From the exercise root, a suitable assignment is:
+To preserve the bundled references, copy the exercise into a local practice folder and identify that copy as the place the agent may change. From the exercise root, give it this assignment:
 
 ```text
 Read task-brief.md, sources/cedar.md, sources/willow.md,
@@ -195,27 +195,31 @@ and unknowns. Identify missing inputs instead of guessing.
 Do not browse, contact, or book. Agree on any overwrite first.
 ```
 
-The tutorial agent first creates the draft. In a chat-only interface, you perform that saving step and mark local file loading untested. The repository's `expected/comparison.md` and `expected/handoff.md` are reference answers, not proof that your own exercise has been completed. Leave them closed until you have attempted the draft.
+Start by producing your own draft, with the reference answers still closed. In a chat-only interface, save it yourself and record that local file loading was not tested. The files `expected/comparison.md` and `expected/handoff.md` show what a checked exercise might contain. Their presence in the repository says nothing about whether your attempt succeeded.
 
 ## Review before accepting
 
-Open your `workspace/comparison.md` and follow its links to the three files under `sources/`. Confirm the capacities and time windows yourself. Then inspect the reasoning: all three have enough capacity, only two have evening hours, and only Cedar has both evening hours and a recorded step-free entrance. You can now compare it with `expected/comparison.md`.
+Open `workspace/comparison.md` and follow its source links to the three files under `sources/`. Check the capacities and time windows against the notes. Then examine how the requirements were applied: all three venues have enough capacity; Cedar and Maple have evening hours; Cedar alone also has a recorded step-free entrance. Once you have reviewed that reasoning, compare your result with `expected/comparison.md`.
 
-If the answer says Maple is suitable, ask which source establishes its accessibility. The correct repair is to mark that requirement unknown, revise the judgment, and record the correction. A polished paragraph cannot fill a missing source field.
+If the draft recommends Maple without qualification, ask what establishes its accessibility. The note cannot answer that question. Correct the entry to "unknown," revise the recommendation and record the repair. This is a useful review habit: follow an important conclusion back to the specific fact it needs, rather than judging the answer by how convincing the prose sounds.
 
-After review and any corrections, ask the agent to save the checked version at `outputs/comparison.md`, preserving the draft. Then have it create `workspace/handoff.md` with the actual checks, remaining unknowns, permitted inputs and writes, and next step: an unsent clarification question about Maple's entrance. Record recovery as untested until you observe it. A real booking decision still requires new information and separate authority.
+After any corrections, save the checked version at `outputs/comparison.md` while preserving the draft. The handoff at `workspace/handoff.md` should say what was checked, what remains unknown, which inputs and writes are permitted, and what to do next. Here the next step is to draft an unsent question about Maple's entrance. Drafting it does not obtain an answer or authorise sending it.
+
+You now have a result and the information needed to continue. Recovery remains untested until you actually try it in another session. Likewise, a real booking decision would still require new information and separate authority. The next chapter explains how the files preserve these distinctions.
 
 # 2. Give the work a place to continue
 
-A finished comparison preserves an answer. A useful workspace also preserves how to understand that answer: the inputs, the requirements, the checks, and any unfinished work. Without those, the next conversation can easily repeat the research or inherit a conclusion whose limits have been forgotten.
+Imagine reopening the venue comparison a week later. The recommendation says Cedar Hall is suitable, but you also need to know what "suitable" meant: enough space for 16 people, hours after 18:00 and recorded step-free entry. You need to see the notes behind that judgment and remember that availability and booking terms were never checked. The answer alone cannot preserve all of this.
 
-Our example needs only a small folder. The supplied source notes stay separate from the working result and handoff. The bundled `expected/` directory remains a teaching reference. Nothing about this layout requires a new agent, a database, or the full scaffold.
+A workspace keeps the result together with the evidence and state needed to interpret it. For this exercise, a small folder is sufficient. Separate the supplied notes from your draft, checked result and handoff. Leave the bundled `expected/` directory as a teaching reference. You can establish these roles without adding a database, a new Agent or the full standard scaffold.
 
 ## Give each file a clear job
 
-The source notes establish what was supplied. `workspace/comparison.md` is the draft; after review, `outputs/comparison.md` becomes the checked answer. `workspace/handoff.md` records current state and the next permitted step. These files have different jobs: the draft is not a second authority for the reviewed result. If a decision changes, review the change, update the result, and record its status in the handoff.
+The notes under `sources/` record the supplied evidence. Work on the comparison at `workspace/comparison.md`, then place the reviewed version at `outputs/comparison.md`. Keeping both makes the review visible, but it also introduces a responsibility: the old draft must not become a competing source of current conclusions. When new evidence changes the decision, review the revision, update the result and record its status in `workspace/handoff.md`.
 
-As work grows, these distinctions become useful:
+The handoff answers a different question from the comparison. It tells the next session where the work stands and which step is permitted next. In our example, no venue has been contacted and Maple's accessibility remains unknown. A reader should be able to recover those facts without searching through the entire conversation.
+
+Larger projects need the same distinctions, even if their files have different names:
 
 | Kind of information | Question it answers | Example |
 |---|---|---|
@@ -225,31 +229,31 @@ As work grows, these distinctions become useful:
 | Knowledge | What stable understanding is reusable? | How missing evidence affects a comparison |
 | Skill | What procedure should we repeat? | Compare each candidate against every requirement |
 
-**Context** is different: it is the material actually supplied to the model in the current session. A file can exist on disk without entering context. An instruction to read a source is also different from evidence that it was read. Ask the agent to identify the files and facts supporting its answer when loading matters.
+These records become useful to a model when the runtime supplies them as **context** for the current session. A saved handoff may be available on disk yet absent from the model's input. For that reason, instructions about resuming should identify what to read, and the resumed answer should identify the files and facts it used. Asking the agent to read a source establishes an instruction; observing the read and checking its use establish more.
 
 ## Preserve sources and uncertainty
 
-Do not rewrite Maple's source note to make the comparison easier. Leave “accessibility unspecified” in the input and explain its consequence in the result. If new evidence arrives later, preserve its source and date, then revise the affected judgment. This keeps changes traceable without retaining every sentence of the conversation.
+Maple's missing accessibility information belongs in the result as an unknown. Editing the source note to make the comparison complete would destroy the distinction between supplied evidence and your interpretation. If a new statement arrives later, preserve its source and date, then revise the affected judgment. The record will show why the answer changed without needing every sentence of the intervening chat.
 
-The same principle applies to real work. A summary is an interpretation of a source, not a replacement for provenance. Separate the source's claim from your conclusion, and retain enough attribution for a reviewer to inspect the bridge between them. Store only material you are authorised to retain and make available to the tool.
+Apply the same care to real research. A summary helps you understand a source, but a reviewer still needs to know which source supports the conclusion. Keep the attribution and the limits of the claim. Retain and expose only material you are authorised to use. Personal originals remain under your control, outside the Agent's read scope; provide the minimum authorised fields, an explicitly agent-readable redacted derivative or a controlled mediator output when such material is needed.
 
 ## Let structure follow need
 
-The standard scaffold gives larger projects named places: `raw_data/` for original inputs, `workspace/` for drafts, `artifacts/` for generated intermediates, `logs/` for execution traces, `outputs/` for reviewed results, and `archive/` for closed material. Their full responsibilities are defined in the [filesystem contract](filesystem-contract.md).
+The standard scaffold offers named places for a larger project: `raw_data/` for public, synthetic or explicitly authorised nonprivate source inputs; `workspace/` for drafts; `artifacts/` for generated intermediates; `logs/` for execution traces; `outputs/` for reviewed results; and `archive/` for closed material. The [filesystem contract](filesystem-contract.md) defines their full responsibilities.
 
-Those names express intent. They do not enforce permissions. A tool that can read the whole directory may still reach a file called private. Sensitive work therefore needs actual access restrictions and a deliberate choice about which material enters the model. A useful public example should contain synthetic or authorised material, not a disguised copy of someone's private records.
+These names make the intended use easier to understand. Access still depends on the tools and permissions: a file named "private" remains readable to a tool with access to the whole directory. Sensitive work needs actual access restrictions and a deliberate decision about what enters the model. Public examples should use synthetic or authorised material, never disguised personal records.
 
-Before adding folders, try one practical test: can you identify the current answer, its sources, and the next action within a minute? If yes, your present structure may be enough. If not, fix the ambiguity that caused the delay. Structure earns its place by reducing the cost of continuing.
+Before creating another folder, try finding the current answer, its sources and the next action. If that takes less than a minute, the present structure may be enough. If it takes longer, identify the ambiguity: perhaps two drafts look current, or the handoff names a file that has moved. Repair that problem first. Add structure when it makes a specific part of the work easier to continue.
 
 # 3. Pick up where you left off
 
-Continuity is something you can test. Close the original conversation, start a fresh session, and see whether the saved files support the next step. This is more informative than asking the original model whether it will remember.
+The reviewed comparison leaves a specific job unfinished: finding out whether Maple has a step-free entrance. Another session can prepare that question if it can find the result, understand the gap and see what you have authorised next. You can name the handoff file and ask it to continue from there.
 
-For the venue exercise, the task is already useful as a comparison. The handoff should prevent a later session from treating it as a completed booking or silently converting Maple's unknown into a positive answer.
+Try this by closing the original conversation and starting a fresh one. The saved files should support the next step on their own. Pay particular attention to the status of the work: Cedar is a candidate supported by the supplied notes, Maple's entrance remains unknown, and no venue has been booked. A promise from the original model to remember these details gives you less evidence than watching a new session use the records correctly.
 
 ## Leave a handoff with a next action
 
-A handoff is a short working note, not a transcript. It should tell a newcomer what the task was, what exists, why the result stands, and what would change it. For example:
+Write the handoff while the outcome is still clear to you. Include the requirements, the files containing the result and its sources, the checks you performed, and the unresolved issue. Then specify the next permitted action. A later reader needs enough information to check the decision and continue; you can leave out the discarded wording and other drafting details. For example:
 
 ```text
 Task: compare three fictional venues for 16 people after 18:00;
@@ -269,37 +273,39 @@ and the three named sources. Write only the question and this handoff.
 Recovery: not tested until a fresh session is observed.
 ```
 
-This note preserves a decision and its limits without preserving all the drafting conversation. The reference handoff in [`expected/handoff.md`](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/examples/first-project/expected/handoff.md) is a model to compare against, not a replacement for recording what your own session actually checked.
+The file paths let the next session inspect the basis for the decision. The limits explain why drafting a question is appropriate while contacting or booking a venue is not authorised. Compare your note with [`expected/handoff.md`](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/examples/first-project/expected/handoff.md), then make sure your own version describes checks you actually performed. The reference is a teaching example; copying it does not establish that those checks happened in your session.
 
 ## Run the restart exercise
 
-Open a fresh session in the practice copy, or explicitly supply its handoff and named sources. Ask it to read `workspace/handoff.md`, inspect only the permitted files, and state the current result and unresolved issues. Then carry out the recorded next step: save one unsent question about Maple's step-free entrance at `workspace/maple-question.md` and update the handoff. No browsing, contact, or booking is allowed.
+Open a fresh session in the practice copy and ask it to begin with `workspace/handoff.md`. If your interface requires you to supply the files, provide the handoff and its named sources explicitly. Have the session inspect only the permitted files and explain the current result and unresolved issue before continuing. Its next job is to save one unsent question about Maple's step-free entrance at `workspace/maple-question.md` and update the handoff. The exercise allows no browsing, contact or booking.
 
-A successful restart finds the reviewed result, identifies Cedar as the supported candidate, preserves Maple's unknown, and recognises Willow's hours problem. Reopen the new question and updated handoff before recording recovery as tested with the tool, date, and observed outcome. Drafting a question does not answer it. If a named input is absent, the session should report that gap rather than reconstruct missing evidence from memory.
+Check the explanation against the reviewed comparison. Cedar should still be the supported candidate, Willow should still fail the hours requirement, and Maple's entrance should still be unknown. Reopen the question and the updated handoff to see whether the files were saved as intended. Record the tool, date and observed outcome before marking recovery as tested. Saving that draft leaves Maple's entrance status unresolved. Any missing input should be reported as a gap; remembered facts cannot replace evidence the task requires the session to read.
 
-To practise failure handling safely, follow the tutorial's missing-source prompt in another fresh session. Permit only `task-brief.md`, `sources/cedar.md`, and `sources/willow.md`; declare Maple's note unavailable without deleting it. Exclude other exercise files and remembered facts. Save the limited comparison at `workspace/missing-source-check.md`, leaving Maple unassessed and the reviewed result untouched. This tests a declared input boundary; mechanical isolation depends on the tool's permissions.
+You can also rehearse a restart with incomplete inputs. In another fresh session, use the tutorial's missing-source prompt: permit only `task-brief.md`, `sources/cedar.md` and `sources/willow.md`, and declare Maple's note unavailable. Leave the original note in place, exclude the other exercise files and remembered facts, and save the limited comparison at `workspace/missing-source-check.md`. Maple should be unassessed in this result, while the original reviewed comparison remains untouched.
+
+That exercise shows whether the session follows the declared input scope. To establish that it cannot access the excluded files, you would also need evidence from the tool's permissions. Keeping a source out of the prompt does not itself make the file inaccessible.
 
 ## Recover before repeating
 
-Interruptions often leave partial work. Before retrying, inspect the draft, reviewed result, and `workspace/handoff.md` to identify the last successful step. A missing reviewed result sends you back to review; a partial draft is not a checked output. Repeating a read or regenerating a disposable draft is usually straightforward. Repeating an external action can create a duplicate booking, message, or payment.
+After an interruption, inspect the draft, reviewed result and `workspace/handoff.md` before starting over. Suppose the draft exists but the reviewed result is missing. The next step is review, even if the draft looks finished. Finding the last successful step preserves useful work and prevents a partial result from being mistaken for a checked one.
 
-When an external operation has an uncertain result, first check the external record. A timeout means the response was not received; it does not prove that nothing happened. The fictional exercise has no external actions, but practising the distinction makes later workflows safer.
+Repeating a read or recreating a disposable draft is usually straightforward. External actions need more care. If a booking request times out, the response may have failed to reach you after the service accepted the booking. Check the external record before repeating the action; otherwise a retry could produce a duplicate booking, message or payment. Any new booking, message or payment also needs the appropriate authorisation. Our fictional exercise performs none of them, but its handoff gives you a place to learn how to record action status accurately.
 
-For larger work, the toolkit records state in `tasks/<task-id>/task.yaml` and generates `STATUS.md` from it. That adds explicit scope, verification, and lifecycle fields. The underlying habit remains the same: record current truth once, preserve useful partial work, and leave the next action precise enough that another session can continue without guessing.
+For larger projects, the toolkit stores state in `tasks/<task-id>/task.yaml` and generates `STATUS.md` from it. The additional fields make scope, verification and lifecycle explicit. A small handoff can serve the first exercise: keep the current state in one place, preserve usable partial results, and identify the files and permitted action needed to continue.
 
 # 4. Keep a method that worked
 
-After several comparisons, you may notice that the valuable part is the procedure. You identify the requirements, extract the same fields from each source, apply the requirements consistently, and expose missing evidence. That method can survive even when the venues, documents, or active model change.
+The venue comparison contains a procedure you could use again. For each candidate, extract the same fields, compare them with the requirements, and distinguish a failed requirement from missing information. A later comparison might concern suppliers or reading notes, but it could still benefit from those steps.
 
-A **Skill starts with a Markdown instruction document**, conventionally named `SKILL.md`. Its text becomes part of the model's context when the host loads it. You are keeping a useful prompt or method in a discoverable place—much like pinning a playbook for reuse. The model follows those instructions with the capabilities it already has; saving a Skill does not train new model weights.
+Once you have used a procedure enough to recognise what helps, save it where you can find it. A **Skill starts with a Markdown instruction document**, conventionally named `SKILL.md`. When the host loads that document, its text enters the model's context. The model uses its existing capabilities to follow the instructions; its trained weights remain unchanged.
 
-That pin is a way to find the method again, not a promise to include its full text in every turn or give it higher instruction priority. The name and description help the host choose it; the full procedure and any supporting references are loaded as needed. A Skill can also include examples, templates, or scripts, but scripts still need actual tools and permission to run. It earns its maintenance cost when repetition or a recurring mistake makes the procedure worth preserving.
+Keeping a method in a discoverable place is sometimes described as pinning it for reuse. Discovery and loading still depend on the host. The name and description help with selection; the host can then load the full instructions and references as needed. Pinning does not mean that the full document is present in every turn or has higher instruction priority. Examples, templates and scripts may accompany the instructions, with scripts requiring actual tools and permission to run. Maintaining this package makes sense when repeated work or a recurring error gives you a reason to reuse it.
 
 ## Extract the method, leave the case behind
 
-“Choose Cedar Hall” is a conclusion from one fictional exercise. “Check every candidate against every required condition” is a reusable method. Mixing the two can cause the next comparison to inherit an old answer.
+To extract the method, ask what would remain useful if all three venue notes were replaced. Cedar's place on the shortlist depends on this exercise's requirements and evidence. Checking each candidate against every required condition is useful in the next comparison too. A procedure that includes the old recommendation could steer a new task towards Cedar before the new evidence has been considered.
 
-For our example, a useful skill might be described as follows:
+Here is a sketch of the procedure worth retaining:
 
 ```text
 Name: Source-backed comparison
@@ -311,33 +317,33 @@ Output: concise comparison, unresolved questions, and handoff.
 Limits: do not infer missing facts or perform external actions.
 ```
 
-This is a teaching sketch, not a universally installable skill format. The repository's [skill template](../templates/skill/SKILL.md) shows its packaged form. Actual discovery depends on the selected runtime and installation location.
+Use the sketch to decide what the method should do. The repository's [skill template](../templates/skill/SKILL.md) shows how to package it. Check the selected runtime's requirements for installation and discovery; the sketch alone is not a format every tool can install.
 
 ## Write a useful trigger
 
-The description should help select the procedure before its full contents are loaded. “Helps with research” is too broad. It gives no reason to choose this skill over summarisation, writing, or data collection. A useful description names the work, expected inputs and outputs, and exclusions.
+The description is what helps a host choose a skill before reading its full procedure. If it says only “Helps with research”, it could apply to summarisation, writing or data collection. Give it a more specific job by naming the work, the expected inputs and outputs, and the cases it excludes.
 
-Try a small set of routing examples. “Compare these three supplier notes against our requirements” should activate the comparison method. “Write a thank-you note” should not. “Compare these venues and book the best one” contains two different actions: the skill can prepare the comparison, while booking needs separate capability and authority. A trigger must not quietly authorise the second action.
+Test that description with requests you might actually make. “Compare these three supplier notes against our requirements” should select the comparison method. “Write a thank-you note” should not. A request to “Compare these venues and book the best one” needs to be separated into comparison and booking: the skill provides a method for the first, while the second requires its own capability and authority. Selecting the skill cannot supply that authority.
 
-Then test the procedure itself. The venue fixture should produce Cedar as supported, Willow as unsuitable on hours, and Maple as unresolved on accessibility. Add a variation with a missing source or contradictory fact. These tests reveal whether the skill handles uncertainty, not merely whether it repeats the reference answer.
+Next, inspect the output produced with the method. The venue fixture should support Cedar, exclude Willow because of its hours, and leave Maple's accessibility unresolved. Try a variation with a missing source or contradictory fact as well. The variation is useful because a reusable procedure must respond to the evidence it receives. Reproducing one reference answer gives you little information about how it handles a different case.
 
 ## Put each lesson in the right place
 
-A preference that should always apply belongs in the relevant operating rules. Stable background belongs in knowledge. Today's unfinished comparison belongs in task state. A repeated sequence of work belongs in a skill. A tool belongs where real execution or external access is needed.
+Some lessons affect the procedure; others belong with the task or its owner. An instruction to begin future source comparisons with a recommendation is a scoped preference for the relevant operating rules. Maple's unresolved entrance belongs in the current task state. Stable background can go in knowledge, while the repeated comparison steps belong in the skill. Reading files or accessing a service remains the work of a tool.
 
-This separation keeps skills small enough to understand. The short description supports discovery; the main instructions explain the method; deeper references are loaded when the task needs them. Loading every skill and reference into every conversation defeats that design and consumes attention without improving the current answer.
+With those purposes separated, a change is easier to make in the right place. The skill's description helps with discovery, its main text explains the method, and longer references can be retrieved when needed. There is no need to load every skill and reference into each conversation. Select the material relevant to the current work so the procedure stays understandable and the context remains manageable.
 
 ## Share procedure deliberately
 
-Another agent can borrow the comparison method without receiving private candidate notes, internal decisions, or a full chat history. Share the procedure and a synthetic example, then let the receiving project supply its own authorised inputs. This is how useful learning travels while data ownership stays clear.
+A second agent or project can use the comparison procedure with its own authorised inputs. Share the method and a synthetic example, while keeping private candidate notes, internal decisions and the full chat history with their owner. This lets another project try the useful steps without importing the original project's private material.
 
-Review a new skill after real use. Keep a correction when it addresses a detectable failure, and avoid turning every unusual request into a permanent rule. The deeper [distillation guide](skill-distillation-and-fusion.md) explains how to promote repeated experience without filling the system with overlapping procedures.
+Return to the skill after actual use. If it repeatedly omits a required field, you have a concrete problem to fix and a result to check after the edit. An unusual request may need only a task-specific instruction. The [distillation guide](skill-distillation-and-fusion.md) explains how to retain repeated experience and review procedures that overlap.
 
 # 5. Separate work when responsibilities collide
 
-One agent with a few well-chosen skills can handle a substantial amount of work. A new subject or a different writing format does not automatically require another agent. Splitting becomes useful when recurring work has a distinct mission, data boundary, source base, authority, or lifecycle.
+You may eventually have several kinds of recurring work: analysing sources, preparing a report and drafting messages about the result. One agent with suitable skills can handle much of this. Before adding another, look for a problem that separate responsibility would solve.
 
-Think about the failure you are trying to prevent. If source analysis keeps changing while a designer is preparing the final report, separate ownership may help. If the only problem is an inconsistent table format, a template or skill is probably enough.
+Suppose the analysis is still changing while a designer prepares the final report. You need an agreement about who settles the claims, which version goes to the designer and who approves a revision. Separate owners may help manage that handoff. An inconsistent table format is a smaller problem that a template or skill can usually address. A different subject or format alone gives you little reason to introduce another agent; distinct sources, data boundaries, authority or work cycles provide stronger reasons.
 
 ## Choose the right unit
 
@@ -350,70 +356,72 @@ Think about the failure you are trying to prevent. If source analysis keeps chan
 | One bounded independent contribution | A temporary subagent |
 | Access to a service or executable action | A tool or connector |
 
-A domain agent is a durable responsibility expressed through its instructions, working files, and access arrangements. It need not use a permanently assigned model. Choosing a different model changes the active reasoning component; it should not silently change who owns the sources or which actions are allowed.
+A domain agent maintains a continuing area of work through instructions, working files and access arrangements. The model carrying out that role can change. Ownership of the sources and authority to act should remain governed by the working agreement, rather than changing with the model selection.
 
-For the venue exercise, one agent is sufficient. In a larger recurring event workflow, a research owner could maintain source comparisons while a communications owner prepares approved messages. Researching an option and contacting it have different authority requirements. Separating them can make that boundary easier to review, but it still needs tool permissions and explicit action rules.
+The venue exercise needs only one agent. A recurring event workflow might later assign source comparisons to a research owner and approved messages to a communications owner. Those roles need different authority: comparing the notes gives a basis for a shortlist, while contacting a venue requires permission to send a particular message. Giving the roles separate names makes the arrangement easier to explain, but access restrictions still depend on tool permissions and explicit action rules.
 
 ## Define ownership before delegation
 
-A useful delegation says what result is needed, which inputs may be read, where the worker may write, what is forbidden, and how the result will be checked. “Research this” leaves too much room for conflicting assumptions.
+Give a delegated task enough detail to be checked when it returns: the result you need, the inputs the worker may read, where it may write, the actions it must avoid and the review criteria. “Research this” leaves each of those decisions open to interpretation.
 
-For example, a temporary reviewer could inspect the three fictional notes and report any unsupported claim in `workspace/comparison.md`. It needs read access to those files and a place for its review. It does not need to rewrite the sources, alter the task's scope, or contact venues. The lead retains responsibility for integrating the findings and checking the final answer before saving it to `outputs/comparison.md`.
+For the venue exercise, you could ask a temporary reviewer to inspect the three fictional notes and report unsupported claims in `workspace/comparison.md`. It needs access to those files and a place to save its review. Rewriting the source notes, changing the scope or contacting venues would be outside that job. The lead then integrates the findings, checks the final answer and saves it to `outputs/comparison.md`.
 
-Independent review is especially valuable when a plausible mistake could survive self-review. It costs additional time and context, so use it for a reason. A second agent repeating the same assumptions without checking the sources adds little confidence.
+The review earns its additional time and context when it can catch a plausible mistake. A statement that Maple meets the entrance requirement might look reasonable in a fluent report; a reviewer checking the note should notice that the information is missing. A second agent that simply rereads the conclusion and shares its assumptions would provide much less assurance. Give the reviewer evidence and a question it can investigate independently.
 
 ## Keep one writer per authority
 
-Two agents can read the same source. Two agents editing the same current-state file can erase each other's work. Assign one writer to every authoritative path and let other contributors produce separate proposals or artifacts.
+Shared reading is often useful. Shared editing needs an arrangement to prevent one contributor from overwriting another. If the lead and reviewer both revise the current comparison, it can become unclear which changes were accepted and which version was checked. Assign one writer to each authoritative file, with other contributors saving separate proposals or artifacts for that writer to integrate.
 
-Git worktrees can isolate concurrent code changes in separate checkouts. Resource locks coordinate access to a shared file, device, port, or other resource. They solve different problems: a worktree does not isolate a shared account, and a lock is not a privacy control. Neither grants permission to publish or perform an external action.
+For concurrent code work, Git worktrees put changes in separate checkouts. Resource locks coordinate use of a shared file, device, port or other resource. Changes in separate checkouts may still use the same account, and a lock provides no privacy boundary. Neither grants permission to publish or perform external actions. Delegating a role likewise needs actual access controls if the worker is meant to be unable to read particular material.
 
-A control center becomes useful when several durable owners need routing or coordinated work. Its job is to know where responsibilities belong, manage dependencies, and integrate results. That does not make it the owner of every domain's private facts. Share methods across agents; transfer data only within its authorised scope.
+When several continuing owners depend on one another's work, a control center can route tasks, manage those dependencies and integrate results. It needs to know where the work belongs. That coordinating responsibility gives it no additional ownership of private domain facts. Methods can be shared between agents; any transfer of data must stay within its authorised scope.
 
 ## Test the boundary in ordinary language
 
-Write two requests that clearly belong to an agent, two that do not, and one that overlaps with a neighbour. Check whether the descriptions route them sensibly. The [routing guide](description-routing-evals.md) provides a fuller method.
+Try the proposed descriptions on ordinary requests. Write two that clearly belong to an agent, two that do not and one that overlaps with a neighbour. Check who receives each request and who would integrate an overlapping task. The [routing guide](description-routing-evals.md) provides a fuller method.
 
-If you cannot explain why a new agent needs its own responsibility, keep the work with its current owner. Add separation when it makes a real boundary clearer, and retain a single accountable lead for each result.
+If the new role has no distinct responsibility you can explain through those requests, keep the work with its current owner for now. You can split it when a specific source, authority or handoff problem arises. However many contributors take part, keep one accountable lead for the final result.
 
 # 6. Use the workspace with another tool
 
-Portable work remains understandable outside the conversation that created it. The venue notes, comparison, handoff, and reusable method can all be read by a person or supplied to another model. That is the foundation of portability. Automatic loading, tool access, and enforcement require an additional layer of adaptation.
+Your saved venue notes, comparison and handoff give you material to work with in another tool. You can read them yourself and supply the authorised parts to a new model. What needs checking is how the new environment receives that material, uses its tools and saves the next result. File portability provides a starting point for those checks.
 
-Changing a model and changing a runtime are different operations. The **model** performs the reasoning. The **provider** supplies inference through a service or backend. The **runtime** hosts the session, assembles context, exposes tools, and may manage permissions or hooks. A **switchboard** can route model or provider configuration without owning your task records or working files.
+A move may involve several changes. The **model** does the reasoning, while the **provider** supplies inference through a service or backend. The **runtime** hosts the session, assembles context, exposes tools and may manage permissions or hooks. If you keep the same runtime and change a model setting, some of that arrangement may remain in place. Moving to another runtime can require different instruction entrypoints, tool configuration and recovery steps.
+
+A **switchboard** can route model or provider configuration. Your task records and working files still need their own owner and location. Identifying which part you are changing helps you decide what can be carried forward and what must be adapted.
 
 ## Identify what actually needs to move
 
-Start with the smallest useful package: the task's requirements, authorised sources, current result, handoff, and relevant procedure. Include the operating rules that affect the task. Do not upload an entire personal workspace simply because the destination accepts many files.
+For the venue task, gather the requirements, authorised sources, current result, handoff and relevant procedure, along with the operating rules that apply. These are the materials the next session needs. A destination's ability to accept many files is no reason to upload a whole personal workspace. Personal originals remain under your control; provide only the minimum fields authorised for the task, an explicitly agent-readable redacted derivative or a controlled mediator output.
 
-Then ask how the destination receives this material. A local tool may discover designated entrypoints. A hosted workspace may require project instructions and selected uploads. A custom API application must assemble context and implement persistence itself. A document saying “read my files” cannot create filesystem access in an interface that lacks it.
+Check how the selected tool takes in those materials. A local tool may discover designated entrypoints. A hosted workspace may need project instructions and selected uploads. A custom API application would have to assemble context and implement saving itself. You can use the facilities of an existing app when they meet your needs. An instruction to read files still requires an interface with actual file access.
 
-Also decide where changes return. If the new tool creates a revised comparison in chat, someone must save it to the authoritative workspace. Two copies with no reconciliation rule can diverge even when both models reason correctly. Manual writeback is a valid workflow when it is explicit.
+Agree on where revisions return. If a new comparison appears only in chat, the authoritative local file will still contain the old result until someone updates it. Manual writeback is a workable choice; tool-based saving is another when the environment supports it. In either case, identify the current working copy and who updates it. Otherwise both copies can continue to change independently. Also confirm the destination and permission before supplying material to another service: local storage alone does not establish offline processing.
 
 ## Read support as evidence, not a promise
 
-The repository's [compatibility manifest](../compatibility/runtime-compatibility.json) records product categories, generated configuration, limitations, and evidence status. Its recorded review date is 2026-08-09. In that record, Codex, Claude Code, and Gemini CLI are classified as `verified_static`, with fresh-session verification marked `not_run`. This is a statement about the repository's evidence, not a new certification of current vendor behavior.
+The repository's [compatibility manifest](../compatibility/runtime-compatibility.json) records product categories, generated configuration, limitations and evidence status. The recorded review date is 2026-08-09. Codex, Claude Code and Gemini CLI are classified there as `verified_static`, with fresh-session verification marked `not_run`. Those labels describe the evidence retained in the repository. They do not certify current vendor behavior.
 
-Other entries distinguish documented integrations, manual projections, provisional support, providers, switchboards, and custom-harness patterns. An adapter file is useful guidance, but its existence is not proof that a product loaded it or enforced a rule. Read the [adapter selection guide](adapters.md), then the adapter for the tool you intend to use. Recheck the product's official instructions when installing or changing an integration.
+The remaining entries distinguish documented integrations, manual projections, provisional support, providers, switchboards and custom-harness patterns. Read the entry for the kind of tool you are using, then consult the [adapter selection guide](adapters.md) and the selected adapter. An adapter describes the intended setup; observed loading and enforcement require separate evidence. Recheck the product's official instructions when installing or changing the integration.
 
 ## Test the destination with a small fixture
 
-Use the synthetic venue exercise before migrating meaningful work. In a clean destination session, verify four separate behaviors:
+Keep meaningful work in its original location while you try the synthetic venue exercise in a clean destination session. Check four separate behaviors:
 
-1. It can identify the intended rules and named source files.
-2. It reproduces the comparison without inventing Maple's accessibility.
-3. It saves the result and handoff where the workflow expects them, or clearly leaves saving to you.
-4. If a mechanical gate is claimed, an intentionally invalid completion is blocked and a valid completion passes.
+1. The session identifies the intended rules and named source files.
+2. Its comparison follows the supplied notes and leaves Maple's accessibility unknown.
+3. The result and handoff are saved where expected, or the workflow clearly assigns saving to you.
+4. If the integration claims a mechanical gate, an intentionally invalid completion is blocked and a valid completion passes.
 
-Record the tool version, date, fixture, observed result, and remaining gaps. A model's statement that it “understands the rules” does not establish gate behavior. Conversely, a missing gate does not make a manual comparison impossible; it changes what you can claim and what you must review yourself.
+Record the tool version, date, fixture, observed result and remaining gaps. For the gate check, look for the integration's actual behavior. A model saying that it understands the rules cannot establish that the gate ran. If no gate is connected, you can still review a comparison manually, with that responsibility and limitation recorded.
 
-Keep the original working copy until the new route has been checked. The aim is to carry forward your evidence and methods while adapting the parts that depend on a particular runtime. Portability becomes practical when both the durable files and the migration limits remain visible.
+Retain the original working copy until the new route has passed the checks it needs. If the destination cannot save a file or recover the task, you can return to the working setup and address the specific gap. The evidence and procedures already saved remain available while you adapt the parts that depend on the runtime.
 
 # 7. Know what has actually been completed
 
-“Done” can mean a file was created, a comparison was reviewed, a test passed, or an external action succeeded. Those claims need different evidence. A reliable workflow names the intended result before work begins and checks the evidence that corresponds to it.
+The venue exercise ends with a reviewed comparison and a usable handoff. Each judgment should follow the supplied notes and the stated requirements, with unknowns still visible. Cedar can be shortlisted on that basis. Date-specific availability and booking remain unconfirmed, so the next session must still understand that no workshop location has been secured.
 
-For the venue exercise, completion means the comparison matches the supplied notes, the judgments follow the stated requirements, unknowns remain visible, and a usable handoff exists. It does not mean the workshop has a confirmed location. That distinction should survive both the final reply and the next session.
+This illustrates why completion needs to be defined at the start. A saved draft, a reviewed answer and a successful external action are different results. If you know which result the task requires, you can choose the checks that would support it and report how far the work actually got.
 
 ## Match the check to the claim
 
@@ -427,73 +435,77 @@ For the venue exercise, completion means the comparison matches the supplied not
 | A completion gate works | Observe invalid and valid cases in that runtime |
 | An external action succeeded | Check the service's authoritative result or readback |
 
-A **receipt** records what actually happened: the check, date, inputs, relevant tool version, result, and where its evidence lives. A planned command in a task file is not a receipt. For a small comparison, a short review note can be enough. Higher-consequence work may need test logs, hashes, screenshots, or a separate reviewer.
+A **receipt** keeps a record of a check you performed: the date, inputs, relevant tool version, result and location of the evidence. Listing a command in the task file records an intention. After running it, you can record the outcome. A short review note may be enough for the venue comparison; work with greater consequences may need logs, hashes, screenshots or a separate reviewer.
 
-Automated checks are particularly good at explicit conditions such as a missing file or stale status page. They may not detect that a fluent conclusion misinterprets a source. In our example, checking that the word “accessibility” appears is weaker than checking whether Maple's accessibility was treated as unknown.
+Consider what an automated file check would tell you here. It could establish that the comparison exists or that the status page is current. The document could still contain a fluent claim that Maple has step-free access. Detecting that mistake requires checking the judgment against the source. Searching for the word "accessibility" would find the mistaken sentence as readily as the correct one.
 
 ## Separate instructions from enforcement
 
-An instruction can tell the agent to stop before booking. A restricted tool policy can prevent it from accessing a booking action. A validator can reject a task record with missing evidence. A runtime hook can act on that validator's result if the integration is actually loaded and behaves as expected.
+The instruction to stop before booking gives the model a rule to follow. A restricted tool policy can also make the booking action unavailable. A validator has a different job: it can reject a task record when required evidence is missing. You can use these mechanisms together, provided you understand which part of the workflow each controls.
 
-These mechanisms complement one another, but they are not interchangeable. The repository's closeout gate checks structural conditions such as output presence, declared verification state, receipt paths, current status, budgets, and released locks. It does not independently determine whether every claim in a report is true. A dishonest or mistaken “passed” record still needs substantive review.
+The repository's closeout gate checks structural conditions: output presence, declared verification state, receipt paths, current status, budgets and released locks. A task can satisfy those conditions while its report still misinterprets a source. Content review is needed to detect a mistaken or dishonest `passed` record; the gate does not independently determine whether every claim is true.
 
-The runtime must also connect the gate correctly. A script returning an error in a terminal does not prove that the host blocks a final completion claim. That requires a fresh-session test with an intentionally incomplete task, followed by a valid one. Keep static and runtime evidence separate.
+To use the gate during task completion, the runtime must be connected to it. A runtime hook can act on the validator's result when the integration is loaded and behaves as intended. Running the script in a terminal and seeing an error establishes that the script rejected that case. It leaves open whether the host would call it and block a final completion claim.
+
+Test that connection in a fresh session with an intentionally incomplete task, followed by a valid one. Save the observed host behavior separately from the static checks. If the connection has not been tested, keep that part of the completion claim unverified.
 
 ## Make partial completion useful
 
-If Maple's source cannot be read, report which parts were checked and which remain unverified. If the task only requires an evidence-bounded comparison, “unknown accessibility” may be a correct final result. If it requires confirmed accessibility for every option, the same gap prevents completion. The task contract decides the difference.
+If Maple's source cannot be read, state which sources were checked and leave Maple unassessed. If the note was read but omitted the entrance information, record accessibility as unknown. Both situations leave a gap, but they require different next inputs. The handoff should make that difference clear.
 
-When work cannot continue, preserve the usable files, explain the dependency, and name the next action. Use an honest failed or cancelled outcome when appropriate. Do not invent successful receipts to satisfy a gate or tidy a dashboard.
+Whether the gap prevents completion depends on the task. A comparison limited to the supplied evidence can correctly leave accessibility unknown. A task requiring confirmed accessibility for every option cannot finish with the same gap. Use the original completion criteria to decide; changing them merely to obtain a pass would obscure what remains undone.
 
-Good verification reduces ambiguity for the next person. It makes clear what they can rely on, what they should inspect, and which new evidence could change the result. The [reliability reference](textbook-reliability.md) expands the task, receipt, gate, and recovery mechanics.
+When work has to stop, preserve the useful files and describe the dependency and next action. An honest failed or cancelled outcome can retain checked material for later use. Inventing successful receipts would hide the reason the task stopped and give the next session an unreliable starting point.
+
+In the handoff, distinguish results that can be reused from checks that still need to be performed. Explain what evidence would allow the work to continue. The [reliability reference](textbook-reliability.md) gives further detail on tasks, receipts, gates and recovery.
 
 # 8. Maintain what you use
 
-A workspace should become easier to resume as it accumulates useful work. That does not happen by saving everything. Unreviewed transcripts, duplicate procedures, stale dashboards, and obsolete instructions can make the next session slower and less reliable.
+After several weeks of use, you may have two versions of a useful procedure, a status page that still lists a finished task, and a memory file full of details from old conversations. The files were saved for good reasons, yet they now make it harder to determine what is current. Maintenance resolves this accumulated ambiguity.
 
-Maintenance begins with a practical question: which retained information helps a future task, and where should that information live? Preserve decisions, provenance, useful methods, and recovery pointers. Move or retire material when its current location no longer serves that purpose.
+Begin with something you had difficulty doing. Perhaps you could not find the source behind a conclusion, or a new session followed an obsolete instruction. Identify which record should have helped and why it failed. Decisions, provenance, reusable methods and recovery pointers are worth retaining when their purpose is clear. Material that no longer serves its current purpose may need to move, be archived or be retired.
 
 ## Close the task cleanly
 
-After the venue comparison, retain the named sources, reviewed answer, relevant verification note, and handoff. There is little reason to place every drafting attempt in compact memory. If a correction revealed a reusable lesson, consider whether an existing skill or knowledge note should capture it.
+The venue exercise leaves a reviewed answer, named sources, a verification note and a handoff. Together they explain the outcome and what remains unknown. Keep those records distinguishable from the drafting attempts. If reviewing Maple's accessibility led to a useful general lesson, consider adding it to an existing Skill or knowledge note, where another comparison can retrieve it.
 
-Not every task requires a memory edit. Memory is a short recovery aid. It is useful when a durable decision or pointer would otherwise be hard to rediscover. Task-specific progress belongs with the task, and extensive explanation belongs in knowledge or a referenced artifact.
+The memory file need not change after every task. Its purpose is to provide a short recovery aid: a durable decision or a pointer that would otherwise be difficult to find. Putting every draft and correction there makes that aid harder to use. Current progress belongs with its task; a substantial explanation belongs in knowledge or a referenced artifact.
 
-In the standard scaffold, update the task record and regenerate `STATUS.md`. Do not rewrite status independently in several places. When the work is closed, make the final outcome and remaining limits clear enough that a later reader will not mistake an old draft for an active assignment.
+In the standard scaffold, the task record is also the source for generated `STATUS.md`. Update the record and regenerate the page so that both describe the same state. Independently rewriting status in several places creates competing accounts of progress. At closeout, state the final outcome and its limits, and make clear which result was reviewed. A later reader should be able to distinguish completed work from an assignment still in progress.
 
 ## Review friction, not appearances
 
-Choose a review interval that reflects actual use. A frequently used system may benefit from a brief weekly check; a quiet project may need attention only when reopened. A schedule written in a document is a suggestion until an actual scheduler is configured and tested.
+Review often enough to notice problems while you can still understand their cause. A frequently used system might benefit from a brief weekly review. A quiet project may need review when you reopen it. Writing an interval in a document does not start a scheduled job; an automation must be configured and tested before you describe it as enabled.
 
-Look for evidence of recurring friction: repeated explanations, lost sources, ambiguous routing, oversized startup files, skipped verification, or contradictory copies. Fix the smallest cause. A confusing skill description may need one sentence; it does not necessarily require another agent or a new framework.
+Use repeated friction as evidence for a change. If you keep explaining the same background, examine the recovery pointers. If the wrong Skill keeps being chosen, examine its description and its overlap with other procedures. Lost sources, oversized startup files, skipped verification and contradictory copies each suggest a different repair. A confusing description may need one clearer sentence rather than another Agent or framework.
 
-Keep a short before-and-after record for substantial changes. For example: “New sessions were reading the entire archive; the entrypoint now points only to the active task and retrieves older notes when relevant.” Test that behavior in a fresh session. Editing the instruction alone establishes only that the text changed.
+For a substantial change, record the problem and the intended effect. For example, new sessions may have been reading the entire archive even when only the active task was relevant. You could change the entrypoint to identify that task and retrieve older notes as needed. Then try a fresh session and observe what it reads. The edited text establishes the instruction change; the new session provides evidence about its effect.
 
 ## Keep startup context bounded
 
-The toolkit defines budgets for instruction files, memory, task records, and large-file indexing. These limits encourage selective loading. They do not imply that filling every file to its limit improves performance.
+The toolkit checks budgets for instruction files, memory, task records and large-file indexing. These limits encourage selecting what is useful at startup. A file below its limit can still contain irrelevant material, and filling the available space is not a performance goal.
 
-When a file becomes too large, preserve meaning before shortening it. Move stable explanations to knowledge, task details to their task, and closed history to an archive. Keep concise pointers at startup. Never remove the only record of an unresolved decision merely to make a size check pass.
+When a size check fails, first ask what each section does. A stable explanation may belong in knowledge; detailed progress belongs with the task; closed history may belong in an archive. Leave concise pointers where the next session begins. Shortening must preserve the information needed to understand the work, especially the only record of an unresolved decision. Passing a size check by losing that record would make recovery worse.
 
-Large inputs should have a manifest that records their path, size, purpose, and loading policy. The model can inspect that index and request the relevant portion instead of reading an entire warehouse of data. Actual access controls must still protect restricted material; an index is not a permission system.
+For large inputs, a manifest can record paths, sizes, purposes and loading policies. This lets the model inspect an index and request the relevant portion instead of loading all the material at once. The manifest describes the intended use; actual access controls must still protect restricted material. Listing a path never grants permission to read it.
 
 ## Change structure reversibly
 
-Before merging agents, retiring a skill, or moving authoritative files, identify the owner, references, active tasks, and recovery path. Preserve a recoverable version where appropriate and obtain the required authority for destructive or external actions. A clean directory tree is less valuable than understandable history.
+A structural change can affect work beyond the file you are editing. Before merging Agents, retiring a Skill or moving an authoritative record, identify its owner, the references that point to it, active tasks that depend on it and the way to recover if the change fails. Preserve a recoverable version where appropriate. Obtain the required authority for destructive or external actions; a maintenance review does not grant it.
 
-The [review and renewal guide](system-review-and-renewal.md) offers a deeper routine. Use it when you have enough real work to evaluate. The best maintenance outcome is often a smaller system whose remaining parts have clear jobs and demonstrated value.
+The [review and renewal guide](system-review-and-renewal.md) develops this review for systems with enough real use to evaluate. Judge a change by whether the next task can find the right records, follow the right method and continue accurately. A smaller arrangement may serve those needs better than a tidy but needlessly elaborate one.
 
 # 9. Reference: the standard toolkit
 
-The first-project folder teaches a small working method. The Portable Agentic System toolkit implements a broader standard scaffold with domain folders, task contracts, generated status, budgets, locks, and adapter configuration. It is an alternative setup route when those features are useful; completing the learning exercise does not require generating it.
+The earlier exercise needs only a few files to compare sources and resume the work. A larger project may need task contracts, generated status, budgets or locks, especially when it has several responsibilities to coordinate. The Portable Agentic System toolkit creates a standard scaffold with those features, domain folders and adapter configuration. Use that setup route when its features serve the work. Completing the exercise does not require it, and the small teaching workspace is not a special generator mode.
 
-The command examples below run from this repository's root. They use local Python scripts and assume `python3` is installed and compatible with the source. Inspect the scripts, their `--help`, the proposed target, and your environment before execution. Use a new disposable directory for a first scaffold. These instructions do not claim that the commands have run on your machine.
+This chapter explains the commands and what their results establish. Run the examples from this repository's root with an installed `python3` compatible with the source. First inspect the scripts and their `--help`, your environment and the proposed target. For an initial trial, choose a new disposable directory so that the generated files stay separate from existing work. The examples describe operations you can perform; they are not a record of execution on your computer.
 
 ## Preview and create a scaffold
 
-Read the [starter configuration](../examples/starter-config.json) and copy it to a working file if you want to change its sample domains. The bundled file contains two illustrative owners; it is not a universal recommendation. Each configured agent needs a purpose, routing description, exclusions, and examples that distinguish it from adjacent work.
+Begin with the [starter configuration](../examples/starter-config.json). Its two owners illustrate how to describe responsibilities; they are not a recommendation to organise every project that way. For each Agent, the purpose, routing description, exclusions and examples should make it clear when work belongs there and when it belongs elsewhere. Copy the configuration to a working file before changing its sample domains.
 
-Choose an unused target path and run a preview:
+Choose an unused target path. The first command previews where the scaffold and Agent folders would go:
 
 ```bash
 python3 skills/portable-agentic-system/scripts/create_agentic_system.py \
@@ -502,13 +514,15 @@ python3 skills/portable-agentic-system/scripts/create_agentic_system.py \
   --dry-run
 ```
 
-The preview reports the target root and agent paths as JSON; it does not enumerate every file to be written. Review those paths, the templates, and the generator's scaffold behavior before creation. To create the reviewed scaffold, run the same command without `--dry-run`. The generator refuses existing-file collisions by default. Do not reach for `--force` as a routine error fix; inspect the collision and preserve existing work.
+With `--dry-run`, the generator returns JSON containing the target root and Agent paths. It does not list every file it would write. Review the reported locations together with the templates and the generator's scaffold behavior. Once you have reviewed and authorised creation, run the same command without `--dry-run`.
 
-The generated system includes runtime configuration and local operational scripts under `.pas/bin/`. Review hooks before trusting or enabling them in your chosen tool. The generator does not itself prove that a runtime has discovered or executed the configuration.
+By default, an existing target file causes the generator to refuse that write. Inspect a collision before deciding what to do; earlier writes may already have occurred. The `--force` option bypasses the refusal and permits overwriting, so it requires a deliberate decision about the existing work. It is not a routine way to make an error disappear.
+
+The generated files include runtime configuration and operational scripts under `.pas/bin/`. Examine the hooks before trusting or enabling them in your chosen tool. At this stage you have created configuration files. Establishing that the runtime discovers and executes them requires a separate test.
 
 ## Run static checks
 
-After generation, these commands inspect the scaffold. Replace the target consistently if you chose a different path.
+Once the files exist, run the static checks below against the generated root. If you selected another target, substitute it consistently in each command.
 
 ```bash
 python3 skills/portable-agentic-system/scripts/validate_agentic_system.py \
@@ -523,30 +537,32 @@ python3 skills/portable-agentic-system/scripts/harness_health_check.py \
   /tmp/pas-learning-demo --json
 ```
 
-Read every failure before continuing. If task records changed and status is stale, run `generate_status.py` with the same root but without `--check`, then check again. That regeneration writes `STATUS.md`; check mode only verifies consistency.
+A failure identifies something to investigate before continuing. For example, changing a task record can leave `STATUS.md` out of date. The `--check` invocation compares the page with the task records without rewriting it. Run `generate_status.py` against the same root without `--check` to regenerate the page, then check again. This keeps the task record as the source of current state.
 
-The adapter probe is also available:
+You can also inspect the selected adapter's configuration:
 
 ```bash
 python3 skills/portable-agentic-system/scripts/adapter_smoke.py \
   /tmp/pas-learning-demo --runtime codex
 ```
 
-This is a **static** probe despite its name. Its reported `verification_level` is `static`. Select a runtime matching your intended integration and follow its adapter for fresh-session tests. Do not upgrade the claim based on a passing configuration inspection.
+The filename `adapter_smoke.py` can suggest a live test, but this probe inspects generated configuration. It reports `verification_level` as `static`. A passing result supports that inspection, without showing that an installed runtime loaded the instructions or enforced a hook. Choose the runtime you intend to use and follow its adapter's fresh-session procedure to obtain evidence for those behaviors.
 
 ## Understand task authority
 
-A standard `tasks/<task-id>/task.yaml` records identity and ownership; objective and scope; allowed inputs, writes, tools, and prohibited actions; outputs and completion conditions; verification and receipts; execution resources; and handoff. The generator writes JSON syntax inside the YAML-named file, which its standard-library parser can read. The parser also accepts a conservative YAML subset; it is not a promise of full YAML support.
+A standard `tasks/<task-id>/task.yaml` makes the task's agreement explicit. It identifies the task and owner, objective and scope, permitted inputs and writes, available tools and prohibited actions. It also records outputs, completion conditions, verification and receipts, execution resources and the handoff. These fields let the local checks examine the recorded state rather than infer completion from a conversational claim.
 
-Use the generated task as a schema example and consult the [governance reference](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/docs/reference/task-lifecycle.md) before constructing one manually. A teaching handoff from chapter 3 is not a complete valid task manifest.
+The generator saves JSON syntax inside this YAML-named file. Its standard-library parser reads that syntax and also accepts a conservative YAML subset. The `.yaml` extension therefore does not mean every YAML feature is supported. Use the generated task as a format example, and consult the [governance reference](https://github.com/kwis7/Plug-And-Chug-Agentic-Building-Guide/blob/main/docs/reference/task-lifecycle.md) before writing one manually. The short teaching handoff in chapter 3 serves recovery; it lacks the complete schema of a valid standard task manifest.
 
-For a real task already recorded in the generated system, invoke its bundled gate from that system's root:
+For an existing task in the generated system, run its bundled closeout gate from that system's root:
 
 ```bash
 python3 .pas/bin/closeout_gate.py . tasks/T-123/task.yaml
 ```
 
-Replace `T-123` with an existing task. A successful terminal closeout requires the declared outputs, verification state and receipt paths, current generated status, budget compliance, released task locks, and handoff. Failed and cancelled tasks use honest unsuccessful outcomes. The gate's structural checks do not replace a substantive review of the deliverable or verification of the host's blocking behavior.
+Replace `T-123` with the actual task ID. To accept a successful terminal closeout, the gate requires declared outputs, the required verification state and receipt paths, current generated status, compliance with budgets, released task locks and a handoff. A failed or cancelled task should retain its honest unsuccessful outcome. Closing its record does not turn it into a success.
+
+These checks can identify a missing output or receipt, but the existence of a file does not establish its quality. Review the deliverable and the evidence substantively. Likewise, calling the gate directly does not show that the host invokes it or blocks an attempted completion. That behavior needs its own runtime evidence.
 
 ## Find deeper implementation detail
 
@@ -560,4 +576,4 @@ Replace `T-123` with an existing task. A successful terminal closeout requires t
 | Tasks, gates, and concurrent work | [Reliability reference](textbook-reliability.md) |
 | Full design interview | [Build workbook](textbook-build-workbook.md) |
 
-The repository's Python test suite runs with `python3 -m unittest discover -s tests -v`. Passing it supports the tested local behavior. It does not establish fresh-session compatibility, publication, delivery, or any external transaction. Report each of those only at the level of evidence actually obtained.
+For repository development, run the Python suite with `python3 -m unittest discover -s tests -v`. Report a passing result as evidence for the local behavior covered by those tests. Fresh-session compatibility, publication, delivery and external transactions are separate outcomes, each requiring evidence from the relevant operation.

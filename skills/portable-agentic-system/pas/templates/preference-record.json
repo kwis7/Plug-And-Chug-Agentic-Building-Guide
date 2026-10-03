@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "kind": "preference",
+  "id": "source-comparison-opening",
+  "owner": "example-owner",
+  "version": 1,
+  "state": "proposed",
+  "scope": {
+    "include_task_types": ["source-comparison"],
+    "exclude_task_types": ["creative-writing", "debugging"]
+  },
+  "behavior": "For source comparisons, begin with a short recommendation, then explain the evidence and unknowns.",
+  "source": {
+    "kind": "explicit_future_instruction",
+    "reference": "replace-with-an-authorized-feedback-reference",
+    "recorded_at": "2026-10-02"
+  },
+  "retention_authorized": false,
+  "conflict_review": "pending",
+  "supersedes_version": null,
+  "retirement_reason": null,
+  "evidence": {
+    "mode": "illustrative",
+    "receipt_refs": []
+  },
+  "rollback": {
+    "restore_version": null,
+    "reason": null
+  }
+}
